@@ -12,6 +12,6 @@ app.use(helmet())
 app.use(xss())
 
 app.get('/', (req, res) => {
-  res.send({ msg: 'Welcome to nikki-api' })
+  res.status(200).send({ msg: 'Welcome to nikki-api' })
 })
 export default app

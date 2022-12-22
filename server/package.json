@@ -11,8 +11,8 @@
     ]
   },
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": " cross-env NODE_ENV=production node index.js",
+    "dev": " cross-env NODE_ENV=development nodemon  index.js",
     "prettier:check": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .",
     "lint": "npx eslint .",
@@ -27,9 +27,12 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^6.0.1",
+    "winston": "^3.8.2",
+    "winston-mongodb": "^5.1.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.30.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
