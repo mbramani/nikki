@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run prettier && npm run lint
+cd client
+npm run prettier && git add . && npm run lint
