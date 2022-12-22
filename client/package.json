@@ -3,6 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "lint-staged": {
+    "*.{css,less,scss,html,json,jsx,js}": [
+      "prettier --write ."
+    ],
+    "*.{jsx,js}": "eslint --fix"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -33,6 +39,7 @@
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
     "postcss": "^8.4.20",
     "prettier": "2.8.1",
     "prettier-plugin-tailwindcss": "^0.2.1",
