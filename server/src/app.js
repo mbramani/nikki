@@ -13,8 +13,11 @@ app.use(cors())
 app.use(helmet())
 app.use(xss())
 
+// Middleware
 app.use(httpLogger)
+
 app.get('/', (req, res) => {
   res.status(200).send({ msg: 'Welcome to nikki-api' })
 })
+
 export default app
