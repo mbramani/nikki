@@ -3,7 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import xss from 'xss-clean'
 import 'dotenv/config'
-import httpLogger from './utils/logger/httpLogger.js'
+import httpLogger from './utils/logger/http-logger.js'
 import notFound from './middleware/not-found.js'
 
 const app = express()
