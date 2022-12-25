@@ -1,8 +1,8 @@
-/* eslint-disable no-unused-vars */
-import { StatusCodes } from 'http-status-codes'
+import { NotFoundError } from '../utils/errors/index.js'
 
 function notFound(req, res, next) {
-  res.status(StatusCodes.NOT_FOUND).send({ msg: 'Route does not exist' })
+  const err = new NotFoundError('Route does not exist')
+  next(err)
 }
 
 export default notFound
