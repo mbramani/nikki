@@ -2,12 +2,15 @@ import { createLogger, format, transports } from 'winston'
 import configs from '../configs.js'
 import 'winston-mongodb'
 
-const { combine, timestamp, colorize, json, simple } = format
+const { combine, timestamp, colorize, json, printf } = format
 const { Console, File, MongoDB } = transports
 
 const devConsol = new Console({
-  level: 'debug',
-  format: combine(timestamp({ format: 'HH:mm:ss:ms' }), colorize(), simple()),
+  format: combine(
+    colorize(),
+    timestamp({ format: 'HH:mm:ss' }),
+    printf((info) => `${info.level}: ${info.message} - ${info.timestamp}`)
+  ),
 })
 
 const logger = createLogger({
