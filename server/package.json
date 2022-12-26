@@ -28,6 +28,7 @@
     "express-async-errors": "^3.1.1",
     "helmet": "^6.0.1",
     "http-status-codes": "^2.2.0",
+    "mongoose": "^6.8.1",
     "morgan": "^1.10.0",
     "winston": "^3.8.2",
     "winston-mongodb": "^5.1.0",
