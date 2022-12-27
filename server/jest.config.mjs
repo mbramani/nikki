@@ -15,4 +15,5 @@ export default {
   testEnvironment: 'node',
   testRunner: 'jest-circus/runner',
   testTimeout: 10000,
+  passWithNoTests: true,
 }
