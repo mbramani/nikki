@@ -7,6 +7,8 @@ export default {
   transform: {
     '\\.[jt]sx?$': 'babel-jest',
   },
+  globalSetup: '<rootDir>/tests/globalSetup.js',
+  globalTeardown: '<rootDir>/tests/globalTeardown.js',
   clearMocks: true,
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
