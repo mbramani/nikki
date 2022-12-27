@@ -6,30 +6,32 @@
   "type": "module",
   "lint-staged": {
     "**/*.js": [
-      "npm run prettier:fix",
-      "npm run lint:fix",
+      "prettier --write .",
+      "eslint --fix .",
       "jest --findRelatedTests"
     ]
   },
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "cross-env NODE_ENV=test  jest --runInBand",
+    "test": "cross-env NODE_ENV=test jest --runInBand --silent",
     "prettier:check": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .",
     "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix",
+    "lint:fix": "npx eslint --fix .",
     "prepare": "cd .. && husky install server/.husky"
   },
   "keywords": [],
   "author": "mbramani",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "helmet": "^6.0.1",
     "http-status-codes": "^2.2.0",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.1",
     "morgan": "^1.10.0",
     "winston": "^3.8.2",

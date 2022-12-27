@@ -1,6 +1,6 @@
 import { Schema, model, Types } from 'mongoose'
 
-const PageSchema = new Schema(
+const pageSchema = new Schema(
   {
     userId: {
       type: Types.ObjectId,
@@ -18,4 +18,4 @@ const PageSchema = new Schema(
   { timestamps: true }
 )
 
-export default model('Page', PageSchema)
+export default model('Page', pageSchema)

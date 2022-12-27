@@ -6,6 +6,9 @@ import xss from 'xss-clean'
 import httpLogger from './utils/logger/http-logger.js'
 import notFound from './middleware/not-found.js'
 import errorHandler from './middleware/error-handler.js'
+import logger from './utils/logger/logger.js'
+import connectDB from './db/connect.js'
+import configs from './utils/configs.js'
 import 'express-async-errors'
 
 const app = express()
@@ -27,5 +30,15 @@ app.get('/', (req, res) => {
 // Middleware
 app.use(notFound)
 app.use(errorHandler)
+
+// MongoDb connection
+if (process.env.NODE_ENV !== 'test') {
+  try {
+    await connectDB(configs.db.mongodbUri)
+    logger.info('Connected to Db')
+  } catch (err) {
+    logger.error(err)
+  }
+}
 
 export default app
