@@ -8,7 +8,7 @@
     "**/*.js": [
       "prettier --write .",
       "eslint --fix .",
-      "jest --findRelatedTests"
+      "jest --bail --findRelatedTests"
     ]
   },
   "scripts": {
