@@ -1,9 +1,7 @@
 import { createLogger, format, transports } from 'winston'
-import configs from '../configs.js'
-import 'winston-mongodb'
 
 const { combine, timestamp, colorize, json, printf } = format
-const { Console, File, MongoDB } = transports
+const { Console, File } = transports
 
 const devConsol = new Console({
   format: combine(
@@ -41,13 +39,6 @@ if (process.env.NODE_ENV === 'production') {
       new File({
         level: 'error',
         filename: './logs/error.log',
-      })
-    )
-    .add(
-      new MongoDB({
-        level: 'error',
-        db: configs.db.mongodbUri,
-        options: { useUnifiedTopology: true },
       })
     )
     .exceptions.handle(

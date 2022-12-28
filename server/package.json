@@ -13,7 +13,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "cross-env NODE_ENV=test jest --runInBand --silent",
+    "test": "cross-env NODE_ENV=test jest --runInBand --bail ",
     "prettier:check": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .",
     "lint": "npx eslint .",
@@ -34,7 +34,6 @@
     "mongoose": "^6.8.1",
     "morgan": "^1.10.0",
     "winston": "^3.8.2",
-    "winston-mongodb": "^5.1.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

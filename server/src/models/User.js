@@ -6,26 +6,37 @@ import { RefreshToken } from './index.js'
 import configs from '../utils/configs.js'
 import jwt from 'jsonwebtoken'
 
+const emailRegExp =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const passwordRegExp = /[0-9a-zA-Z@#$%]{6,18}/
+
 const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, 'Please provide a name'],
+      maxlength: [50, 'Name should have a maximum length of 50'],
+      minlength: [3, 'Name should have a minimum length of 3'],
+      trim: true,
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Please provide a email'],
+      match: [emailRegExp, 'Please provide a valid email'],
       unique: true,
+      trim: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Please provide a password'],
+      minlength: [6, 'Password should have a minimum length of 6 characters'],
+      match: [passwordRegExp, 'Please provide a valid password'],
+      trim: true,
     },
     role: {
       type: String,
       default: 'user',
       enum: ['admin', 'user', 'moderator'],
-      required: true,
     },
   },
   { timestamps: true }
