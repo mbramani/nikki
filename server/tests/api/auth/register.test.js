@@ -32,6 +32,7 @@ describe('POST /api/auth/register', () => {
   afterAll(async () => {
     disconnectToDB()
   })
+
   it('should create a new user and return accessToken and refreshToken', async () => {
     const res = await PostToRegister(userRegisterInfo)
 
