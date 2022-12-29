@@ -121,15 +121,16 @@ describe('POST /api/auth/login', () => {
     const userPassword = {
       password: userLoginInfo.password,
     }
-    const resWithEmailEmpty = await PostToLogin({ email: '', ...userPassword })
-    const resWithEmailMissing = await PostToLogin({ ...userPassword })
 
-    expect(resWithEmailEmpty.statusCode).toEqual(400)
-    expect(resWithEmailMissing.statusCode).toEqual(400)
-    expect(resWithEmailEmpty.body).toMatchObject({
+    const resForEmptyEmail = await PostToLogin({ email: '', ...userPassword })
+    const resForMissingEmail = await PostToLogin({ ...userPassword })
+
+    expect(resForEmptyEmail.statusCode).toEqual(400)
+    expect(resForMissingEmail.statusCode).toEqual(400)
+    expect(resForEmptyEmail.body).toMatchObject({
       msg: 'Please provide a email',
     })
-    expect(resWithEmailMissing.body).toMatchObject({
+    expect(resForMissingEmail.body).toMatchObject({
       msg: 'Please provide a email',
     })
   })
@@ -139,18 +140,18 @@ describe('POST /api/auth/login', () => {
       email: userLoginInfo.email,
     }
 
-    const resWithPasswordEmpty = await PostToLogin({
+    const resForEmptyPassword = await PostToLogin({
       ...userEmail,
       password: '',
     })
-    const resWithPasswordMissing = await PostToLogin({ ...userEmail })
+    const resForMissingPassword = await PostToLogin({ ...userEmail })
 
-    expect(resWithPasswordEmpty.statusCode).toEqual(400)
-    expect(resWithPasswordMissing.statusCode).toEqual(400)
-    expect(resWithPasswordEmpty.body).toMatchObject({
+    expect(resForEmptyPassword.statusCode).toEqual(400)
+    expect(resForMissingPassword.statusCode).toEqual(400)
+    expect(resForEmptyPassword.body).toMatchObject({
       msg: 'Please provide a password',
     })
-    expect(resWithPasswordMissing.body).toMatchObject({
+    expect(resForMissingPassword.body).toMatchObject({
       msg: 'Please provide a password',
     })
   })

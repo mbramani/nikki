@@ -105,6 +105,7 @@ describe('POST /api/auth/register', () => {
       email: userRegisterInfo.email,
       password: userRegisterInfo.password,
     }
+
     const resForEmptyName = await PostToRegister({ name: '', ...user })
     const resForMissingName = await PostToRegister({ ...user })
 
@@ -121,6 +122,7 @@ describe('POST /api/auth/register', () => {
       name: userRegisterInfo.name,
       password: userRegisterInfo.password,
     }
+
     const resForEmptyEmail = await PostToRegister({ email: '', ...user })
     const resForMissingEmail = await PostToRegister({ ...user })
 
