@@ -44,12 +44,33 @@ const userSchema = new Schema(
 
 async function generateRefreshToken() {
   const token = randomBytes(64).toString('hex')
-  const expireDate = new Date(Date.now() + 3 * 30 * 24 * 60 * 60 * 1000)
+  const expireDate = new Date(
+    Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
+  )
 
   const refreshToken = await RefreshToken.create({
     token: token,
     userId: this._id,
     expiresAt: expireDate,
+  })
+
+  return refreshToken.token
+}
+
+async function updateRefreshToken() {
+  const token = randomBytes(64).toString('hex')
+  const expireDate = new Date(
+    Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
+  )
+
+  const filter = { userId: this._id }
+  const update = {
+    token: token,
+    expiresAt: expireDate,
+  }
+
+  const refreshToken = await RefreshToken.findOneAndUpdate(filter, update, {
+    new: true,
   })
 
   return refreshToken.token
@@ -81,6 +102,7 @@ userSchema.pre('save', async function () {
 userSchema.methods = {
   generateRefreshToken,
   generateAccessToken,
+  updateRefreshToken,
   isPasswordMatch,
 }
 

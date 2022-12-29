@@ -8,6 +8,9 @@ const configs = {
     lifeTime: process.env.JWT_LIFETIME,
     secret: process.env.JWT_SECRET,
   },
+  refreshToken: {
+    lifeTime: process.env.REFRESH_TOKEN_LIFETIME,
+  },
 }
 
 export default configs
