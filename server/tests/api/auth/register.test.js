@@ -1,13 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 import request from 'supertest'
 import app from '../../../src/app.js'
+import jwt from 'jsonwebtoken'
 import RefreshToken from '../../../src/models/RefreshToken.js'
 import User from '../../../src/models/User.js'
+import configs from '../../../src/utils/configs.js'
 import {
   connectToDB,
   disconnectToDB,
   removeDataFromDatabase,
-} from './helper.js'
+} from '../helper.js'
 
 let userRegisterInfo = {
   name: 'John',
@@ -37,8 +39,8 @@ describe('POST /api/auth/register', () => {
     const res = await PostToRegister(userRegisterInfo)
 
     expect(res.statusCode).toEqual(201)
-    expect(res.body).toHaveProperty('accessToken')
-    expect(res.body).toHaveProperty('refreshToken')
+    expect(res.body.accessToken).toBeDefined()
+    expect(res.body.refreshToken).toBeDefined()
     expect(res.headers['content-type']).toEqual(
       'application/json; charset=utf-8'
     )
@@ -52,13 +54,41 @@ describe('POST /api/auth/register', () => {
     expect(user).not.toBeNull()
   })
 
-  it('should store refreshToken in db', async () => {
+  it('should store refreshToken in db with valid expireAt date', async () => {
     await PostToRegister(userRegisterInfo)
 
     const user = await User.findOne({ email: userRegisterInfo.email })
     const refreshToken = await RefreshToken.findOne({ userId: user._id })
 
+    const refreshTokenExpiryDate = new Date(refreshToken.expiresAt).getTime()
+    const expectedExpiryDate = new Date(
+      Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
+    ).getTime()
+    const marginOfDelay = new Date(
+      Date.now() + parseInt(configs.refreshToken.lifeTime, 10) - 1000
+    ).getTime()
+
     expect(refreshToken).not.toBeNull()
+    expect(refreshTokenExpiryDate).toBeLessThanOrEqual(expectedExpiryDate)
+    expect(refreshTokenExpiryDate).toBeGreaterThanOrEqual(marginOfDelay)
+  })
+
+  it('should return accessToken with valid expiry date', async () => {
+    const res = await PostToRegister(userRegisterInfo)
+    const { accessToken } = res.body
+    const payload = jwt.verify(accessToken, configs.jwt.secret)
+
+    const accessTokenExpiryDate = payload.exp * 1000
+    const expectedExpiryDate = new Date(
+      Date.now() + parseInt(configs.jwt.lifeTime, 10)
+    ).getTime()
+    const marginOfDelay = new Date(
+      Date.now() + parseInt(configs.jwt.lifeTime, 10) - 1000
+    ).getTime()
+
+    expect(accessToken).not.toBeNull()
+    expect(accessTokenExpiryDate).toBeLessThanOrEqual(expectedExpiryDate)
+    expect(accessTokenExpiryDate).toBeGreaterThanOrEqual(marginOfDelay)
   })
 
   it('should return a 400 status code if the email is already in use', async () => {
