@@ -100,22 +100,62 @@ describe('POST /api/auth/register', () => {
     expect(res.body).toMatchObject({ msg: 'Email is already in use' })
   })
 
-  it('should return a 400 status code if the request is missing required data', async () => {
+  it('should return a 400 status code if the request is missing a name or name is empty', async () => {
     const user = {
       email: userRegisterInfo.email,
       password: userRegisterInfo.password,
     }
-    const res = await PostToRegister(user)
+    const resForEmptyName = await PostToRegister({ name: '', ...user })
+    const resForMissingName = await PostToRegister({ ...user })
 
-    expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({ msg: 'Please provide a name' })
+    expect(resForEmptyName.statusCode).toEqual(400)
+    expect(resForMissingName.statusCode).toEqual(400)
+    expect(resForEmptyName.body).toMatchObject({ msg: 'Please provide a name' })
+    expect(resForMissingName.body).toMatchObject({
+      msg: 'Please provide a name',
+    })
+  })
+
+  it('should return a 400 status code if the request is missing a email or email is empty', async () => {
+    const user = {
+      name: userRegisterInfo.name,
+      password: userRegisterInfo.password,
+    }
+    const resForEmptyEmail = await PostToRegister({ email: '', ...user })
+    const resForMissingEmail = await PostToRegister({ ...user })
+
+    expect(resForEmptyEmail.statusCode).toEqual(400)
+    expect(resForMissingEmail.statusCode).toEqual(400)
+    expect(resForEmptyEmail.body).toMatchObject({
+      msg: 'Please provide a email',
+    })
+    expect(resForMissingEmail.body).toMatchObject({
+      msg: 'Please provide a email',
+    })
+  })
+
+  it('should return a 400 status code if the request is missing a password or password is empty', async () => {
+    const user = {
+      name: userRegisterInfo.name,
+      email: userRegisterInfo.email,
+    }
+    const resForEmptyPassword = await PostToRegister({ password: '', ...user })
+    const resForMissingPassword = await PostToRegister({ ...user })
+
+    expect(resForEmptyPassword.statusCode).toEqual(400)
+    expect(resForMissingPassword.statusCode).toEqual(400)
+    expect(resForEmptyPassword.body).toMatchObject({
+      msg: 'Please provide a password',
+    })
+    expect(resForMissingPassword.body).toMatchObject({
+      msg: 'Please provide a password',
+    })
   })
 
   it('should return a 400 status code if name is less than 3 characters', async () => {
     const user = {
+      ...userRegisterInfo,
       name: 'a',
-      email: userRegisterInfo.email,
-      password: userRegisterInfo.password,
     }
     const res = await PostToRegister(user)
 
@@ -127,10 +167,10 @@ describe('POST /api/auth/register', () => {
 
   it('should return a 400 status code if name is grater than 50 characters', async () => {
     const user = {
+      ...userRegisterInfo,
       name: 'a'.repeat(55),
-      email: userRegisterInfo.email,
-      password: userRegisterInfo.password,
     }
+
     const res = await PostToRegister(user)
 
     expect(res.statusCode).toEqual(400)
@@ -141,9 +181,8 @@ describe('POST /api/auth/register', () => {
 
   it('should return a 400 status code if email does not match regex patter', async () => {
     const user = {
-      name: userRegisterInfo.name,
+      ...userRegisterInfo,
       email: '@con.com',
-      password: userRegisterInfo.password,
     }
     const res = await PostToRegister(user)
 
@@ -153,8 +192,7 @@ describe('POST /api/auth/register', () => {
 
   it('should return a 400 status code if password is less 6 than characters', async () => {
     const user = {
-      name: userRegisterInfo.name,
-      email: userRegisterInfo.email,
+      ...userRegisterInfo,
       password: 'a',
     }
     const res = await PostToRegister(user)
