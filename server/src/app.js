@@ -4,6 +4,7 @@ import 'express-async-errors'
 import cors from 'cors'
 import helmet from 'helmet'
 import xss from 'xss-clean'
+import bodyParser from 'body-parser'
 import httpLogger from './utils/logger/http-logger.js'
 import notFound from './middleware/not-found.js'
 import errorHandler from './middleware/error-handler.js'
@@ -14,8 +15,10 @@ import authRouter from './routes/auth.js'
 
 const app = express()
 
-// Security packages
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
+
+// Security packages
 app.use(cors())
 app.use(helmet())
 app.use(xss())
@@ -27,8 +30,8 @@ app.use(httpLogger)
 app.get('/', (req, res) => {
   res.status(200).send({ msg: 'Welcome to nikki-api' })
 })
-
 app.use('/api/auth', authRouter)
+
 // Middleware
 app.use(notFound)
 app.use(errorHandler)

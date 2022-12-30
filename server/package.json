@@ -13,7 +13,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "cross-env NODE_ENV=test jest --runInBand --bail ",
+    "test": "cross-env NODE_ENV=test jest --runInBand --bail --coverage",
     "prettier:check": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .",
     "lint": "npx eslint .",
@@ -25,6 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",

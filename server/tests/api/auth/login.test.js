@@ -60,6 +60,21 @@ describe('POST /api/auth/login', () => {
     )
   })
 
+  it('should return 403 and not login user if user refreshToken is not active', async () => {
+    await PostToLogin(userLoginInfo)
+
+    const user = await User.findOne({ email: userLoginInfo.email })
+    const filter = { userId: user._id }
+    const update = { isActive: false }
+
+    await RefreshToken.findOneAndUpdate(filter, update, { new: true })
+
+    const res = await PostToLogin(userLoginInfo)
+
+    expect(res.statusCode).toEqual(403)
+    expect(res.body).toMatchObject({ msg: 'user is blocked' })
+  })
+
   it('should not create new refreshToken object in db, but update previous object with refreshToken and expireAt field', async () => {
     const user = await User.findOne({ email: userRegisterInfo.email })
     const refreshTokenBeforeLogin = await RefreshToken.findOne({

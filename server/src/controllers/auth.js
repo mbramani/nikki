@@ -1,6 +1,10 @@
 import { StatusCodes } from 'http-status-codes'
-import { User } from '../models/index.js'
-import { BadRequestError, UnauthenticatedError } from '../utils/errors/index.js'
+import { RefreshToken, User } from '../models/index.js'
+import {
+  BadRequestError,
+  ForbiddenError,
+  UnauthenticatedError,
+} from '../utils/errors/index.js'
 
 async function register(req, res) {
   const { name, email, password } = req.body
@@ -44,6 +48,12 @@ async function login(req, res) {
   const isPasswordMatch = await user.isPasswordMatch(loginInfo.password)
   if (!isPasswordMatch) {
     throw new UnauthenticatedError('invalid credentials')
+  }
+
+  // eslint-disable-next-line no-underscore-dangle
+  const previousRefreshToken = await RefreshToken.findOne({ userId: user._id })
+  if (!previousRefreshToken.isActive) {
+    throw new ForbiddenError('user is blocked')
   }
 
   const accessToken = await user.generateAccessToken()
