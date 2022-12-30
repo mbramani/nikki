@@ -18,8 +18,8 @@ let userRegisterInfo = {
 }
 
 const PostToRegister = async (dataToSend) => {
-  const data = await request(app).post('/api/auth/register').send(dataToSend)
-  return data
+  const res = await request(app).post('/api/auth/register').send(dataToSend)
+  return res
 }
 
 describe('POST /api/auth/register', () => {
@@ -97,7 +97,7 @@ describe('POST /api/auth/register', () => {
     const res = await PostToRegister(userRegisterInfo)
 
     expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({ msg: 'Email is already in use' })
+    expect(res.body).toMatchObject({ msg: 'email is already in use' })
   })
 
   it('should return a 400 status code if the request is missing a name or name is empty', async () => {
@@ -111,9 +111,9 @@ describe('POST /api/auth/register', () => {
 
     expect(resForEmptyName.statusCode).toEqual(400)
     expect(resForMissingName.statusCode).toEqual(400)
-    expect(resForEmptyName.body).toMatchObject({ msg: 'Please provide a name' })
+    expect(resForEmptyName.body).toMatchObject({ msg: 'please provide a name' })
     expect(resForMissingName.body).toMatchObject({
-      msg: 'Please provide a name',
+      msg: 'please provide a name',
     })
   })
 
@@ -129,10 +129,10 @@ describe('POST /api/auth/register', () => {
     expect(resForEmptyEmail.statusCode).toEqual(400)
     expect(resForMissingEmail.statusCode).toEqual(400)
     expect(resForEmptyEmail.body).toMatchObject({
-      msg: 'Please provide a email',
+      msg: 'please provide a email',
     })
     expect(resForMissingEmail.body).toMatchObject({
-      msg: 'Please provide a email',
+      msg: 'please provide a email',
     })
   })
 
@@ -147,10 +147,10 @@ describe('POST /api/auth/register', () => {
     expect(resForEmptyPassword.statusCode).toEqual(400)
     expect(resForMissingPassword.statusCode).toEqual(400)
     expect(resForEmptyPassword.body).toMatchObject({
-      msg: 'Please provide a password',
+      msg: 'please provide a password',
     })
     expect(resForMissingPassword.body).toMatchObject({
-      msg: 'Please provide a password',
+      msg: 'please provide a password',
     })
   })
 
@@ -163,7 +163,7 @@ describe('POST /api/auth/register', () => {
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({
-      msg: 'Name should have a minimum length of 3',
+      msg: 'name should have a minimum length of 3',
     })
   })
 
@@ -177,7 +177,7 @@ describe('POST /api/auth/register', () => {
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({
-      msg: 'Name should have a maximum length of 50',
+      msg: 'name should have a maximum length of 50',
     })
   })
 
@@ -189,7 +189,7 @@ describe('POST /api/auth/register', () => {
     const res = await PostToRegister(user)
 
     expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({ msg: 'Please provide a valid email' })
+    expect(res.body).toMatchObject({ msg: 'please provide a valid email' })
   })
 
   it('should return a 400 status code if password is less 6 than characters', async () => {
@@ -201,7 +201,7 @@ describe('POST /api/auth/register', () => {
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({
-      msg: 'Password should have a minimum length of 6 characters',
+      msg: 'password should have a minimum length of 6 characters',
     })
   })
 })

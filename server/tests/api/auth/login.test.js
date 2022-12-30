@@ -23,13 +23,13 @@ let userLoginInfo = {
 }
 
 const PostToRegister = async (dataToSend) => {
-  const data = await request(app).post('/api/auth/register').send(dataToSend)
-  return data
+  const res = await request(app).post('/api/auth/register').send(dataToSend)
+  return res
 }
 
 const PostToLogin = async (dataToSend) => {
-  const data = await request(app).post('/api/auth/login').send(dataToSend)
-  return data
+  const res = await request(app).post('/api/auth/login').send(dataToSend)
+  return res
 }
 
 describe('POST /api/auth/login', () => {
@@ -128,10 +128,10 @@ describe('POST /api/auth/login', () => {
     expect(resForEmptyEmail.statusCode).toEqual(400)
     expect(resForMissingEmail.statusCode).toEqual(400)
     expect(resForEmptyEmail.body).toMatchObject({
-      msg: 'Please provide a email',
+      msg: 'please provide a email',
     })
     expect(resForMissingEmail.body).toMatchObject({
-      msg: 'Please provide a email',
+      msg: 'please provide a email',
     })
   })
 
@@ -149,10 +149,10 @@ describe('POST /api/auth/login', () => {
     expect(resForEmptyPassword.statusCode).toEqual(400)
     expect(resForMissingPassword.statusCode).toEqual(400)
     expect(resForEmptyPassword.body).toMatchObject({
-      msg: 'Please provide a password',
+      msg: 'please provide a password',
     })
     expect(resForMissingPassword.body).toMatchObject({
-      msg: 'Please provide a password',
+      msg: 'please provide a password',
     })
   })
 
@@ -164,7 +164,7 @@ describe('POST /api/auth/login', () => {
     const res = await PostToLogin(user)
 
     expect(res.statusCode).toEqual(401)
-    expect(res.body).toMatchObject({ msg: 'Invalid Credentials' })
+    expect(res.body).toMatchObject({ msg: 'invalid credentials' })
   })
 
   it('should return a 401 status code if the password is wrong', async () => {
@@ -175,6 +175,6 @@ describe('POST /api/auth/login', () => {
     const res = await PostToLogin(user)
 
     expect(res.statusCode).toEqual(401)
-    expect(res.body).toMatchObject({ msg: 'Invalid Credentials' })
+    expect(res.body).toMatchObject({ msg: 'invalid credentials' })
   })
 })

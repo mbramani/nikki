@@ -14,23 +14,23 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please provide a name'],
-      maxlength: [50, 'Name should have a maximum length of 50'],
-      minlength: [3, 'Name should have a minimum length of 3'],
+      required: [true, 'please provide a name'],
+      maxlength: [50, 'name should have a maximum length of 50'],
+      minlength: [3, 'name should have a minimum length of 3'],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Please provide a email'],
-      match: [emailRegExp, 'Please provide a valid email'],
+      required: [true, 'please provide a email'],
+      match: [emailRegExp, 'please provide a valid email'],
       unique: true,
       trim: true,
     },
     password: {
       type: String,
-      required: [true, 'Please provide a password'],
-      minlength: [6, 'Password should have a minimum length of 6 characters'],
-      match: [passwordRegExp, 'Please provide a valid password'],
+      required: [true, 'please provide a password'],
+      minlength: [6, 'password should have a minimum length of 6 characters'],
+      match: [passwordRegExp, 'please provide a valid password'],
       trim: true,
     },
     role: {

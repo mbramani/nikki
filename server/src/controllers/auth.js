@@ -29,21 +29,21 @@ async function login(req, res) {
   }
 
   if (!loginInfo.email || loginInfo.email === '') {
-    throw new BadRequestError('Please provide a email')
+    throw new BadRequestError('please provide a email')
   }
 
   if (!loginInfo.password || loginInfo.password === '') {
-    throw new BadRequestError('Please provide a password')
+    throw new BadRequestError('please provide a password')
   }
 
   const user = await User.findOne({ email: loginInfo.email })
   if (!user) {
-    throw new UnauthenticatedError('Invalid Credentials')
+    throw new UnauthenticatedError('invalid credentials')
   }
 
   const isPasswordMatch = await user.isPasswordMatch(loginInfo.password)
   if (!isPasswordMatch) {
-    throw new UnauthenticatedError('Invalid Credentials')
+    throw new UnauthenticatedError('invalid credentials')
   }
 
   const accessToken = await user.generateAccessToken()

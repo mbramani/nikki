@@ -6,6 +6,6 @@ describe('API endpoint not found', () => {
     const res = await request(app).get('/api/invalid-endpoint')
 
     expect(res.status).toEqual(404)
-    expect(res.body).toMatchObject({ msg: 'Route does not exist' })
+    expect(res.body).toMatchObject({ msg: 'route does not exist' })
   })
 })
