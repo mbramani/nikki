@@ -17,7 +17,7 @@ let userRegisterInfo = {
   password: 'Test@123',
 }
 
-const PostToRegister = async (dataToSend) => {
+const postToRegister = async (dataToSend) => {
   const res = await request(app).post('/api/auth/register').send(dataToSend)
   return res
 }
@@ -36,7 +36,7 @@ describe('POST /api/auth/register', () => {
   })
 
   it('should create a new user and return accessToken and refreshToken', async () => {
-    const res = await PostToRegister(userRegisterInfo)
+    const res = await postToRegister(userRegisterInfo)
 
     expect(res.statusCode).toEqual(201)
     expect(res.body.accessToken).toBeDefined()
@@ -47,7 +47,7 @@ describe('POST /api/auth/register', () => {
   })
 
   it('should store user in db', async () => {
-    await PostToRegister(userRegisterInfo)
+    await postToRegister(userRegisterInfo)
 
     const user = await User.findOne({ email: userRegisterInfo.email })
 
@@ -55,7 +55,7 @@ describe('POST /api/auth/register', () => {
   })
 
   it('should store refreshToken in db with valid expireAt date', async () => {
-    await PostToRegister(userRegisterInfo)
+    await postToRegister(userRegisterInfo)
 
     const user = await User.findOne({ email: userRegisterInfo.email })
     const refreshToken = await RefreshToken.findOne({ userId: user._id })
@@ -74,7 +74,7 @@ describe('POST /api/auth/register', () => {
   })
 
   it('should return accessToken with valid expiry date', async () => {
-    const res = await PostToRegister(userRegisterInfo)
+    const res = await postToRegister(userRegisterInfo)
     const { accessToken } = res.body
     const payload = jwt.verify(accessToken, configs.jwt.secret)
 
@@ -92,9 +92,9 @@ describe('POST /api/auth/register', () => {
   })
 
   it('should return a 400 status code if the email is already in use', async () => {
-    await PostToRegister(userRegisterInfo)
+    await postToRegister(userRegisterInfo)
 
-    const res = await PostToRegister(userRegisterInfo)
+    const res = await postToRegister(userRegisterInfo)
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({ msg: 'email is already in use' })
@@ -106,8 +106,8 @@ describe('POST /api/auth/register', () => {
       password: userRegisterInfo.password,
     }
 
-    const resForEmptyName = await PostToRegister({ name: '', ...user })
-    const resForMissingName = await PostToRegister({ ...user })
+    const resForEmptyName = await postToRegister({ name: '', ...user })
+    const resForMissingName = await postToRegister({ ...user })
 
     expect(resForEmptyName.statusCode).toEqual(400)
     expect(resForMissingName.statusCode).toEqual(400)
@@ -123,8 +123,8 @@ describe('POST /api/auth/register', () => {
       password: userRegisterInfo.password,
     }
 
-    const resForEmptyEmail = await PostToRegister({ email: '', ...user })
-    const resForMissingEmail = await PostToRegister({ ...user })
+    const resForEmptyEmail = await postToRegister({ email: '', ...user })
+    const resForMissingEmail = await postToRegister({ ...user })
 
     expect(resForEmptyEmail.statusCode).toEqual(400)
     expect(resForMissingEmail.statusCode).toEqual(400)
@@ -141,8 +141,8 @@ describe('POST /api/auth/register', () => {
       name: userRegisterInfo.name,
       email: userRegisterInfo.email,
     }
-    const resForEmptyPassword = await PostToRegister({ password: '', ...user })
-    const resForMissingPassword = await PostToRegister({ ...user })
+    const resForEmptyPassword = await postToRegister({ password: '', ...user })
+    const resForMissingPassword = await postToRegister({ ...user })
 
     expect(resForEmptyPassword.statusCode).toEqual(400)
     expect(resForMissingPassword.statusCode).toEqual(400)
@@ -159,7 +159,7 @@ describe('POST /api/auth/register', () => {
       ...userRegisterInfo,
       name: 'a',
     }
-    const res = await PostToRegister(user)
+    const res = await postToRegister(user)
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({
@@ -173,7 +173,7 @@ describe('POST /api/auth/register', () => {
       name: 'a'.repeat(55),
     }
 
-    const res = await PostToRegister(user)
+    const res = await postToRegister(user)
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({
@@ -186,7 +186,7 @@ describe('POST /api/auth/register', () => {
       ...userRegisterInfo,
       email: '@con.com',
     }
-    const res = await PostToRegister(user)
+    const res = await postToRegister(user)
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({ msg: 'please provide a valid email' })
@@ -197,7 +197,7 @@ describe('POST /api/auth/register', () => {
       ...userRegisterInfo,
       password: 'a',
     }
-    const res = await PostToRegister(user)
+    const res = await postToRegister(user)
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({

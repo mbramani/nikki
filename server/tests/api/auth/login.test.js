@@ -22,12 +22,12 @@ let userLoginInfo = {
   password: 'Test@123',
 }
 
-const PostToRegister = async (dataToSend) => {
+const postToRegister = async (dataToSend) => {
   const res = await request(app).post('/api/auth/register').send(dataToSend)
   return res
 }
 
-const PostToLogin = async (dataToSend) => {
+const postToLogin = async (dataToSend) => {
   const res = await request(app).post('/api/auth/login').send(dataToSend)
   return res
 }
@@ -38,7 +38,7 @@ describe('POST /api/auth/login', () => {
   })
 
   beforeEach(async () => {
-    await PostToRegister(userRegisterInfo)
+    await postToRegister(userRegisterInfo)
   })
 
   afterEach(async () => {
@@ -50,7 +50,7 @@ describe('POST /api/auth/login', () => {
   })
 
   it('should login a user and return accessToken and refreshToken', async () => {
-    const res = await PostToLogin(userLoginInfo)
+    const res = await postToLogin(userLoginInfo)
 
     expect(res.statusCode).toEqual(200)
     expect(res.body.accessToken).toBeDefined()
@@ -61,7 +61,7 @@ describe('POST /api/auth/login', () => {
   })
 
   it('should return 403 and not login user if user refreshToken is not active', async () => {
-    await PostToLogin(userLoginInfo)
+    await postToLogin(userLoginInfo)
 
     const user = await User.findOne({ email: userLoginInfo.email })
     const filter = { userId: user._id }
@@ -69,7 +69,7 @@ describe('POST /api/auth/login', () => {
 
     await RefreshToken.findOneAndUpdate(filter, update, { new: true })
 
-    const res = await PostToLogin(userLoginInfo)
+    const res = await postToLogin(userLoginInfo)
 
     expect(res.statusCode).toEqual(403)
     expect(res.body).toMatchObject({ msg: 'user is blocked' })
@@ -81,7 +81,7 @@ describe('POST /api/auth/login', () => {
       userId: user._id,
     })
 
-    await PostToLogin(userLoginInfo)
+    await postToLogin(userLoginInfo)
     const refreshTokenAfterLogin = await RefreshToken.findOne({
       userId: user._id,
     })
@@ -96,7 +96,7 @@ describe('POST /api/auth/login', () => {
   })
 
   it('should update refreshToken in db with valid expireAt date', async () => {
-    await PostToLogin(userLoginInfo)
+    await postToLogin(userLoginInfo)
 
     const user = await User.findOne({ email: userLoginInfo.email })
     const refreshToken = await RefreshToken.findOne({ userId: user._id })
@@ -115,7 +115,7 @@ describe('POST /api/auth/login', () => {
   })
 
   it('should return accessToken with valid expiry date', async () => {
-    const res = await PostToLogin(userLoginInfo)
+    const res = await postToLogin(userLoginInfo)
     const { accessToken } = res.body
     const payload = jwt.verify(accessToken, configs.jwt.secret)
 
@@ -137,8 +137,8 @@ describe('POST /api/auth/login', () => {
       password: userLoginInfo.password,
     }
 
-    const resForEmptyEmail = await PostToLogin({ email: '', ...userPassword })
-    const resForMissingEmail = await PostToLogin({ ...userPassword })
+    const resForEmptyEmail = await postToLogin({ email: '', ...userPassword })
+    const resForMissingEmail = await postToLogin({ ...userPassword })
 
     expect(resForEmptyEmail.statusCode).toEqual(400)
     expect(resForMissingEmail.statusCode).toEqual(400)
@@ -155,11 +155,11 @@ describe('POST /api/auth/login', () => {
       email: userLoginInfo.email,
     }
 
-    const resForEmptyPassword = await PostToLogin({
+    const resForEmptyPassword = await postToLogin({
       ...userEmail,
       password: '',
     })
-    const resForMissingPassword = await PostToLogin({ ...userEmail })
+    const resForMissingPassword = await postToLogin({ ...userEmail })
 
     expect(resForEmptyPassword.statusCode).toEqual(400)
     expect(resForMissingPassword.statusCode).toEqual(400)
@@ -176,7 +176,7 @@ describe('POST /api/auth/login', () => {
       ...userLoginInfo,
       email: 'some@do.com',
     }
-    const res = await PostToLogin(user)
+    const res = await postToLogin(user)
 
     expect(res.statusCode).toEqual(401)
     expect(res.body).toMatchObject({ msg: 'invalid credentials' })
@@ -187,7 +187,7 @@ describe('POST /api/auth/login', () => {
       ...userLoginInfo,
       password: 'wrongPassword',
     }
-    const res = await PostToLogin(user)
+    const res = await postToLogin(user)
 
     expect(res.statusCode).toEqual(401)
     expect(res.body).toMatchObject({ msg: 'invalid credentials' })
