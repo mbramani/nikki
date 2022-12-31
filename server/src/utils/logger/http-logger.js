@@ -26,7 +26,10 @@ const httpLogger = morgan((tokens, req, res) => {
           tokens['user-agent'](req, res),
         ].join('-')
 
-  logger.http(msg)
+  if (process.env.NODE_ENV !== 'test') {
+    logger.http(msg)
+  }
+
   return null
 })
 

@@ -51,8 +51,8 @@ async function login(req, res) {
   }
 
   // eslint-disable-next-line no-underscore-dangle
-  const previousRefreshToken = await RefreshToken.findOne({ userId: user._id })
-  if (!previousRefreshToken.isActive) {
+  const refreshTokenRecord = await RefreshToken.findOne({ userId: user._id })
+  if (!refreshTokenRecord || !refreshTokenRecord.isActive) {
     throw new ForbiddenError('user is blocked')
   }
 
@@ -61,4 +61,24 @@ async function login(req, res) {
 
   res.status(StatusCodes.OK).json({ accessToken, refreshToken })
 }
-export { register, login }
+
+async function token(req, res) {
+  const { refreshToken } = req.body
+  if (!refreshToken) {
+    throw new BadRequestError('please provide a refreshToken')
+  }
+
+  const refreshTokenRecord = await RefreshToken.findOne({ token: refreshToken })
+  if (!refreshTokenRecord) {
+    throw new UnauthenticatedError('refresh token is a invalid')
+  }
+  if (!refreshTokenRecord.isActive) {
+    throw new ForbiddenError('user is blocked')
+  }
+
+  const user = await User.findById(refreshTokenRecord.userId)
+  const accessToken = await user.generateAccessToken()
+
+  res.status(StatusCodes.OK).json({ accessToken })
+}
+export { register, login, token }
