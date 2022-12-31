@@ -35,7 +35,7 @@ describe('POST /api/auth/register', () => {
     disconnectToDB()
   })
 
-  it('should create a new user and return accessToken and refreshToken', async () => {
+  it('should create a new user and return access token and refresh token', async () => {
     const res = await postToRegister(userRegisterInfo)
 
     expect(res.statusCode).toEqual(201)
@@ -54,7 +54,7 @@ describe('POST /api/auth/register', () => {
     expect(user).not.toBeNull()
   })
 
-  it('should store refreshToken in db with valid expireAt date', async () => {
+  it('should store refresh token in db with valid expireAt date', async () => {
     await postToRegister(userRegisterInfo)
 
     const user = await User.findOne({ email: userRegisterInfo.email })
@@ -73,7 +73,7 @@ describe('POST /api/auth/register', () => {
     expect(refreshTokenExpiryDate).toBeGreaterThanOrEqual(marginOfDelay)
   })
 
-  it('should return accessToken with valid expiry date', async () => {
+  it('should return access token with valid expiry date', async () => {
     const res = await postToRegister(userRegisterInfo)
     const { accessToken } = res.body
     const payload = jwt.verify(accessToken, configs.jwt.secret)

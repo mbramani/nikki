@@ -49,7 +49,7 @@ describe('POST /api/auth/login', () => {
     disconnectToDB()
   })
 
-  it('should login a user and return accessToken and refreshToken', async () => {
+  it('should login a user and return access token and refresh token', async () => {
     const res = await postToLogin(userLoginInfo)
 
     expect(res.statusCode).toEqual(200)
@@ -60,7 +60,7 @@ describe('POST /api/auth/login', () => {
     )
   })
 
-  it('should return 403 and not login user if user refreshToken is not active', async () => {
+  it('should return 403 and not login user if user refresh token is not active', async () => {
     await postToLogin(userLoginInfo)
 
     const user = await User.findOne({ email: userLoginInfo.email })
@@ -75,7 +75,7 @@ describe('POST /api/auth/login', () => {
     expect(res.body).toMatchObject({ msg: 'user is blocked' })
   })
 
-  it('should not create new refreshToken object in db, but update previous object with refreshToken and expireAt field', async () => {
+  it('should not create new refresh token object in db, but update previous object with refreshToken and expireAt field', async () => {
     const user = await User.findOne({ email: userRegisterInfo.email })
     const refreshTokenBeforeLogin = await RefreshToken.findOne({
       userId: user._id,
@@ -95,7 +95,7 @@ describe('POST /api/auth/login', () => {
     )
   })
 
-  it('should update refreshToken in db with valid expireAt date', async () => {
+  it('should update refresh token in db with valid expireAt date', async () => {
     await postToLogin(userLoginInfo)
 
     const user = await User.findOne({ email: userLoginInfo.email })
@@ -114,7 +114,7 @@ describe('POST /api/auth/login', () => {
     expect(refreshTokenExpiryDate).toBeGreaterThanOrEqual(marginOfDelay)
   })
 
-  it('should return accessToken with valid expiry date', async () => {
+  it('should return access token with valid expiry date', async () => {
     const res = await postToLogin(userLoginInfo)
     const { accessToken } = res.body
     const payload = jwt.verify(accessToken, configs.jwt.secret)
