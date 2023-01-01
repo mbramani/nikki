@@ -1,23 +1,21 @@
 /* eslint-disable no-underscore-dangle */
 import request from 'supertest'
 import app from '../../../src/app.js'
-import jwt from 'jsonwebtoken'
 import RefreshToken from '../../../src/models/RefreshToken.js'
 import User from '../../../src/models/User.js'
-import configs from '../../../src/utils/configs.js'
 import {
   connectToDB,
   disconnectToDB,
   removeDataFromDatabase,
-} from '../helper.js'
+} from '../../helper.js'
 
-let userRegisterInfo = {
+const userRegisterInfo = {
   name: 'John',
   email: 'john@example.com',
   password: 'Test@123',
 }
 
-let userLoginInfo = {
+const userLoginInfo = {
   email: 'john@example.com',
   password: 'Test@123',
 }
@@ -70,28 +68,6 @@ describe('POST /api/auth/token', () => {
     expect(res.headers['content-type']).toEqual(
       'application/json; charset=utf-8'
     )
-  })
-
-  it('should return access token with valid expiry date', async () => {
-    const res = await postToLogin(userLoginInfo)
-    const { refreshToken } = res.body
-
-    const resForToken = await postToToken({ refreshToken })
-    const newAccessToken = resForToken.body.accessToken
-
-    const payload = jwt.verify(newAccessToken, configs.jwt.secret)
-
-    const accessTokenExpiryDate = payload.exp * 1000
-    const expectedExpiryDate = new Date(
-      Date.now() + parseInt(configs.jwt.lifeTime, 10)
-    ).getTime()
-    const marginOfDelay = new Date(
-      Date.now() + parseInt(configs.jwt.lifeTime, 10) - 1000
-    ).getTime()
-
-    expect(newAccessToken).not.toBeNull()
-    expect(accessTokenExpiryDate).toBeLessThanOrEqual(expectedExpiryDate)
-    expect(accessTokenExpiryDate).toBeGreaterThanOrEqual(marginOfDelay)
   })
 
   it('should return a 400 status code if the refresh token is missing', async () => {

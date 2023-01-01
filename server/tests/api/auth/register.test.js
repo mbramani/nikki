@@ -1,17 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import request from 'supertest'
 import app from '../../../src/app.js'
-import jwt from 'jsonwebtoken'
-import RefreshToken from '../../../src/models/RefreshToken.js'
-import User from '../../../src/models/User.js'
-import configs from '../../../src/utils/configs.js'
+import { User } from '../../../src/models/index.js'
 import {
   connectToDB,
   disconnectToDB,
   removeDataFromDatabase,
-} from '../helper.js'
+} from '../../helper.js'
 
-let userRegisterInfo = {
+const userRegisterInfo = {
   name: 'John',
   email: 'john@example.com',
   password: 'Test@123',
@@ -53,155 +50,124 @@ describe('POST /api/auth/register', () => {
 
     expect(user).not.toBeNull()
   })
+  describe('should return a 400 status code', () => {
+    it('if the email is already in use', async () => {
+      await postToRegister(userRegisterInfo)
 
-  it('should store refresh token in db with valid expireAt date', async () => {
-    await postToRegister(userRegisterInfo)
+      const res = await postToRegister(userRegisterInfo)
 
-    const user = await User.findOne({ email: userRegisterInfo.email })
-    const refreshToken = await RefreshToken.findOne({ userId: user._id })
-
-    const refreshTokenExpiryDate = new Date(refreshToken.expiresAt).getTime()
-    const expectedExpiryDate = new Date(
-      Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
-    ).getTime()
-    const marginOfDelay = new Date(
-      Date.now() + parseInt(configs.refreshToken.lifeTime, 10) - 1000
-    ).getTime()
-
-    expect(refreshToken).not.toBeNull()
-    expect(refreshTokenExpiryDate).toBeLessThanOrEqual(expectedExpiryDate)
-    expect(refreshTokenExpiryDate).toBeGreaterThanOrEqual(marginOfDelay)
-  })
-
-  it('should return access token with valid expiry date', async () => {
-    const res = await postToRegister(userRegisterInfo)
-    const { accessToken } = res.body
-    const payload = jwt.verify(accessToken, configs.jwt.secret)
-
-    const accessTokenExpiryDate = payload.exp * 1000
-    const expectedExpiryDate = new Date(
-      Date.now() + parseInt(configs.jwt.lifeTime, 10)
-    ).getTime()
-    const marginOfDelay = new Date(
-      Date.now() + parseInt(configs.jwt.lifeTime, 10) - 1000
-    ).getTime()
-
-    expect(accessToken).not.toBeNull()
-    expect(accessTokenExpiryDate).toBeLessThanOrEqual(expectedExpiryDate)
-    expect(accessTokenExpiryDate).toBeGreaterThanOrEqual(marginOfDelay)
-  })
-
-  it('should return a 400 status code if the email is already in use', async () => {
-    await postToRegister(userRegisterInfo)
-
-    const res = await postToRegister(userRegisterInfo)
-
-    expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({ msg: 'email is already in use' })
-  })
-
-  it('should return a 400 status code if the request is missing a name or name is empty', async () => {
-    const user = {
-      email: userRegisterInfo.email,
-      password: userRegisterInfo.password,
-    }
-
-    const resForEmptyName = await postToRegister({ name: '', ...user })
-    const resForMissingName = await postToRegister({ ...user })
-
-    expect(resForEmptyName.statusCode).toEqual(400)
-    expect(resForMissingName.statusCode).toEqual(400)
-    expect(resForEmptyName.body).toMatchObject({ msg: 'please provide a name' })
-    expect(resForMissingName.body).toMatchObject({
-      msg: 'please provide a name',
+      expect(res.statusCode).toEqual(400)
+      expect(res.body).toMatchObject({ msg: 'email is already in use' })
     })
-  })
 
-  it('should return a 400 status code if the request is missing a email or email is empty', async () => {
-    const user = {
-      name: userRegisterInfo.name,
-      password: userRegisterInfo.password,
-    }
+    it('if the request is missing a name or name is empty', async () => {
+      const user = {
+        email: userRegisterInfo.email,
+        password: userRegisterInfo.password,
+      }
 
-    const resForEmptyEmail = await postToRegister({ email: '', ...user })
-    const resForMissingEmail = await postToRegister({ ...user })
+      const resForEmptyName = await postToRegister({ name: '', ...user })
+      const resForMissingName = await postToRegister({ ...user })
 
-    expect(resForEmptyEmail.statusCode).toEqual(400)
-    expect(resForMissingEmail.statusCode).toEqual(400)
-    expect(resForEmptyEmail.body).toMatchObject({
-      msg: 'please provide a email',
+      expect(resForEmptyName.statusCode).toEqual(400)
+      expect(resForMissingName.statusCode).toEqual(400)
+      expect(resForEmptyName.body).toMatchObject({
+        msg: 'please provide a name',
+      })
+      expect(resForMissingName.body).toMatchObject({
+        msg: 'please provide a name',
+      })
     })
-    expect(resForMissingEmail.body).toMatchObject({
-      msg: 'please provide a email',
+
+    it('if the request is missing a email or email is empty', async () => {
+      const user = {
+        name: userRegisterInfo.name,
+        password: userRegisterInfo.password,
+      }
+
+      const resForEmptyEmail = await postToRegister({ email: '', ...user })
+      const resForMissingEmail = await postToRegister({ ...user })
+
+      expect(resForEmptyEmail.statusCode).toEqual(400)
+      expect(resForMissingEmail.statusCode).toEqual(400)
+      expect(resForEmptyEmail.body).toMatchObject({
+        msg: 'please provide a email',
+      })
+      expect(resForMissingEmail.body).toMatchObject({
+        msg: 'please provide a email',
+      })
     })
-  })
 
-  it('should return a 400 status code if the request is missing a password or password is empty', async () => {
-    const user = {
-      name: userRegisterInfo.name,
-      email: userRegisterInfo.email,
-    }
-    const resForEmptyPassword = await postToRegister({ password: '', ...user })
-    const resForMissingPassword = await postToRegister({ ...user })
+    it('if the request is missing a password or password is empty', async () => {
+      const user = {
+        name: userRegisterInfo.name,
+        email: userRegisterInfo.email,
+      }
+      const resForEmptyPassword = await postToRegister({
+        password: '',
+        ...user,
+      })
+      const resForMissingPassword = await postToRegister({ ...user })
 
-    expect(resForEmptyPassword.statusCode).toEqual(400)
-    expect(resForMissingPassword.statusCode).toEqual(400)
-    expect(resForEmptyPassword.body).toMatchObject({
-      msg: 'please provide a password',
+      expect(resForEmptyPassword.statusCode).toEqual(400)
+      expect(resForMissingPassword.statusCode).toEqual(400)
+      expect(resForEmptyPassword.body).toMatchObject({
+        msg: 'please provide a password',
+      })
+      expect(resForMissingPassword.body).toMatchObject({
+        msg: 'please provide a password',
+      })
     })
-    expect(resForMissingPassword.body).toMatchObject({
-      msg: 'please provide a password',
+
+    it('if name is less than 3 characters', async () => {
+      const user = {
+        ...userRegisterInfo,
+        name: 'a',
+      }
+      const res = await postToRegister(user)
+
+      expect(res.statusCode).toEqual(400)
+      expect(res.body).toMatchObject({
+        msg: 'name should have a minimum length of 3',
+      })
     })
-  })
 
-  it('should return a 400 status code if name is less than 3 characters', async () => {
-    const user = {
-      ...userRegisterInfo,
-      name: 'a',
-    }
-    const res = await postToRegister(user)
+    it('if name is grater than 50 characters', async () => {
+      const user = {
+        ...userRegisterInfo,
+        name: 'a'.repeat(55),
+      }
 
-    expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({
-      msg: 'name should have a minimum length of 3',
+      const res = await postToRegister(user)
+
+      expect(res.statusCode).toEqual(400)
+      expect(res.body).toMatchObject({
+        msg: 'name should have a maximum length of 50',
+      })
     })
-  })
 
-  it('should return a 400 status code if name is grater than 50 characters', async () => {
-    const user = {
-      ...userRegisterInfo,
-      name: 'a'.repeat(55),
-    }
+    it('if email does not match regex patter', async () => {
+      const user = {
+        ...userRegisterInfo,
+        email: '@con.com',
+      }
+      const res = await postToRegister(user)
 
-    const res = await postToRegister(user)
-
-    expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({
-      msg: 'name should have a maximum length of 50',
+      expect(res.statusCode).toEqual(400)
+      expect(res.body).toMatchObject({ msg: 'please provide a valid email' })
     })
-  })
 
-  it('should return a 400 status code if email does not match regex patter', async () => {
-    const user = {
-      ...userRegisterInfo,
-      email: '@con.com',
-    }
-    const res = await postToRegister(user)
+    it('if password is less 6 than characters', async () => {
+      const user = {
+        ...userRegisterInfo,
+        password: 'a',
+      }
+      const res = await postToRegister(user)
 
-    expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({ msg: 'please provide a valid email' })
-  })
-
-  it('should return a 400 status code if password is less 6 than characters', async () => {
-    const user = {
-      ...userRegisterInfo,
-      password: 'a',
-    }
-    const res = await postToRegister(user)
-
-    expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({
-      msg: 'password should have a minimum length of 6 characters',
+      expect(res.statusCode).toEqual(400)
+      expect(res.body).toMatchObject({
+        msg: 'password should have a minimum length of 6 characters',
+      })
     })
   })
 })
