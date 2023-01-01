@@ -1,6 +1,6 @@
 import mongoose, { connect, disconnect } from 'mongoose'
-import configs from '../../src/utils/configs.js'
-import { RefreshToken, User } from '../../src/models/index.js'
+import configs from '../src/utils/configs.js'
+import { RefreshToken, User } from '../src/models/index.js'
 
 mongoose.set('strictQuery', false)
 
