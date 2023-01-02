@@ -4,21 +4,24 @@ import logger from './logger.js'
 import configs from '../configs.js'
 
 const httpLogger = morgan((tokens, req, res) => {
-  const authHeader = req.headers.authorization
-  const accessToken = authHeader !== undefined ? authHeader.split(' ')[1] : null
+  let msg
   let userId
   let role
 
-  jwt.verify(accessToken, configs.jwt.secret, function (err, decoded) {
-    if (err) {
-      logger.error(err.message)
-    } else {
-      userId = decoded.userId
-      role = decoded.role
-    }
-  })
+  const authHeader = req.headers.authorization
+  const accessToken = authHeader !== undefined ? authHeader.split(' ')[1] : null
 
-  let msg
+  if (accessToken) {
+    jwt.verify(accessToken, configs.jwt.secret, function (err, decoded) {
+      if (err) {
+        logger.error(err.message)
+      } else {
+        userId = decoded.userId
+        role = decoded.role
+      }
+    })
+  }
+
   if (process.env.NODE_ENV !== 'production') {
     msg = [
       tokens.method(req, res),

@@ -12,7 +12,6 @@ import logger from './utils/logger/logger.js'
 import connectDB from './db/connect.js'
 import configs from './utils/configs.js'
 import authRouter from './routes/auth.js'
-import authenticate from './middleware/authenticate.js'
 
 const app = express()
 
@@ -28,7 +27,7 @@ app.use(xss())
 app.use(httpLogger)
 
 // Routes
-app.get('/', authenticate, (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).send({ msg: 'Welcome to nikki-api' })
 })
 app.use('/api/auth', authRouter)
