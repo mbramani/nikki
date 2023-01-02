@@ -81,4 +81,5 @@ async function token(req, res) {
 
   res.status(StatusCodes.OK).json({ accessToken })
 }
+
 export { register, login, token }

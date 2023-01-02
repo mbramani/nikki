@@ -1,12 +1,22 @@
 /* eslint-disable no-unused-vars */
 import { StatusCodes } from 'http-status-codes'
 
-const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes
+const { BAD_REQUEST, INTERNAL_SERVER_ERROR, UNAUTHORIZED } = StatusCodes
 
 function errorHandler(err, req, res, next) {
   let customError = {
     statusCode: err.statusCode || INTERNAL_SERVER_ERROR,
     msg: err.message || 'something went wrong try again later',
+  }
+
+  if (err.name === 'TokenExpiredError') {
+    customError.msg = 'access token is a expired'
+    customError.statusCode = UNAUTHORIZED
+  }
+
+  if (err.name === 'JsonWebTokenError') {
+    customError.msg = 'access token is a invalid'
+    customError.statusCode = UNAUTHORIZED
   }
 
   if (err.name === 'ValidationError') {

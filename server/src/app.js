@@ -12,6 +12,7 @@ import logger from './utils/logger/logger.js'
 import connectDB from './db/connect.js'
 import configs from './utils/configs.js'
 import authRouter from './routes/auth.js'
+import authenticate from './middleware/authenticate.js'
 
 const app = express()
 
@@ -27,7 +28,7 @@ app.use(xss())
 app.use(httpLogger)
 
 // Routes
-app.get('/', (req, res) => {
+app.get('/', authenticate, (req, res) => {
   res.status(200).send({ msg: 'Welcome to nikki-api' })
 })
 app.use('/api/auth', authRouter)
@@ -42,7 +43,7 @@ if (process.env.NODE_ENV !== 'test') {
     await connectDB(configs.db.mongodbUri)
     logger.info('Connected to Db')
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
   }
 }
 
