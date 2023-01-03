@@ -32,8 +32,7 @@ const httpLogger = morgan((tokens, req, res) => {
   if (typeof authHeader !== 'string') {
     if (process.env.NODE_ENV === 'production') {
       msg = prodMsgArr.join('#!#')
-    }
-    if (process.env.NODE_ENV === 'development') {
+    } else {
       msg = devMsgArr.join(' ')
     }
   }
@@ -41,8 +40,7 @@ const httpLogger = morgan((tokens, req, res) => {
   if (typeof authHeader === 'string') {
     if (process.env.NODE_ENV === 'production') {
       msg = [userId, ...prodMsgArr].join('#!#')
-    }
-    if (process.env.NODE_ENV === 'development') {
+    } else {
       msg = [...devMsgArr, userId].join(' ')
     }
   }
