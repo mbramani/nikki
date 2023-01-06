@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import request from 'supertest'
 import app from '../../../src/app.js'
 import RefreshToken from '../../../src/models/RefreshToken.js'

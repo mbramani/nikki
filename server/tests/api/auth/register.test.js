@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import request from 'supertest'
 import app from '../../../src/app.js'
 import { User } from '../../../src/models/index.js'
@@ -32,10 +31,12 @@ describe('POST /api/auth/register', () => {
     disconnectToDB()
   })
 
-  it('should create a new user and return access token and refresh token', async () => {
+  it('should create a new user and return name, email, access token and refresh token', async () => {
     const res = await postToRegister(userRegisterInfo)
 
     expect(res.statusCode).toEqual(201)
+    expect(res.body.name).toEqual(userRegisterInfo.name)
+    expect(res.body.email).toEqual(userRegisterInfo.email)
     expect(res.body.accessToken).toBeDefined()
     expect(res.body.refreshToken).toBeDefined()
     expect(res.headers['content-type']).toEqual(

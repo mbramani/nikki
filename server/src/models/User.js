@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Schema, model } from 'mongoose'
 import { randomBytes } from 'crypto'
 import { genSalt, hash, compare } from 'bcrypt'

@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import jwt from 'jsonwebtoken'
 import { User, RefreshToken } from '../../src/models/index.js'
 import configs from '../../src/utils/configs.js'

@@ -20,7 +20,12 @@ async function register(req, res) {
   const accessToken = await user.generateAccessToken()
   const refreshToken = await user.generateRefreshToken()
 
-  res.status(StatusCodes.CREATED).json({ accessToken, refreshToken })
+  res.status(StatusCodes.CREATED).json({
+    name: user.name,
+    email: user.email,
+    accessToken,
+    refreshToken,
+  })
 }
 
 async function login(req, res) {
@@ -50,7 +55,6 @@ async function login(req, res) {
     throw new UnauthenticatedError('invalid credentials')
   }
 
-  // eslint-disable-next-line no-underscore-dangle
   const refreshTokenRecord = await RefreshToken.findOne({ userId: user._id })
   if (!refreshTokenRecord || !refreshTokenRecord.isActive) {
     throw new ForbiddenError('user is blocked')
@@ -59,7 +63,12 @@ async function login(req, res) {
   const accessToken = await user.generateAccessToken()
   const refreshToken = await user.updateRefreshToken()
 
-  res.status(StatusCodes.OK).json({ accessToken, refreshToken })
+  res.status(StatusCodes.OK).json({
+    name: user.name,
+    email: user.email,
+    accessToken,
+    refreshToken,
+  })
 }
 
 async function token(req, res) {
