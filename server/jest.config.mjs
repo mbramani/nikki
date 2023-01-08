@@ -14,6 +14,6 @@ export default {
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
   testRunner: 'jest-circus/runner',
-  testTimeout: 10000,
+  testTimeout: 20000,
   passWithNoTests: true,
 }

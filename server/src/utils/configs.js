@@ -1,4 +1,8 @@
 const configs = {
+  url: {
+    website: process.env.WEBSITE,
+    server: process.env.SERVER,
+  },
   port: process.env.PORT,
   db: {
     dbName: process.env.DB_NAME,

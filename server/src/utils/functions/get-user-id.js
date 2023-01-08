@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import configs from '../configs.js'
+
 function getUserId(req) {
   const header = req.headers.authorization
 

@@ -11,7 +11,7 @@ import errorHandler from './middleware/error-handler.js'
 import logger from './utils/logger/logger.js'
 import connectDB from './db/connect.js'
 import configs from './utils/configs.js'
-import authRouter from './routes/auth.js'
+import { authRouter, userRouter } from './routes/index.js'
 
 const app = express()
 
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
   res.status(200).send({ msg: 'Welcome to nikki-api' })
 })
 app.use('/api/auth', authRouter)
-
+app.use('/api/user', userRouter)
 // Middleware
 app.use(notFound)
 app.use(errorHandler)
