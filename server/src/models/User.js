@@ -75,13 +75,13 @@ async function updateRefreshToken() {
   return refreshToken.token
 }
 
-function generateAccessToken() {
+function generateJwtToken(secret) {
   return jwt.sign(
     {
       userId: this._id,
       role: this.role,
     },
-    configs.jwt.secret,
+    secret,
     { expiresIn: configs.jwt.lifeTime }
   )
 }
@@ -99,7 +99,7 @@ userSchema.pre('save', async function () {
 
 userSchema.methods = {
   generateRefreshToken,
-  generateAccessToken,
+  generateJwtToken,
   updateRefreshToken,
   isPasswordMatch,
 }

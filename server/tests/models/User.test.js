@@ -46,7 +46,7 @@ describe('User model', () => {
   describe('generateAccessToken method', () => {
     it('should generate a valid jwt access token', async () => {
       const user = await User.create(userData)
-      const accessToken = await user.generateAccessToken()
+      const accessToken = await user.generateJwtToken(configs.jwt.secret)
       const payload = jwt.verify(accessToken, configs.jwt.secret)
 
       expect(payload.userId).toEqual(user._id.toString())
@@ -55,7 +55,7 @@ describe('User model', () => {
 
     it('should return access token with valid expiry time', async () => {
       const user = await User.create(userData)
-      const accessToken = await user.generateAccessToken()
+      const accessToken = await user.generateJwtToken(configs.jwt.secret)
       const payload = jwt.verify(accessToken, configs.jwt.secret)
 
       const accessTokenExpiryDate = payload.exp * 1000

@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { RefreshToken, User } from '../models/index.js'
+import configs from '../utils/configs.js'
 import {
   BadRequestError,
   ForbiddenError,
@@ -17,7 +18,7 @@ async function register(req, res) {
   }
 
   const user = await User.create(registerInfo)
-  const accessToken = await user.generateAccessToken()
+  const accessToken = await user.generateJwtToken(configs.jwt.secret)
   const refreshToken = await user.generateRefreshToken()
 
   res.status(StatusCodes.CREATED).json({
@@ -60,7 +61,7 @@ async function login(req, res) {
     throw new ForbiddenError('user is blocked')
   }
 
-  const accessToken = await user.generateAccessToken()
+  const accessToken = await user.generateJwtToken(configs.jwt.secret)
   const refreshToken = await user.updateRefreshToken()
 
   res.status(StatusCodes.OK).json({
@@ -86,7 +87,7 @@ async function token(req, res) {
   }
 
   const user = await User.findById(refreshTokenRecord.userId)
-  const accessToken = await user.generateAccessToken()
+  const accessToken = await user.generateJwtToken(configs.jwt.secret)
 
   res.status(StatusCodes.OK).json({ accessToken })
 }
