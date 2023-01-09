@@ -14,7 +14,7 @@ function errorHandler(err, req, res, next) {
     customError.statusCode = UNAUTHORIZED
   }
 
-  if (err.name === 'JsonWebTokenError') {
+  if (err.name === 'JsonWebTokenError' || err.name === 'SyntaxError') {
     customError.msg = 'access token is a invalid'
     customError.statusCode = UNAUTHORIZED
   }

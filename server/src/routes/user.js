@@ -1,8 +1,9 @@
 import { Router } from 'express'
-import { forgotPassword } from '../controllers/user.js'
+import { forgotPassword, resetPassword } from '../controllers/user.js'
 
-const user = Router()
+const userRouter = Router()
 
-user.post('/forgot-password', forgotPassword)
+userRouter.post('/forgot-password', forgotPassword)
+userRouter.post('/reset-password', resetPassword)
 
-export default user
+export default userRouter
