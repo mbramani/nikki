@@ -27,7 +27,10 @@ async function forgotPassword(req, res) {
     throw new ForbiddenError('user is blocked')
   }
 
-  const resetToken = user.generateJwtToken(configs.jwt.secret)
+  const resetToken = user.generateJwtToken(
+    configs.jwt.secret,
+    'passwordResetToken'
+  )
 
   await sendResetEmail({ email: userEmail, resetToken })
 
@@ -68,6 +71,9 @@ async function resetPassword(req, res) {
   }
 
   jwt.verify(userResetToken, configs.jwt.secret, jwtCBFn)
+  if (payload.type !== 'passwordResetToken') {
+    throw new UnauthenticatedError('reset token is a invalid')
+  }
 
   const user = await User.findOne({ _id: payload.userId })
 

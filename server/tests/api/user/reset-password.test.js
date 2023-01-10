@@ -46,7 +46,10 @@ describe('POST /api/user/reset-password', () => {
 
   it('should reset the password and return a success message', async () => {
     const user = await User.findOne({ email: userRegisterInfo.email })
-    const resetToken = user.generateJwtToken(configs.jwt.secret)
+    const resetToken = user.generateJwtToken(
+      configs.jwt.secret,
+      'passwordResetToken'
+    )
 
     const res = await postToResetPassword({
       resetToken,
@@ -62,7 +65,10 @@ describe('POST /api/user/reset-password', () => {
   describe('should return a 400 status code', () => {
     it('if the request is missing a reset token or reset token is empty', async () => {
       const user = await User.findOne({ email: userRegisterInfo.email })
-      const resetToken = user.generateJwtToken(configs.jwt.secret)
+      const resetToken = user.generateJwtToken(
+        configs.jwt.secret,
+        'passwordResetToken'
+      )
 
       const dataToSend = { resetToken, newPassword: 'testPassword' }
       const resForEmptyResetToken = await postToResetPassword({
@@ -85,7 +91,10 @@ describe('POST /api/user/reset-password', () => {
 
     it('if the request is missing a new password or new password is empty', async () => {
       const user = await User.findOne({ email: userRegisterInfo.email })
-      const resetToken = user.generateJwtToken(configs.jwt.secret)
+      const resetToken = user.generateJwtToken(
+        configs.jwt.secret,
+        'passwordResetToken'
+      )
 
       const dataToSend = { resetToken, newPassword: 'testPassword' }
       const resForEmptyNewPassword = await postToResetPassword({
@@ -108,7 +117,10 @@ describe('POST /api/user/reset-password', () => {
 
     it('if new password is same as current password', async () => {
       const user = await User.findOne({ email: userRegisterInfo.email })
-      const resetToken = user.generateJwtToken(configs.jwt.secret)
+      const resetToken = user.generateJwtToken(
+        configs.jwt.secret,
+        'passwordResetToken'
+      )
 
       const dataToSend = { resetToken, newPassword: userRegisterInfo.password }
       const res = await postToResetPassword(dataToSend)
@@ -123,7 +135,10 @@ describe('POST /api/user/reset-password', () => {
   describe('should return a 401 status code', () => {
     it('if reset token is a invalid', async () => {
       const user = await User.findOne({ email: userRegisterInfo.email })
-      const resetToken = user.generateJwtToken(configs.jwt.secret)
+      const resetToken = user.generateJwtToken(
+        configs.jwt.secret,
+        'passwordResetToken'
+      )
       const wrongSyntaxResetToken = resetToken
         .split('.')
         .map((element, index) => {
@@ -153,6 +168,19 @@ describe('POST /api/user/reset-password', () => {
       expect(resForWrongSyntaxToken.body).toMatchObject({
         msg: 'reset token is a invalid',
       })
+    })
+    it('if reset token is a access token', async () => {
+      const user = await User.findOne({ email: userRegisterInfo.email })
+      const resetToken = user.generateJwtToken(configs.jwt.secret)
+      const dataToSend = {
+        resetToken,
+        newPassword: userRegisterInfo.password,
+      }
+
+      const res = await postToResetPassword(dataToSend)
+
+      expect(res.statusCode).toEqual(401)
+      expect(res.body).toMatchObject({ msg: 'reset token is a invalid' })
     })
 
     it('if reset token is a expired', async () => {

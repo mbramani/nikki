@@ -75,11 +75,12 @@ async function updateRefreshToken() {
   return refreshToken.token
 }
 
-function generateJwtToken(secret) {
+function generateJwtToken(secret, type) {
   return jwt.sign(
     {
       userId: this._id,
       role: this.role,
+      type: type || 'accessToken',
     },
     secret,
     { expiresIn: configs.jwt.lifeTime }
