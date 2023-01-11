@@ -1,4 +1,4 @@
 import getUserId from './get-user-id.js'
 import sendResetEmail from './send-reset-email.js'
-
-export { getUserId, sendResetEmail }
+import isDateValid from './is-date-valid.js'
+export { getUserId, sendResetEmail, isDateValid }
