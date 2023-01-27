@@ -29,20 +29,10 @@ const httpLogger = morgan((tokens, req, res) => {
 
   const authHeader = req.headers.authorization
 
-  if (typeof authHeader !== 'string') {
-    if (process.env.NODE_ENV === 'production') {
-      msg = prodMsgArr.join('#!#')
-    } else {
-      msg = devMsgArr.join(' ')
-    }
-  }
-
-  if (typeof authHeader === 'string') {
-    if (process.env.NODE_ENV === 'production') {
-      msg = [userId, ...prodMsgArr].join('#!#')
-    } else {
-      msg = [...devMsgArr, userId].join(' ')
-    }
+  if (typeof authHeader === 'string' || process.env.NODE_ENV === 'production') {
+    msg = [userId, ...prodMsgArr].join('#!#')
+  } else {
+    msg = [...devMsgArr, userId].join(' ')
   }
 
   if (process.env.NODE_ENV !== 'test') {
