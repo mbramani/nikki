@@ -10,6 +10,8 @@ async function globalSetup() {
   process.env.JWT_SECRET = 'a'.repeat(64)
   process.env.JWT_LIFETIME = 60000
   process.env.REFRESH_TOKEN_LIFETIME = 600000
+  process.env.RESET_PASSWORD_TOKEN_LIFETIME = 60000
+
   // The following is to make sure the database is clean before an test starts
   mongoose.set('strictQuery', false)
   await mongoose.connect(`${process.env.MONGODB_URI}/${process.env.DB_NAME}`)

@@ -1,13 +1,11 @@
-import jwt from 'jsonwebtoken'
 import { StatusCodes } from 'http-status-codes'
-import { RefreshToken, User } from '../models/index.js'
-import configs from '../utils/configs.js'
+import { Token, User } from '../models/index.js'
+import { sendResetEmail } from '../utils/functions/index.js'
 import {
   BadRequestError,
   ForbiddenError,
   UnauthenticatedError,
 } from '../utils/errors/index.js'
-import { sendResetEmail } from '../utils/functions/index.js'
 
 async function forgotPassword(req, res) {
   const { email } = req.body
@@ -17,22 +15,19 @@ async function forgotPassword(req, res) {
     throw new BadRequestError('please provide a email')
   }
 
-  const user = await User.findOne({ email: userEmail })
+  const user = await User.findByEmail(userEmail)
   if (!user) {
     throw new BadRequestError('email is not found')
   }
 
-  const refreshTokenRecord = await RefreshToken.findOne({ userId: user._id })
-  if (!refreshTokenRecord.isActive) {
+  const tokenRecord = await Token.findByUserId(user._id)
+  if (!tokenRecord.refresh.isActive) {
     throw new ForbiddenError('user is blocked')
   }
 
-  const resetToken = user.generateJwtToken(
-    configs.jwt.secret,
-    'passwordResetToken'
-  )
+  const resetPasswordToken = await user.generateResetPasswordToken()
 
-  await sendResetEmail({ email: userEmail, resetToken })
+  await sendResetEmail({ email: userEmail, resetPasswordToken })
 
   res
     .status(StatusCodes.OK)
@@ -53,29 +48,16 @@ async function resetPassword(req, res) {
     throw new BadRequestError('please provide a reset token')
   }
 
-  let payload
-
-  const jwtCBFn = (err, decode) => {
-    if (!err) {
-      payload = decode
-      return
-    }
-
-    if (err.name === 'TokenExpiredError') {
-      throw new UnauthenticatedError('reset token is a expired')
-    }
-
-    if (err.name === 'JsonWebTokenError' || err.name === 'SyntaxError') {
-      throw new UnauthenticatedError('reset token is a invalid')
-    }
-  }
-
-  jwt.verify(userResetToken, configs.jwt.secret, jwtCBFn)
-  if (payload.type !== 'passwordResetToken') {
+  const tokenRecord = await Token.findByResetPasswordToken(userResetToken)
+  if (!tokenRecord || !tokenRecord.resetPassword.token) {
     throw new UnauthenticatedError('reset token is a invalid')
   }
 
-  const user = await User.findOne({ _id: payload.userId })
+  if (new Date(`${tokenRecord.resetPassword.expiresAt}`) < new Date()) {
+    throw new UnauthenticatedError('reset token is a expired')
+  }
+
+  const user = await User.findByUserId(tokenRecord.userId)
 
   const isPasswordMatch = await user.isPasswordMatch(userNewPassword)
   if (isPasswordMatch) {
@@ -86,6 +68,12 @@ async function resetPassword(req, res) {
 
   user.password = userNewPassword
   await user.save()
+
+  tokenRecord.resetPassword = {
+    token: null,
+    expiresAt: null,
+  }
+  await tokenRecord.save()
 
   res.status(StatusCodes.OK).send({ msg: 'password reset successfully' })
 }

@@ -1,6 +1,6 @@
 import configs from '../utils/configs.js'
 
-export function forgetPasswordEmail(resetToken) {
+export function forgetPasswordEmail(resetPasswordToken) {
   return `
   <!DOCTYPE html>
   <html>
@@ -27,7 +27,7 @@ export function forgetPasswordEmail(resetToken) {
       <p>Hello,</p>
       <p>You are receiving this email because you requested a password reset for your account. If you did not make this request, you can safely ignore this email.</p>
       <p>To reset your password, click on the following link:</p>
-      <p><a href="${configs.url.website}/reset-password?token=${resetToken}">Reset my password</a></p>
+      <p><a href="${configs.url.website}/reset-password?token=${resetPasswordToken}">Reset my password</a></p>
       <p>This link will expire in 15 minutes.</p>
       <p>Thank you,</p>
       <p>The Nikki Team</p>

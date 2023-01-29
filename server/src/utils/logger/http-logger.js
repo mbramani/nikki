@@ -27,9 +27,7 @@ const httpLogger = morgan((tokens, req, res) => {
     'ms',
   ]
 
-  const authHeader = req.headers.authorization
-
-  if (typeof authHeader === 'string' || process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     msg = [userId, ...prodMsgArr].join('#!#')
   } else {
     msg = [...devMsgArr, userId].join(' ')

@@ -1,6 +1,6 @@
 import request from 'supertest'
 import app from '../../../src/app.js'
-import { User, RefreshToken } from '../../../src/models/index.js'
+import { User, Token } from '../../../src/models/index.js'
 import {
   connectToDB,
   disconnectToDB,
@@ -63,9 +63,9 @@ describe('POST /api/auth/login', () => {
 
     const user = await User.findOne({ email: userLoginInfo.email })
     const filter = { userId: user._id }
-    const update = { isActive: false }
+    const update = { 'refresh.isActive': false }
 
-    await RefreshToken.findOneAndUpdate(filter, update, { new: true })
+    await Token.findOneAndUpdate(filter, update, { new: true })
 
     const res = await postToLogin(userLoginInfo)
 

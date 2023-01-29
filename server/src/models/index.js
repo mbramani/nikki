@@ -1,5 +1,5 @@
 import Page from './Page.js'
-import RefreshToken from './RefreshToken.js'
+import Token from './Token.js'
 import User from './User.js'
 
-export { Page, RefreshToken, User }
+export { Page, Token, User }

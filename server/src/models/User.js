@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { randomBytes } from 'crypto'
 import { genSalt, hash, compare } from 'bcrypt'
-import { RefreshToken } from './index.js'
+import { Token } from './index.js'
 import configs from '../utils/configs.js'
 import jwt from 'jsonwebtoken'
 
@@ -14,16 +14,18 @@ const userSchema = new Schema(
     name: {
       type: String,
       required: [true, 'please provide a name'],
-      maxlength: [50, 'name should have a maximum length of 50'],
-      minlength: [3, 'name should have a minimum length of 3'],
+      maxLength: [50, 'name should have a maximum length of 50'],
+      minLength: [3, 'name should have a minimum length of 3'],
       trim: true,
     },
     email: {
       type: String,
       required: [true, 'please provide a email'],
       match: [emailRegExp, 'please provide a valid email'],
-      unique: true,
+      lowercase: true,
       trim: true,
+      unique: true,
+      index: true,
     },
     password: {
       type: String,
@@ -38,59 +40,92 @@ const userSchema = new Schema(
       enum: ['admin', 'user', 'moderator'],
     },
   },
-  { timestamps: true }
-)
+  {
+    statics: {
+      findByUserId(userId) {
+        return this.findOne({ _id: userId })
+      },
 
-async function generateRefreshToken() {
-  const token = randomBytes(64).toString('hex')
-  const expireDate = new Date(
-    Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
-  )
-
-  const refreshToken = await RefreshToken.create({
-    token: token,
-    userId: this._id,
-    expiresAt: expireDate,
-  })
-
-  return refreshToken.token
-}
-
-async function updateRefreshToken() {
-  const token = randomBytes(64).toString('hex')
-  const expireDate = new Date(
-    Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
-  )
-
-  const filter = { userId: this._id }
-  const update = {
-    token: token,
-    expiresAt: expireDate,
-  }
-
-  const refreshToken = await RefreshToken.findOneAndUpdate(filter, update, {
-    new: true,
-  })
-
-  return refreshToken.token
-}
-
-function generateJwtToken(secret, type) {
-  return jwt.sign(
-    {
-      userId: this._id,
-      role: this.role,
-      type: type || 'accessToken',
+      findByEmail(email) {
+        return this.findOne({ email })
+      },
     },
-    secret,
-    { expiresIn: configs.jwt.lifeTime }
-  )
-}
 
-async function isPasswordMatch(candidatePassword) {
-  const isMatch = await compare(candidatePassword, this.password)
-  return isMatch
-}
+    methods: {
+      async generateRefreshToken() {
+        const tokenRecord = await Token.create({
+          refresh: {
+            token: randomBytes(64).toString('hex'),
+            expiresAt: new Date(
+              Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
+            ),
+            isActive: true,
+          },
+          passwordReset: {
+            token: null,
+            expiresAt: null,
+          },
+          userId: this._id,
+        })
+
+        return tokenRecord.refresh.token
+      },
+
+      async updateRefreshToken() {
+        const filter = { userId: this._id }
+        const update = {
+          refresh: {
+            token: randomBytes(64).toString('hex'),
+            expiresAt: new Date(
+              Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
+            ),
+            isActive: true,
+          },
+        }
+
+        const tokenRecord = await Token.findOneAndUpdate(filter, update, {
+          new: true,
+        })
+
+        return tokenRecord.refresh.token
+      },
+
+      async generateResetPasswordToken() {
+        const filter = { userId: this._id }
+        const update = {
+          resetPassword: {
+            token: randomBytes(64).toString('hex'),
+            expiresAt: new Date(
+              Date.now() + parseInt(configs.resetPasswordToken.lifeTime, 10)
+            ),
+          },
+        }
+
+        const tokenRecord = await Token.findOneAndUpdate(filter, update, {
+          new: true,
+        })
+
+        return tokenRecord.resetPassword.token
+      },
+
+      generateJwtToken() {
+        return jwt.sign(
+          {
+            userId: this._id,
+            role: this.role,
+          },
+          configs.jwt.secret,
+          { expiresIn: configs.jwt.lifeTime }
+        )
+      },
+
+      isPasswordMatch(candidatePassword) {
+        return compare(candidatePassword, this.password)
+      },
+    },
+    timestamps: true,
+  }
+)
 
 userSchema.pre('save', async function () {
   if (!this.isModified('password')) return
@@ -98,11 +133,6 @@ userSchema.pre('save', async function () {
   this.password = await hash(this.password, salt)
 })
 
-userSchema.methods = {
-  generateRefreshToken,
-  generateJwtToken,
-  updateRefreshToken,
-  isPasswordMatch,
-}
+const User = model('User', userSchema)
 
-export default model('User', userSchema)
+export default User

@@ -1,6 +1,6 @@
 import mongoose, { connect, disconnect } from 'mongoose'
 import configs from '../src/utils/configs.js'
-import { RefreshToken, User } from '../src/models/index.js'
+import { Token, User } from '../src/models/index.js'
 
 mongoose.set('strictQuery', false)
 
@@ -14,7 +14,7 @@ const disconnectToDB = async () => {
 
 const removeDataFromDatabase = async () => {
   await User.deleteMany({})
-  await RefreshToken.deleteMany({})
+  await Token.deleteMany({})
 }
 
 export { connectToDB, disconnectToDB, removeDataFromDatabase }

@@ -15,6 +15,9 @@ const configs = {
   refreshToken: {
     lifeTime: process.env.REFRESH_TOKEN_LIFETIME,
   },
+  resetPasswordToken: {
+    lifeTime: process.env.RESET_PASSWORD_TOKEN_LIFETIME,
+  },
 }
 
 export default configs

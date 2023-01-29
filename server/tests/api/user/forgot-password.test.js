@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { User, RefreshToken } from '../../../src/models/index.js'
+import { User, Token } from '../../../src/models/index.js'
 import app from '../../../src/app.js'
 import {
   connectToDB,
@@ -51,12 +51,12 @@ describe('POST /api/user/forgot-password', () => {
     })
   })
 
-  it('should return 403 and not login user if user refresh token is not active', async () => {
+  it('should return 403 and not send email user if user refresh token is not active', async () => {
     const user = await User.findOne({ email: userRegisterInfo.email })
     const filter = { userId: user._id }
-    const update = { isActive: false }
+    const update = { 'refresh.isActive': false }
 
-    await RefreshToken.findOneAndUpdate(filter, update, { new: true })
+    await Token.findOneAndUpdate(filter, update, { new: true })
 
     const res = await postToForgotPassword({ email: userRegisterInfo.email })
 

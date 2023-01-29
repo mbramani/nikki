@@ -1,7 +1,6 @@
 import request from 'supertest'
 import app from '../../../src/app.js'
-import RefreshToken from '../../../src/models/RefreshToken.js'
-import User from '../../../src/models/User.js'
+import { User, Token } from '../../../src/models/index.js'
 import {
   connectToDB,
   disconnectToDB,
@@ -84,6 +83,24 @@ describe('POST /api/auth/token', () => {
     expect(res.body).toMatchObject({ msg: 'refresh token is a invalid' })
   })
 
+  it('should return a 401 status code if the refresh token is expired', async () => {
+    const {
+      body: { refreshToken },
+    } = await postToLogin(userLoginInfo)
+
+    const user = await User.findOne({ email: userLoginInfo.email })
+    const filter = { userId: user._id }
+    const update = {
+      'refresh.expiresAt': new Date(Date.now() - 10000000000000),
+    }
+    await Token.findOneAndUpdate(filter, update)
+
+    const res = await postToToken({ refreshToken })
+
+    expect(res.statusCode).toEqual(401)
+    expect(res.body).toMatchObject({ msg: 'refresh token is a expired' })
+  })
+
   it('should return a 403 status code if the refresh token is inActive', async () => {
     const {
       body: { refreshToken },
@@ -91,8 +108,8 @@ describe('POST /api/auth/token', () => {
 
     const user = await User.findOne({ email: userLoginInfo.email })
     const filter = { userId: user._id }
-    const update = { isActive: false }
-    await RefreshToken.findOneAndUpdate(filter, update, { new: true })
+    const update = { 'refresh.isActive': false }
+    await Token.findOneAndUpdate(filter, update, { new: true })
 
     const res = await postToToken({ refreshToken })
 
