@@ -114,6 +114,26 @@ describe('POST /api/user/reset-password', () => {
   })
 
   describe('should return a 401 status code', () => {
+    it('if reset token is already used', async () => {
+      const user = await User.findOne({ email: userRegisterInfo.email })
+      const resetToken = await user.generateResetPasswordToken()
+
+      await postToResetPassword({
+        resetToken,
+        newPassword: 'testPassword',
+      })
+
+      const res = await postToResetPassword({
+        resetToken,
+        newPassword: 'testPassword',
+      })
+
+      expect(res.status).toEqual(401)
+      expect(res.body).toMatchObject({
+        msg: 'reset token is a invalid',
+      })
+    })
+
     it('if reset token is a invalid', async () => {
       const dataToSend = {
         resetToken: 'a'.repeat(100),
