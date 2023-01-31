@@ -6,16 +6,38 @@ const pageSchema = new Schema(
       type: Types.ObjectId,
       ref: 'User',
       required: true,
+      index: true,
     },
-    date: {
-      type: String,
+    year: {
+      type: Number,
       required: true,
     },
-    data: {
-      type: String,
+    month: {
+      type: Number,
+      required: true,
     },
+    day: {
+      type: Number,
+      required: true,
+    },
+    data: String,
   },
-  { timestamps: true }
+  {
+    statics: {
+      findByUserID(userId) {
+        return this.find({ userId })
+      },
+
+      findPage({ userId, year, month, day }) {
+        return this.findOne({ userId, year, month, day })
+      },
+    },
+    timestamps: true,
+  }
 )
 
-export default model('Page', pageSchema)
+pageSchema.index({ userId: 1, year: 1, month: 1, day: 1 })
+
+const pageModel = model('Page', pageSchema)
+
+export default pageModel
