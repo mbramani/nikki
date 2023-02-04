@@ -1,6 +1,6 @@
-import { postToRegister } from '../auth/authHelper.js'
-import { postToResetPassword } from './userHelper.js'
+import request from 'supertest'
 import { User, Token } from '../../../src/models/index.js'
+import app from '../../../src/app.js'
 import {
   connectToDB,
   disconnectToDB,
@@ -11,6 +11,18 @@ const userRegisterInfo = {
   name: 'John',
   email: 'john@example.com',
   password: 'Test@123',
+}
+
+const postToRegister = async (dataToSend) => {
+  const res = await request(app).post('/api/auth/register').send(dataToSend)
+  return res
+}
+
+const postToResetPassword = async (dataToSend) => {
+  const res = await request(app)
+    .post('/api/user/reset-password')
+    .send(dataToSend)
+  return res
 }
 
 describe('POST /api/user/reset-password', () => {
