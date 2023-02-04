@@ -1,6 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
 import { Page } from '../models/index.js'
-import { decryptData } from '../utils/functions/index.js'
 import { BadRequestError, NotFoundError } from '../utils/errors/index.js'
 
 async function getAllPage(req, res) {
@@ -15,12 +14,7 @@ async function getAllPage(req, res) {
     _id: 0,
   })
 
-  const pages = pageRecord.map((obj) => ({
-    ...obj._doc,
-    data: decryptData(obj.data),
-  }))
-
-  res.status(StatusCodes.OK).json({ totalPage, pages })
+  res.status(StatusCodes.OK).json({ totalPage, pages: pageRecord })
 }
 
 async function getPage(req, res) {
@@ -40,10 +34,7 @@ async function getPage(req, res) {
   }
 
   res.status(StatusCodes.OK).json({
-    year: pageRecord.year,
-    month: pageRecord.month,
-    day: pageRecord.day,
-    data: decryptData(pageRecord.data),
+    ...pageRecord._doc,
   })
 }
 
@@ -64,7 +55,7 @@ async function postPage(req, res) {
     year: pageRecord.year,
     month: pageRecord.month,
     day: pageRecord.day,
-    data: decryptData(pageRecord.data),
+    data: pageRecord.data,
   })
 }
 
@@ -84,10 +75,7 @@ async function patchPage(req, res) {
   }
 
   res.status(StatusCodes.OK).json({
-    year: pageRecord.year,
-    month: pageRecord.month,
-    day: pageRecord.day,
-    data: decryptData(pageRecord.data),
+    ...pageRecord._doc,
   })
 }
 

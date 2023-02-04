@@ -20,7 +20,7 @@ const pageSchema = new Schema(
       type: Number,
       required: true,
     },
-    data: Buffer,
+    data: String,
   },
   {
     statics: {
