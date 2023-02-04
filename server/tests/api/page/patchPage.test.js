@@ -54,7 +54,7 @@ describe('PATCH /api/page/:year/:month/:day', () => {
     )
   })
 
-  it('should return a 400, if data is missing', async () => {
+  it('should return a 400 status code, if data is missing', async () => {
     const accessToken = await getAccessToken()
     const res = await patchToPage(accessToken, pageInfo)
 
@@ -62,7 +62,7 @@ describe('PATCH /api/page/:year/:month/:day', () => {
     expect(res.body).toMatchObject({ msg: 'please provide a data' })
   })
 
-  it('should return a 401, if accessToken is missing', async () => {
+  it('should return a 401 status code, if accessToken is missing', async () => {
     let accessToken
     const res = await patchToPage(dateInfo, accessToken, pageInfo)
 
@@ -70,7 +70,7 @@ describe('PATCH /api/page/:year/:month/:day', () => {
     expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
   })
 
-  it('should return a 404, if page not exists', async () => {
+  it('should return a 404 status code, if page not exists', async () => {
     const accessToken = await getAccessToken()
     const res = await patchToPage(dateInfo, accessToken, pageInfo)
 

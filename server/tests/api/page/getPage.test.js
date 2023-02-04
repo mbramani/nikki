@@ -39,7 +39,7 @@ describe('GET /api/page/:year/:month/:day', () => {
     )
   })
 
-  it('should return a 401, if accessToken is missing', async () => {
+  it('should return a 401 status code, if accessToken is missing', async () => {
     const accessToken = await getAccessToken()
     await postToPage(dateInfo, accessToken, pageInfo)
     const res = await getToPage(dateInfo)
@@ -48,7 +48,7 @@ describe('GET /api/page/:year/:month/:day', () => {
     expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
   })
 
-  it('should return a 404, if page not found', async () => {
+  it('should return a 404 status code, if page not found', async () => {
     const accessToken = await getAccessToken()
     await postToPage(dateInfo, accessToken, pageInfo)
     const res = await getToPage(

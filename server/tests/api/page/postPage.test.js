@@ -39,7 +39,7 @@ describe('POST /api/page/:year/:month/:day', () => {
     )
   })
 
-  it('should return a 400, if page already exists', async () => {
+  it('should return a 400 status code, if page already exists', async () => {
     const accessToken = await getAccessToken()
     await postToPage(dateInfo, accessToken, pageInfo)
     const res = await postToPage(dateInfo, accessToken, pageInfo)
@@ -48,7 +48,7 @@ describe('POST /api/page/:year/:month/:day', () => {
     expect(res.body).toMatchObject({ msg: 'page already exists' })
   })
 
-  it('should return a 400, if data is missing', async () => {
+  it('should return a 400 status code, if data is missing', async () => {
     const accessToken = await getAccessToken()
     const res = await postToPage(accessToken, pageInfo)
 
@@ -56,7 +56,7 @@ describe('POST /api/page/:year/:month/:day', () => {
     expect(res.body).toMatchObject({ msg: 'please provide a data' })
   })
 
-  it('should return a 401, if accessToken is missing', async () => {
+  it('should return a 401 status code, if accessToken is missing', async () => {
     let accessToken
     const res = await postToPage(dateInfo, accessToken, pageInfo)
 
