@@ -11,6 +11,11 @@ export const getAccessToken = async () => {
   return res.body.accessToken
 }
 
+export const getToAllPage = (accessToken) =>
+  request(app)
+    .get('/api/page/')
+    .set({ authorization: `Bearer ${accessToken}` })
+
 export const getToPage = ({ year, month, day }, accessToken) =>
   request(app)
     .get(`/api/page/${year}/${month}/${day}`)
