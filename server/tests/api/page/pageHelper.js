@@ -28,8 +28,7 @@ export const patchToPage = ({ year, month, day }, accessToken, dataToSend) =>
     .set({ authorization: `Bearer ${accessToken}` })
     .send(dataToSend)
 
-export const deleteToPage = ({ year, month, day }, accessToken, dataToSend) =>
+export const deleteToPage = ({ year, month, day }, accessToken) =>
   request(app)
     .delete(`/api/page/${year}/${month}/${day}`)
     .set({ authorization: `Bearer ${accessToken}` })
-    .send(dataToSend)
