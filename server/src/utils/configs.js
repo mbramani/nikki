@@ -18,6 +18,9 @@ const configs = {
   resetPasswordToken: {
     lifeTime: process.env.RESET_PASSWORD_TOKEN_LIFETIME,
   },
+  dataEncrypt: {
+    secret: process.env.DATA_ENCRYPT_SECRET,
+  },
 }
 
 export default configs

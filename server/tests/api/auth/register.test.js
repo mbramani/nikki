@@ -1,5 +1,4 @@
-import request from 'supertest'
-import app from '../../../src/app.js'
+import { postToRegister } from './authHelper.js'
 import { User } from '../../../src/models/index.js'
 import {
   connectToDB,
@@ -11,11 +10,6 @@ const userRegisterInfo = {
   name: 'John',
   email: 'john@example.com',
   password: 'Test@123',
-}
-
-const postToRegister = async (dataToSend) => {
-  const res = await request(app).post('/api/auth/register').send(dataToSend)
-  return res
 }
 
 describe('POST /api/auth/register', () => {
