@@ -7,6 +7,18 @@ import {
   UnauthenticatedError,
 } from '../utils/errors/index.js'
 
+async function getUser(req, res) {
+  const { userId } = req.user
+
+  const user = await User.findByUserId(userId).select({
+    name: 1,
+    email: 1,
+    _id: 0,
+  })
+
+  res.status(StatusCodes.OK).json(user)
+}
+
 async function forgotPassword(req, res) {
   const { email } = req.body
   const userEmail = email ? email.trim() : email
@@ -78,4 +90,4 @@ async function resetPassword(req, res) {
   res.status(StatusCodes.OK).send({ msg: 'password reset successfully' })
 }
 
-export { forgotPassword, resetPassword }
+export { getUser, forgotPassword, resetPassword }
