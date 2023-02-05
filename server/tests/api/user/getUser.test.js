@@ -11,7 +11,7 @@ const userInfo = {
   password: 'Test@123',
 }
 
-describe('POST /api/user/', () => {
+describe('GET /api/user/', () => {
   beforeAll(async () => {
     connectToDB()
   })
