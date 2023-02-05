@@ -11,6 +11,7 @@ import errorHandler from './middleware/error-handler.js'
 import logger from './utils/logger/logger.js'
 import connectDB from './db/connect.js'
 import configs from './utils/configs.js'
+import { authenticate } from './middleware/index.js'
 import { authRouter, userRouter, pageRouter } from './routes/index.js'
 
 const app = express()
@@ -32,7 +33,7 @@ app.get('/', (req, res) => {
 })
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
-app.use('/api/page', pageRouter)
+app.use('/api/page', authenticate, pageRouter)
 
 // Middleware
 app.use(notFound)

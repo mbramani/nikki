@@ -56,7 +56,8 @@ describe('PATCH /api/page/:year/:month/:day', () => {
 
   it('should return a 400 status code, if data is missing', async () => {
     const accessToken = await getAccessToken()
-    const res = await patchToPage(accessToken, pageInfo)
+    let pageData
+    const res = await patchToPage(dateInfo, accessToken, pageData)
 
     expect(res.statusCode).toEqual(400)
     expect(res.body).toMatchObject({ msg: 'please provide a data' })
