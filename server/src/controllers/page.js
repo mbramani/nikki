@@ -7,7 +7,7 @@ async function getAllPage(req, res) {
   const { userId } = req.user
 
   const totalPage = await Page.countDocuments({ userId })
-  const pageRecord = await Page.findByUserID(userId).select({
+  const pageRecord = await Page.findByUserId(userId).select({
     year: 1,
     month: 1,
     day: 1,

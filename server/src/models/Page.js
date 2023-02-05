@@ -24,7 +24,7 @@ const pageSchema = new Schema(
   },
   {
     statics: {
-      findByUserID(userId) {
+      findByUserId(userId) {
         return this.find({ userId })
       },
 
@@ -38,6 +38,6 @@ const pageSchema = new Schema(
 
 pageSchema.index({ userId: 1, year: 1, month: 1, day: 1 })
 
-const pageModel = model('Page', pageSchema)
+const Page = model('Page', pageSchema)
 
-export default pageModel
+export default Page
