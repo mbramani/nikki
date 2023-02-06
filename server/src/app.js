@@ -1,17 +1,28 @@
 import express from 'express'
 import 'dotenv/config'
 import 'express-async-errors'
+
+// Security packages
 import cors from 'cors'
 import helmet from 'helmet'
 import xss from 'xss-clean'
 import bodyParser from 'body-parser'
+import mongoSanitize from 'express-mongo-sanitize'
+
+// Middleware
 import httpLogger from './utils/logger/http-logger.js'
 import notFound from './middleware/not-found.js'
 import errorHandler from './middleware/error-handler.js'
 import logger from './utils/logger/logger.js'
-import connectDB from './db/connect.js'
-import configs from './utils/configs.js'
 import { authenticate } from './middleware/index.js'
+
+// Database
+import connectDB from './db/connect.js'
+
+// Configs
+import configs from './utils/configs.js'
+
+// Routers
 import { authRouter, userRouter, pageRouter } from './routes/index.js'
 
 const app = express()
@@ -19,11 +30,11 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.json())
 
-// Security packages
+// Security Middleware
 app.use(cors())
 app.use(helmet())
 app.use(xss())
-
+app.use(mongoSanitize())
 // Middleware
 app.use(httpLogger)
 
