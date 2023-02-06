@@ -12,8 +12,14 @@ const pageInfo = {
 const dateInfo = { year: 2023, month: 1, day: 1 }
 
 describe('GET /api/page/:year/:month/:day', () => {
+  let accessToken
+
   beforeAll(async () => {
     connectToDB()
+  })
+
+  beforeEach(async () => {
+    accessToken = await getAccessToken()
   })
 
   afterEach(async () => {
@@ -25,7 +31,6 @@ describe('GET /api/page/:year/:month/:day', () => {
   })
 
   it('should return year, month, day, and data', async () => {
-    const accessToken = await getAccessToken()
     await postToPage(dateInfo, accessToken, pageInfo)
     const res = await getToPage(dateInfo, accessToken)
 
@@ -39,8 +44,14 @@ describe('GET /api/page/:year/:month/:day', () => {
     )
   })
 
+  it('should return a 400 status code, if date is a invalid', async () => {
+    const res = await getToPage({ year: 2022, month: 12, day: 32 }, accessToken)
+
+    expect(res.statusCode).toEqual(400)
+    expect(res.body).toMatchObject({ msg: 'date is a invalid' })
+  })
+
   it('should return a 401 status code, if accessToken is missing', async () => {
-    const accessToken = await getAccessToken()
     await postToPage(dateInfo, accessToken, pageInfo)
     const res = await getToPage(dateInfo)
 
@@ -49,7 +60,6 @@ describe('GET /api/page/:year/:month/:day', () => {
   })
 
   it('should return a 404 status code, if page not found', async () => {
-    const accessToken = await getAccessToken()
     await postToPage(dateInfo, accessToken, pageInfo)
     const res = await getToPage(
       { ...dateInfo, day: dateInfo.day + 1 },

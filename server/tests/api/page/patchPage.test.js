@@ -21,8 +21,14 @@ const pageInfoForPatch = {
 const dateInfo = { year: 2023, month: 1, day: 1 }
 
 describe('PATCH /api/page/:year/:month/:day', () => {
+  let accessToken
+
   beforeAll(async () => {
     connectToDB()
+  })
+
+  beforeEach(async () => {
+    accessToken = await getAccessToken()
   })
 
   afterEach(async () => {
@@ -34,7 +40,6 @@ describe('PATCH /api/page/:year/:month/:day', () => {
   })
 
   it('should return year, month, day, and data and update it to db', async () => {
-    const accessToken = await getAccessToken()
     const resOfPost = await postToPage(dateInfo, accessToken, pageInfo)
     const resOfPatch = await patchToPage(
       dateInfo,
@@ -54,8 +59,18 @@ describe('PATCH /api/page/:year/:month/:day', () => {
     )
   })
 
+  it('should return a 400 status code, if date is a invalid', async () => {
+    const res = await patchToPage(
+      { year: 2022, month: 12, day: 32 },
+      accessToken,
+      pageInfo
+    )
+
+    expect(res.statusCode).toEqual(400)
+    expect(res.body).toMatchObject({ msg: 'date is a invalid' })
+  })
+
   it('should return a 400 status code, if data is missing', async () => {
-    const accessToken = await getAccessToken()
     let pageData
     const res = await patchToPage(dateInfo, accessToken, pageData)
 
@@ -64,15 +79,14 @@ describe('PATCH /api/page/:year/:month/:day', () => {
   })
 
   it('should return a 401 status code, if accessToken is missing', async () => {
-    let accessToken
-    const res = await patchToPage(dateInfo, accessToken, pageInfo)
+    let undefinedAccessToken
+    const res = await patchToPage(dateInfo, undefinedAccessToken, pageInfo)
 
     expect(res.statusCode).toEqual(401)
     expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
   })
 
   it('should return a 404 status code, if page not exists', async () => {
-    const accessToken = await getAccessToken()
     const res = await patchToPage(dateInfo, accessToken, pageInfo)
 
     expect(res.statusCode).toEqual(404)

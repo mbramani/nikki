@@ -10,8 +10,14 @@ const pageInfoArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 const dateInfo = { year: 2023, month: 1, day: 1 }
 
 describe('GET /api/page/', () => {
+  let accessToken
+
   beforeAll(async () => {
     connectToDB()
+  })
+
+  beforeEach(async () => {
+    accessToken = await getAccessToken()
   })
 
   afterEach(async () => {
@@ -23,7 +29,6 @@ describe('GET /api/page/', () => {
   })
 
   it('should return all user page', async () => {
-    const accessToken = await getAccessToken()
     let promiseArr = []
     pageInfoArr.forEach((ele) => {
       let promise = postToPage({ ...dateInfo, day: ele }, accessToken, {
@@ -43,8 +48,7 @@ describe('GET /api/page/', () => {
   })
 
   it('should return a 401 status code, if accessToken is missing', async () => {
-    let accessToken
-    const res = await getToAllPage(accessToken)
+    const res = await getToAllPage()
 
     expect(res.statusCode).toEqual(401)
     expect(res.body).toMatchObject({ msg: 'access token is a invalid' })

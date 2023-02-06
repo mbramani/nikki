@@ -12,8 +12,14 @@ const pageInfo = {
 const dateInfo = { year: 2023, month: 1, day: 1 }
 
 describe('POST /api/page/:year/:month/:day', () => {
+  let accessToken
+
   beforeAll(async () => {
     connectToDB()
+  })
+
+  beforeEach(async () => {
+    accessToken = await getAccessToken()
   })
 
   afterEach(async () => {
@@ -25,7 +31,6 @@ describe('POST /api/page/:year/:month/:day', () => {
   })
 
   it('should return year, month, day, and data and store it to db', async () => {
-    const accessToken = await getAccessToken()
     const resOfPost = await postToPage(dateInfo, accessToken, pageInfo)
     const resOfGet = await getToPage(dateInfo, accessToken)
 
@@ -40,7 +45,6 @@ describe('POST /api/page/:year/:month/:day', () => {
   })
 
   it('should return a 400 status code, if page already exists', async () => {
-    const accessToken = await getAccessToken()
     await postToPage(dateInfo, accessToken, pageInfo)
     const res = await postToPage(dateInfo, accessToken, pageInfo)
 
@@ -48,8 +52,18 @@ describe('POST /api/page/:year/:month/:day', () => {
     expect(res.body).toMatchObject({ msg: 'page already exists' })
   })
 
+  it('should return a 400 status code, if date is a invalid', async () => {
+    const res = await postToPage(
+      { year: 2022, month: 12, day: 32 },
+      accessToken,
+      pageInfo
+    )
+
+    expect(res.statusCode).toEqual(400)
+    expect(res.body).toMatchObject({ msg: 'date is a invalid' })
+  })
+
   it('should return a 400 status code, if data is missing', async () => {
-    const accessToken = await getAccessToken()
     let pageData
     const res = await postToPage(dateInfo, accessToken, pageData)
 
@@ -58,8 +72,8 @@ describe('POST /api/page/:year/:month/:day', () => {
   })
 
   it('should return a 401 status code, if accessToken is missing', async () => {
-    let accessToken
-    const res = await postToPage(dateInfo, accessToken, pageInfo)
+    let undefinedAccessToken
+    const res = await postToPage(dateInfo, undefinedAccessToken, pageInfo)
 
     expect(res.statusCode).toEqual(401)
     expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
