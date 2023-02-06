@@ -7,8 +7,12 @@ import {
   patchPage,
   postPage,
 } from '../controllers/page.js'
+import { rateLimiter } from '../middleware/index.js'
 
 const pageRouter = Router()
+
+const fifteenMinutes = 15 * 60 * 1000
+pageRouter.use(rateLimiter(fifteenMinutes, 250))
 
 pageRouter.get('/', getAllPage)
 pageRouter.get('/:year/:month/:day', validateDate, getPage)
