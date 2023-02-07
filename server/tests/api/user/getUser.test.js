@@ -35,11 +35,13 @@ describe('GET /api/user/', () => {
     })
   })
 
-  it('should return a 401 status code, if accessToken is missing', async () => {
-    let accessToken
-    const res = await getToUser(accessToken)
+  describe('should return a 401 status code', () => {
+    it('if accessToken is missing', async () => {
+      let accessToken
+      const res = await getToUser(accessToken)
 
-    expect(res.statusCode).toEqual(401)
-    expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
+      expect(res.statusCode).toEqual(401)
+      expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
+    })
   })
 })

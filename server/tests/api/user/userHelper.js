@@ -6,6 +6,12 @@ export const getToUser = (accessToken) =>
     .get('/api/user/')
     .set({ authorization: `Bearer ${accessToken}` })
 
+export const patchToUser = (dataToSend, accessToken) =>
+  request(app)
+    .patch('/api/user/')
+    .set({ authorization: `Bearer ${accessToken}` })
+    .send(dataToSend)
+
 export const postToForgotPassword = (dataToSend) =>
   request(app).post('/api/user/forgot-password').send(dataToSend)
 
