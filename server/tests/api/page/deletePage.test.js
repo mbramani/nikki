@@ -46,28 +46,34 @@ describe('DELETE /api/page/:year/:month/:day', () => {
     )
   })
 
-  it('should return a 400 status code, if date is a invalid', async () => {
-    const res = await deleteToPage(
-      { year: 2022, month: 12, day: 32 },
-      accessToken
-    )
+  describe('should return a 400 status code', () => {
+    it('sif date is a invalid', async () => {
+      const res = await deleteToPage(
+        { year: 2022, month: 12, day: 32 },
+        accessToken
+      )
 
-    expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({ msg: 'date is a invalid' })
+      expect(res.statusCode).toEqual(400)
+      expect(res.body).toMatchObject({ msg: 'date is a invalid' })
+    })
   })
 
-  it('should return a 401 status code, if accessToken is missing', async () => {
-    let undefinedAccessToken
-    const res = await deleteToPage(dateInfo, undefinedAccessToken)
+  describe('should return a 401 status code', () => {
+    it('if accessToken is missing', async () => {
+      let undefinedAccessToken
+      const res = await deleteToPage(dateInfo, undefinedAccessToken)
 
-    expect(res.statusCode).toEqual(401)
-    expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
+      expect(res.statusCode).toEqual(401)
+      expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
+    })
   })
 
-  it('should return a 404 status code, if page not exists', async () => {
-    const res = await deleteToPage(dateInfo, accessToken)
+  describe('should return a 404 status code', () => {
+    it('if page not exists', async () => {
+      const res = await deleteToPage(dateInfo, accessToken)
 
-    expect(res.statusCode).toEqual(404)
-    expect(res.body).toMatchObject({ msg: 'page not exists' })
+      expect(res.statusCode).toEqual(404)
+      expect(res.body).toMatchObject({ msg: 'page not exists' })
+    })
   })
 })

@@ -44,29 +44,38 @@ describe('GET /api/page/:year/:month/:day', () => {
     )
   })
 
-  it('should return a 400 status code, if date is a invalid', async () => {
-    const res = await getToPage({ year: 2022, month: 12, day: 32 }, accessToken)
+  describe('should return a 400 status code', () => {
+    it('if date is a invalid', async () => {
+      const res = await getToPage(
+        { year: 2022, month: 12, day: 32 },
+        accessToken
+      )
 
-    expect(res.statusCode).toEqual(400)
-    expect(res.body).toMatchObject({ msg: 'date is a invalid' })
+      expect(res.statusCode).toEqual(400)
+      expect(res.body).toMatchObject({ msg: 'date is a invalid' })
+    })
   })
 
-  it('should return a 401 status code, if accessToken is missing', async () => {
-    await postToPage(dateInfo, accessToken, pageInfo)
-    const res = await getToPage(dateInfo)
+  describe('should return a 401 status code', () => {
+    it('if accessToken is missing', async () => {
+      await postToPage(dateInfo, accessToken, pageInfo)
+      const res = await getToPage(dateInfo)
 
-    expect(res.statusCode).toEqual(401)
-    expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
+      expect(res.statusCode).toEqual(401)
+      expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
+    })
   })
 
-  it('should return a 404 status code, if page not found', async () => {
-    await postToPage(dateInfo, accessToken, pageInfo)
-    const res = await getToPage(
-      { ...dateInfo, day: dateInfo.day + 1 },
-      accessToken
-    )
+  describe('should return a 404 status code', () => {
+    it('if page not found', async () => {
+      await postToPage(dateInfo, accessToken, pageInfo)
+      const res = await getToPage(
+        { ...dateInfo, day: dateInfo.day + 1 },
+        accessToken
+      )
 
-    expect(res.statusCode).toEqual(404)
-    expect(res.body).toMatchObject({ msg: 'page not found' })
+      expect(res.statusCode).toEqual(404)
+      expect(res.body).toMatchObject({ msg: 'page not found' })
+    })
   })
 })

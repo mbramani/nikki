@@ -47,10 +47,12 @@ describe('GET /api/page/', () => {
     expect(Array.isArray(res.body.pages)).toBe(true)
   })
 
-  it('should return a 401 status code, if accessToken is missing', async () => {
-    const res = await getToAllPage()
+  describe('should return a 401 status code', () => {
+    it('if accessToken is missing', async () => {
+      const res = await getToAllPage()
 
-    expect(res.statusCode).toEqual(401)
-    expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
+      expect(res.statusCode).toEqual(401)
+      expect(res.body).toMatchObject({ msg: 'access token is a invalid' })
+    })
   })
 })
