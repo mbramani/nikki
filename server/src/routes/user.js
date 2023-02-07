@@ -1,5 +1,10 @@
 import { Router } from 'express'
-import { forgotPassword, getUser, resetPassword } from '../controllers/user.js'
+import {
+  forgotPassword,
+  getUser,
+  patchUser,
+  resetPassword,
+} from '../controllers/user.js'
 import { authenticate, rateLimiter } from '../middleware/index.js'
 
 const userRouter = Router()
@@ -7,6 +12,7 @@ const userRouter = Router()
 const fifteenMinutes = 15 * 60 * 1000
 
 userRouter.get('/', authenticate, rateLimiter(fifteenMinutes, 120), getUser)
+userRouter.patch('/', authenticate, rateLimiter(fifteenMinutes, 10), patchUser)
 userRouter.post(
   '/forgot-password',
   rateLimiter(fifteenMinutes, 2),

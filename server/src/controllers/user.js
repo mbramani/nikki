@@ -19,6 +19,35 @@ async function getUser(req, res) {
   res.status(StatusCodes.OK).json(user)
 }
 
+async function patchUser(req, res) {
+  const { userId } = req.user
+  const { name, email } = req.body
+
+  if (!name && !email) {
+    throw new BadRequestError('please provide a name or email')
+  }
+
+  const user = await User.findByUserId(userId)
+  if (email === user.email) {
+    throw new BadRequestError('new email must be different from current email')
+  }
+
+  if (name) {
+    user.name = name
+  }
+
+  if (email) {
+    user.email = email
+  }
+
+  await user.save()
+
+  res.status(StatusCodes.OK).json({
+    name: user.name,
+    email: user.email,
+  })
+}
+
 async function forgotPassword(req, res) {
   const { email } = req.body
   const userEmail = email ? email.trim() : email
@@ -90,4 +119,4 @@ async function resetPassword(req, res) {
   res.status(StatusCodes.OK).send({ msg: 'password reset successfully' })
 }
 
-export { getUser, forgotPassword, resetPassword }
+export { getUser, patchUser, forgotPassword, resetPassword }
