@@ -48,6 +48,31 @@ async function patchUser(req, res) {
   })
 }
 
+async function updatePassword(req, res) {
+  const { newPassword } = req.body
+  const { userId } = req.user
+
+  const userNewPassword = newPassword ? newPassword.trim() : newPassword
+
+  if (!userNewPassword || userNewPassword === '') {
+    throw new BadRequestError('please provide a new password')
+  }
+
+  const user = await User.findByUserId(userId)
+
+  const isPasswordMatch = await user.isPasswordMatch(userNewPassword)
+  if (isPasswordMatch) {
+    throw new BadRequestError(
+      'new password must be different from current password'
+    )
+  }
+
+  user.password = userNewPassword
+  await user.save()
+
+  res.status(StatusCodes.OK).json({ msg: 'password update successfully' })
+}
+
 async function forgotPassword(req, res) {
   const { email } = req.body
   const userEmail = email ? email.trim() : email
@@ -119,4 +144,4 @@ async function resetPassword(req, res) {
   res.status(StatusCodes.OK).send({ msg: 'password reset successfully' })
 }
 
-export { getUser, patchUser, forgotPassword, resetPassword }
+export { getUser, patchUser, updatePassword, forgotPassword, resetPassword }
