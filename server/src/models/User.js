@@ -56,9 +56,7 @@ const userSchema = new Schema(
         const tokenRecord = await Token.create({
           refresh: {
             token: randomBytes(64).toString('hex'),
-            expiresAt: new Date(
-              Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
-            ),
+            expiresAt: new Date(Date.now() + parseInt(configs.refreshToken.lifeTime, 10)),
             isActive: true,
           },
           passwordReset: {
@@ -76,9 +74,7 @@ const userSchema = new Schema(
         const update = {
           refresh: {
             token: randomBytes(64).toString('hex'),
-            expiresAt: new Date(
-              Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
-            ),
+            expiresAt: new Date(Date.now() + parseInt(configs.refreshToken.lifeTime, 10)),
             isActive: true,
           },
         }
@@ -95,9 +91,7 @@ const userSchema = new Schema(
         const update = {
           resetPassword: {
             token: randomBytes(64).toString('hex'),
-            expiresAt: new Date(
-              Date.now() + parseInt(configs.resetPasswordToken.lifeTime, 10)
-            ),
+            expiresAt: new Date(Date.now() + parseInt(configs.resetPasswordToken.lifeTime, 10)),
           },
         }
 

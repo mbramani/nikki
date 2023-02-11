@@ -1,9 +1,5 @@
 import { User, Page } from '../../src/models/index.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../helper.js'
 import { decryptData, encryptData } from '../../src/utils/functions/index.js'
 
 const userData = {

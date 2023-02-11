@@ -1,8 +1,4 @@
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
 import { getAccessToken, postToPage, getToAllPage } from './pageHelper.js'
 
 const pageInfoArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

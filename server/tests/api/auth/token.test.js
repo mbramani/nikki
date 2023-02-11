@@ -1,11 +1,7 @@
 import { postToLogin, postToRegister, postToToken } from './authHelper.js'
 
 import { User, Token } from '../../../src/models/index.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
 
 const userRegisterInfo = {
   name: 'John',
@@ -45,9 +41,7 @@ describe('POST /api/auth/token', () => {
 
     expect(resForToken.statusCode).toEqual(200)
     expect(newAccessToken).toBeDefined()
-    expect(res.headers['content-type']).toEqual(
-      'application/json; charset=utf-8'
-    )
+    expect(res.headers['content-type']).toEqual('application/json; charset=utf-8')
   })
 
   it('should return a 400 status code if the refresh token is missing', async () => {

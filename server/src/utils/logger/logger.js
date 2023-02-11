@@ -41,9 +41,7 @@ if (process.env.NODE_ENV === 'production') {
         filename: './logs/error.log',
       })
     )
-    .exceptions.handle(
-      new transports.File({ filename: './logs/exceptions.log' })
-    )
+    .exceptions.handle(new transports.File({ filename: './logs/exceptions.log' }))
 }
 
 export default logger

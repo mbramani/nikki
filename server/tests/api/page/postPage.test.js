@@ -1,8 +1,4 @@
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
 import { getAccessToken, postToPage, getToPage } from './pageHelper.js'
 
 const pageInfo = {
@@ -39,9 +35,7 @@ describe('POST /api/page/:year/:month/:day', () => {
     expect(resOfPost.body.month).toEqual(resOfGet.body.month)
     expect(resOfPost.body.day).toEqual(resOfGet.body.day)
     expect(resOfPost.body.data).toEqual(resOfGet.body.data)
-    expect(resOfPost.headers['content-type']).toEqual(
-      'application/json; charset=utf-8'
-    )
+    expect(resOfPost.headers['content-type']).toEqual('application/json; charset=utf-8')
   })
   describe('should return a 400 status code', () => {
     it('if page already exists', async () => {
@@ -53,11 +47,7 @@ describe('POST /api/page/:year/:month/:day', () => {
     })
 
     it('if date is a invalid', async () => {
-      const res = await postToPage(
-        { year: 2022, month: 12, day: 32 },
-        accessToken,
-        pageInfo
-      )
+      const res = await postToPage({ year: 2022, month: 12, day: 32 }, accessToken, pageInfo)
 
       expect(res.statusCode).toEqual(400)
       expect(res.body).toMatchObject({ msg: 'date is a invalid' })

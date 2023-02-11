@@ -1,10 +1,6 @@
 import { postToRegister } from './authHelper.js'
 import { User } from '../../../src/models/index.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
 
 const userRegisterInfo = {
   name: 'John',
@@ -33,9 +29,7 @@ describe('POST /api/auth/register', () => {
     expect(res.body.email).toEqual(userRegisterInfo.email)
     expect(res.body.accessToken).toBeDefined()
     expect(res.body.refreshToken).toBeDefined()
-    expect(res.headers['content-type']).toEqual(
-      'application/json; charset=utf-8'
-    )
+    expect(res.headers['content-type']).toEqual('application/json; charset=utf-8')
   })
 
   it('should store user in db', async () => {

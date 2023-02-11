@@ -1,11 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import { Token, User } from '../models/index.js'
 import { sendResetEmail } from '../utils/functions/index.js'
-import {
-  BadRequestError,
-  ForbiddenError,
-  UnauthenticatedError,
-} from '../utils/errors/index.js'
+import { BadRequestError, ForbiddenError, UnauthenticatedError } from '../utils/errors/index.js'
 
 async function getUser(req, res) {
   const { userId } = req.user
@@ -62,9 +58,7 @@ async function updatePassword(req, res) {
 
   const isPasswordMatch = await user.isPasswordMatch(userNewPassword)
   if (isPasswordMatch) {
-    throw new BadRequestError(
-      'new password must be different from current password'
-    )
+    throw new BadRequestError('new password must be different from current password')
   }
 
   user.password = userNewPassword
@@ -95,9 +89,7 @@ async function forgotPassword(req, res) {
 
   await sendResetEmail({ email: userEmail, resetPasswordToken })
 
-  res
-    .status(StatusCodes.OK)
-    .send({ msg: 'password reset email sent successfully' })
+  res.status(StatusCodes.OK).send({ msg: 'password reset email sent successfully' })
 }
 
 async function resetPassword(req, res) {
@@ -127,9 +119,7 @@ async function resetPassword(req, res) {
 
   const isPasswordMatch = await user.isPasswordMatch(userNewPassword)
   if (isPasswordMatch) {
-    throw new BadRequestError(
-      'new password must be different from current password'
-    )
+    throw new BadRequestError('new password must be different from current password')
   }
 
   user.password = userNewPassword

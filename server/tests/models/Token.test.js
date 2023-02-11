@@ -1,9 +1,5 @@
 import { User, Token } from '../../src/models/index.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../helper.js'
 
 const userData = {
   name: 'John',
@@ -51,9 +47,7 @@ describe('Token model', () => {
         await userRecord.generateRefreshToken()
         const resetPasswordToken = await userRecord.generateResetPasswordToken()
 
-        const tokenRecord = await Token.findByResetPasswordToken(
-          resetPasswordToken
-        )
+        const tokenRecord = await Token.findByResetPasswordToken(resetPasswordToken)
 
         expect(tokenRecord.resetPassword.token).toEqual(resetPasswordToken)
       })

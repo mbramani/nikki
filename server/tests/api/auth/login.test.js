@@ -1,10 +1,6 @@
 import { postToLogin, postToRegister } from './authHelper.js'
 import { User, Token } from '../../../src/models/index.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
 
 const userRegisterInfo = {
   name: 'John',
@@ -42,9 +38,7 @@ describe('POST /api/auth/login', () => {
     expect(res.body.email).toEqual(userLoginInfo.email)
     expect(res.body.accessToken).toBeDefined()
     expect(res.body.refreshToken).toBeDefined()
-    expect(res.headers['content-type']).toEqual(
-      'application/json; charset=utf-8'
-    )
+    expect(res.headers['content-type']).toEqual('application/json; charset=utf-8')
   })
 
   it('should return 403 and not login user if user refresh token is not active', async () => {

@@ -1,11 +1,7 @@
 import { postToRegister } from '../auth/authHelper.js'
 import { postToResetPassword } from './userHelper.js'
 import { User, Token } from '../../../src/models/index.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
 
 const userRegisterInfo = {
   name: 'John',

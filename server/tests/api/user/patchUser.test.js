@@ -1,9 +1,5 @@
 import { getAccessToken, patchToUser } from './userHelper.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
 
 const userInfo = {
   name: 'John',
@@ -40,10 +36,7 @@ describe('PATCH /api/user/', () => {
   })
 
   it('should update user name if only name is provided', async () => {
-    const resOfPatch = await patchToUser(
-      { name: updateUserInfo.name },
-      accessToken
-    )
+    const resOfPatch = await patchToUser({ name: updateUserInfo.name }, accessToken)
 
     expect(resOfPatch.status).toEqual(200)
     expect(resOfPatch.body).toMatchObject({
@@ -53,10 +46,7 @@ describe('PATCH /api/user/', () => {
   })
 
   it('should update user email if only email is provided', async () => {
-    const resOfPatch = await patchToUser(
-      { email: updateUserInfo.email },
-      accessToken
-    )
+    const resOfPatch = await patchToUser({ email: updateUserInfo.email }, accessToken)
 
     expect(resOfPatch.status).toEqual(200)
     expect(resOfPatch.body).toMatchObject({

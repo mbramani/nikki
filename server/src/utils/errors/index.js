@@ -4,10 +4,4 @@ import NotFoundError from './not-found.js'
 import UnauthenticatedError from './unauthenticated.js'
 import ForbiddenError from './Forbidden.js'
 
-export {
-  BadRequestError,
-  CustomAPIError,
-  NotFoundError,
-  UnauthenticatedError,
-  ForbiddenError,
-}
+export { BadRequestError, CustomAPIError, NotFoundError, UnauthenticatedError, ForbiddenError }

@@ -1,14 +1,5 @@
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
-import {
-  getAccessToken,
-  postToPage,
-  getToPage,
-  patchToPage,
-} from './pageHelper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
+import { getAccessToken, postToPage, getToPage, patchToPage } from './pageHelper.js'
 
 const pageInfo = {
   data: 'the page',
@@ -41,11 +32,7 @@ describe('PATCH /api/page/:year/:month/:day', () => {
 
   it('should return year, month, day, and data and update it to db', async () => {
     const resOfPost = await postToPage(dateInfo, accessToken, pageInfo)
-    const resOfPatch = await patchToPage(
-      dateInfo,
-      accessToken,
-      pageInfoForPatch
-    )
+    const resOfPatch = await patchToPage(dateInfo, accessToken, pageInfoForPatch)
     const resOfGet = await getToPage(dateInfo, accessToken)
 
     expect(resOfPatch.statusCode).toEqual(200)
@@ -54,17 +41,11 @@ describe('PATCH /api/page/:year/:month/:day', () => {
     expect(resOfPatch.body.day).toEqual(resOfGet.body.day)
     expect(resOfPatch.body.data).toEqual(resOfGet.body.data)
     expect(resOfPatch.body.data).not.toEqual(resOfPost.body.data)
-    expect(resOfPatch.headers['content-type']).toEqual(
-      'application/json; charset=utf-8'
-    )
+    expect(resOfPatch.headers['content-type']).toEqual('application/json; charset=utf-8')
   })
   describe('should return a 400 status code', () => {
     it('if date is a invalid', async () => {
-      const res = await patchToPage(
-        { year: 2022, month: 12, day: 32 },
-        accessToken,
-        pageInfo
-      )
+      const res = await patchToPage({ year: 2022, month: 12, day: 32 }, accessToken, pageInfo)
 
       expect(res.statusCode).toEqual(400)
       expect(res.body).toMatchObject({ msg: 'date is a invalid' })

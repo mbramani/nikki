@@ -1,12 +1,6 @@
 import { Router } from 'express'
 import { encrypt, validateDate } from '../middleware/index.js'
-import {
-  deletePage,
-  getAllPage,
-  getPage,
-  patchPage,
-  postPage,
-} from '../controllers/page.js'
+import { deletePage, getAllPage, getPage, patchPage, postPage } from '../controllers/page.js'
 import { rateLimiter } from '../middleware/index.js'
 
 const pageRouter = Router()

@@ -1,11 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { User, Token } from '../../src/models/index.js'
 import configs from '../../src/utils/configs.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../helper.js'
 
 const userData = {
   name: 'John',
@@ -114,9 +110,7 @@ describe('User model', () => {
           userId: user._id,
         })
 
-        const refreshTokenExpiryDate = new Date(
-          tokenRecord.refresh.expiresAt
-        ).getTime()
+        const refreshTokenExpiryDate = new Date(tokenRecord.refresh.expiresAt).getTime()
         const expectedExpiryDate = new Date(
           Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
         ).getTime()
@@ -158,9 +152,7 @@ describe('User model', () => {
           userId: user._id,
         })
 
-        const refreshTokenExpiryDate = new Date(
-          tokenRecord.refresh.expiresAt
-        ).getTime()
+        const refreshTokenExpiryDate = new Date(tokenRecord.refresh.expiresAt).getTime()
         const expectedExpiryDate = new Date(
           Date.now() + parseInt(configs.refreshToken.lifeTime, 10)
         ).getTime()
@@ -210,12 +202,8 @@ describe('User model', () => {
         ).getTime()
 
         expect(resetPasswordToken).not.toBeNull()
-        expect(resetPasswordTokenExpiryDate).toBeLessThanOrEqual(
-          expectedExpiryDate
-        )
-        expect(resetPasswordTokenExpiryDate).toBeGreaterThanOrEqual(
-          marginOfDelay
-        )
+        expect(resetPasswordTokenExpiryDate).toBeLessThanOrEqual(expectedExpiryDate)
+        expect(resetPasswordTokenExpiryDate).toBeGreaterThanOrEqual(marginOfDelay)
       })
     })
   })

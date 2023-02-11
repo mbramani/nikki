@@ -1,10 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { Token, User } from '../models/index.js'
-import {
-  BadRequestError,
-  ForbiddenError,
-  UnauthenticatedError,
-} from '../utils/errors/index.js'
+import { BadRequestError, ForbiddenError, UnauthenticatedError } from '../utils/errors/index.js'
 
 async function register(req, res) {
   const { name, email, password } = req.body

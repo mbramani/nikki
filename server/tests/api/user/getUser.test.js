@@ -1,9 +1,5 @@
 import { getAccessToken, getToUser } from './userHelper.js'
-import {
-  connectToDB,
-  disconnectToDB,
-  removeDataFromDatabase,
-} from '../../helper.js'
+import { connectToDB, disconnectToDB, removeDataFromDatabase } from '../../helper.js'
 
 const userInfo = {
   name: 'John',
