@@ -12,6 +12,12 @@ export const patchToUser = (dataToSend, accessToken) =>
     .set({ authorization: `Bearer ${accessToken}` })
     .send(dataToSend)
 
+export const patchToUpdatePassword = (dataToSend, accessToken) =>
+  request(app)
+    .patch('/api/user/update-password')
+    .set({ authorization: `Bearer ${accessToken}` })
+    .send(dataToSend)
+
 export const postToForgotPassword = (dataToSend) =>
   request(app).post('/api/user/forgot-password').send(dataToSend)
 
