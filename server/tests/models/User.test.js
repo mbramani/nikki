@@ -29,11 +29,11 @@ describe('User model', () => {
   })
 
   describe('statics', () => {
-    describe('findById static', () => {
+    describe('findByUserId static', () => {
       it('should find user by _id', async () => {
         const userRecord = await User.create(userData)
 
-        const user = await User.findById(userRecord._id.toString())
+        const user = await User.findByUserId(userRecord._id.toString())
 
         expect(user._id.toString()).toEqual(userRecord._id.toString())
       })
