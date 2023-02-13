@@ -9,7 +9,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react", "react-hooks", "jsx-a11y", "import"],
   "rules": {
     "import/no-extraneous-dependencies": [
       "error",
@@ -18,6 +18,10 @@
         "optionalDependencies": false,
         "peerDependencies": false
       }
-    ]
+    ],
+    "react/react-in-jsx-scope": "off",
+    "import/prefer-default-export": "off",
+    "no-param-reassign": "off",
+    "no-unused-vars": "off"
   }
 }
