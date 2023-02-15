@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 const baseUrl = 'http://localhost:5000/api/auth'
 
 export const registerUser = createAsyncThunk(
-  'auth/register',
+  'auth/registerUser',
   async ({ name, email, password }, { fulfillWithValue, rejectWithValue }) => {
     try {
       const options = {
@@ -27,7 +27,7 @@ export const registerUser = createAsyncThunk(
 )
 
 export const loginUser = createAsyncThunk(
-  'auth/login',
+  'auth/loginUser',
   async ({ email, password }, { fulfillWithValue, rejectWithValue }) => {
     try {
       const options = {

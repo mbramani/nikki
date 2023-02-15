@@ -36,37 +36,37 @@ const authSlice = createSlice({
         state.isError = false
         state.error = null
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
-        const { accessToken, refreshToken } = action.payload
+      .addCase(registerUser.fulfilled, (state, { payload }) => {
+        const { accessToken, refreshToken } = payload
 
         state.isLoading = false
         state.isSuccess = true
         state.tokens = { accessToken, refreshToken }
       })
-      .addCase(registerUser.rejected, (state, action) => {
+      .addCase(registerUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.isSuccess = false
         state.isError = true
-        state.error = action.payload
+        state.error = payload
       })
-      .addCase(loginUser.pending, (state, action) => {
+      .addCase(loginUser.pending, (state) => {
         state.isLoading = true
         state.isSuccess = false
         state.isError = false
         state.error = null
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        const { accessToken, refreshToken } = action.payload
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
+        const { accessToken, refreshToken } = payload
 
         state.isLoading = false
         state.isSuccess = true
         state.tokens = { accessToken, refreshToken }
       })
-      .addCase(loginUser.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false
         state.isSuccess = false
         state.isError = true
-        state.error = action.payload
+        state.error = payload
       })
   },
 })
