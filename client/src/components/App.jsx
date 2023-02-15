@@ -13,6 +13,11 @@ function App() {
       document.documentElement.classList.remove('dark')
       localStorage.theme = 'light'
     }
+
+    return () => {
+      document.documentElement.classList.remove('dark')
+      localStorage.removeItem('theme')
+    }
   }, [theme])
 
   return <div className="App" />
