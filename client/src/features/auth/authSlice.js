@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { registerUser, loginUser } from './authActions'
+import { registerUser, loginUser, setAccessToken } from './authActions'
 
 const accessTokenFromLocalStorage = localStorage.getItem('accessToken')
   ? localStorage.getItem('accessToken')
@@ -74,9 +74,15 @@ const authSlice = createSlice({
         state.isError = true
         state.error = payload
       })
+      .addCase(setAccessToken.fulfilled, (state, { payload }) => {
+        state.tokens.accessToken = payload.accessToken
+      })
+      .addCase(setAccessToken.rejected, (state) => {
+        state.tokens = { accessToken: null, refreshToken: null }
+      })
   },
 })
 
-export const { logoutUser, setAccessToken } = authSlice.actions
+export const { logoutUser } = authSlice.actions
 
 export default authSlice.reducer
