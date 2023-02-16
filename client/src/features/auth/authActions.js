@@ -50,3 +50,28 @@ export const loginUser = createAsyncThunk(
     }
   }
 )
+
+export const setAccessToken = createAsyncThunk(
+  'auth/setAccessToken',
+  async ({ refreshToken }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const options = {
+        method: 'POST',
+        body: JSON.stringify({ refreshToken }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      const response = await fetch(`${baseUrl}/token`, options)
+      const data = await response.json()
+
+      if (response.status === 200) {
+        return fulfillWithValue(data)
+      }
+
+      return rejectWithValue(data)
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
