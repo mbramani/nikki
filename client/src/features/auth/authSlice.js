@@ -1,12 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { registerUser, loginUser } from './authActions'
 
-const tokens = localStorage.getItem('tokens')
-  ? JSON.parse(localStorage.getItem('tokens'))
-  : { accessToken: null, refreshToken: null }
+const accessTokenFromLocalStorage = localStorage.getItem('accessToken')
+  ? localStorage.getItem('accessToken')
+  : null
+const refreshTokenFromLocalStorage = localStorage.getItem('refreshToken')
+  ? localStorage.getItem('refreshToken')
+  : null
 
 const initialState = {
-  tokens,
+  tokens: {
+    accessToken: accessTokenFromLocalStorage,
+    refreshToken: refreshTokenFromLocalStorage,
+  },
   isLoading: false,
   isSuccess: false,
   isError: false,
