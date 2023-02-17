@@ -15,13 +15,6 @@ export const apiSlice = createApi({
       return headers
     },
   }),
-  tagTypes: ['User'],
-  endpoints: (builder) => ({
-    getUser: builder.query({
-      query: () => '/user',
-      providesTags: ['User'],
-    }),
-  }),
+  tagTypes: ['User', 'Page'],
+  endpoints: (_builder) => ({}),
 })
-
-export const { useGetUserQuery } = apiSlice
