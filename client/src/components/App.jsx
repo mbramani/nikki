@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { selectTheme } from '../features/theme/themeSlice'
 
-function App() {
+export default function App() {
   const theme = useSelector(selectTheme)
 
   useEffect(() => {
@@ -21,5 +21,3 @@ function App() {
 
   return <div className="App">app</div>
 }
-
-export default App
