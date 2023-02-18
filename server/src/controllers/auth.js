@@ -26,10 +26,10 @@ async function register(req, res) {
 async function login(req, res) {
   const { email, password } = req.body
 
-  // Removing white spaces and if field is undefine it set to default value
+  // Removing white spaces and if field is not undefined
   const loginInfo = {
-    email: email ? email.trim() : email,
-    password: password ? password.trim() : password,
+    email: email?.trim(),
+    password: password?.trim(),
   }
 
   if (!loginInfo.email || loginInfo.email === '') {
