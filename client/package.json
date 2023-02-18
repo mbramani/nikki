@@ -10,7 +10,7 @@
     "*.{jsx,js}": "eslint --fix"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "prettier:check": "npx prettier --check .",
@@ -23,6 +23,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.1",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
