@@ -48,7 +48,7 @@ async function updatePassword(req, res) {
   const { newPassword } = req.body
   const { userId } = req.user
 
-  const userNewPassword = newPassword ? newPassword.trim() : newPassword
+  const userNewPassword = newPassword?.trim()
 
   if (!userNewPassword || userNewPassword === '') {
     throw new BadRequestError('please provide a new password')
@@ -69,7 +69,7 @@ async function updatePassword(req, res) {
 
 async function forgotPassword(req, res) {
   const { email } = req.body
-  const userEmail = email ? email.trim() : email
+  const userEmail = email?.trim()
 
   if (!userEmail || userEmail === '') {
     throw new BadRequestError('please provide a email')
@@ -95,8 +95,8 @@ async function forgotPassword(req, res) {
 async function resetPassword(req, res) {
   const { resetToken, newPassword } = req.body
 
-  const userNewPassword = newPassword ? newPassword.trim() : newPassword
-  const userResetToken = resetToken ? resetToken.trim() : resetToken
+  const userNewPassword = newPassword?.trim()
+  const userResetToken = resetToken?.trim()
 
   if (!userNewPassword || userNewPassword === '') {
     throw new BadRequestError('please provide a new password')
