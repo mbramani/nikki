@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "lint-staged": {
-    "**/*.js": [
+    "*.{html,json,js}": [
       "prettier --write .",
       "eslint --fix ."
     ]
