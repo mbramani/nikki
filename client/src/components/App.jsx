@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+
+// redux
+import { useSelector, useDispatch } from 'react-redux'
 import { selectTheme } from '../features/theme/themeSlice'
 
 export default function App() {
@@ -13,6 +15,7 @@ export default function App() {
       document.documentElement.classList.remove('dark')
       localStorage.theme = 'light'
     }
+
     return () => {
       document.documentElement.classList.remove('dark')
       localStorage.removeItem('theme')

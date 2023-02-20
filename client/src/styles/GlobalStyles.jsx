@@ -6,7 +6,7 @@ const CustomStyles = createGlobalStyle({
     ...tw`transition-all ease-in-out scroll-smooth`,
   },
   body: {
-    ...tw`font-sans text-gray-900 bg-gradient-to-b from-gray-50 to-slate-50 dark:from-gray-900 dark:to-slate-900 dark:text-slate-50`,
+    ...tw`font-sans text-gray-900 bg-slate-50 dark:bg-slate-900 dark:text-gray-50`,
   },
 })
 
