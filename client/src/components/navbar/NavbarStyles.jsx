@@ -2,7 +2,7 @@ import tw, { styled } from 'twin.macro'
 import { Link, NavLink as NL } from 'react-router-dom'
 
 export const Header = styled.header`
-  ${tw`sticky top-0 flex justify-center h-16 border-b border-gray-200 shadow shadow-gray-100 dark:shadow-gray-900 bg-gradient-to-t dark:from-gray-800/60 dark:to-slate-800/60 from-gray-200/60 to-slate-200/60 backdrop-filter backdrop-blur-lg dark:border-gray-800`}
+  ${tw`sticky top-0 z-10 flex justify-center h-16 border-b border-gray-200 shadow shadow-gray-100 dark:shadow-gray-900 bg-gradient-to-t dark:from-gray-800/60 dark:to-slate-800/60 from-gray-200/60 to-slate-200/60 backdrop-filter backdrop-blur dark:border-gray-800`}
 `
 export const NavbarSkeleton = styled(Header)`
   ${tw`animate-pulse`}
@@ -30,7 +30,7 @@ export const NavLink = styled(NL)`
   }
 
   &.active {
-    ${tw`border-gray-900 dark:border-gray-50`}
+    ${tw`ring-2 dark:ring-gray-50 ring-gray-900`}
   }
 `
 export const ThemeButton = styled.button`

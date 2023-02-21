@@ -9,14 +9,14 @@ import { toggleTheme, selectTheme } from '../../features/theme/themeSlice'
 import { todayUrl, yearUrl } from '../../utils/date'
 
 // svg
-import { ReactComponent as LogoIcon } from '../../data/icons/logo.svg'
-import { ReactComponent as LoginIcon } from '../../data/icons/login.svg'
-import { ReactComponent as MoonIcon } from '../../data/icons/moon.svg'
-import { ReactComponent as SunIcon } from '../../data/icons/sun.svg'
-import { ReactComponent as RocketIcon } from '../../data/icons/rocket.svg'
-import { ReactComponent as PenIcon } from '../../data/icons/pen.svg'
-import { ReactComponent as UserIcon } from '../../data/icons/user.svg'
-import { ReactComponent as CalendarIcon } from '../../data/icons/calendar.svg'
+import { ReactComponent as LogoIcon } from '../../assets/icons/logo.svg'
+import { ReactComponent as LoginIcon } from '../../assets/icons/login.svg'
+import { ReactComponent as MoonIcon } from '../../assets/icons/moon.svg'
+import { ReactComponent as SunIcon } from '../../assets/icons/sun.svg'
+import { ReactComponent as RocketIcon } from '../../assets/icons/rocket.svg'
+import { ReactComponent as PenIcon } from '../../assets/icons/pen.svg'
+import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
+import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 
 // styled-components
 import { NavbarSkeleton } from '../skeletons'
