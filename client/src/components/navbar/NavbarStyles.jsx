@@ -12,6 +12,7 @@ export const Nav = styled.nav`
 `
 export const AppLink = styled(Link)`
   ${tw`flex h-10 p-1 rounded-md w-fit hover:ring-2 focus:ring-2 ring-gray-900 dark:ring-gray-50 focus:outline-none`}
+  
   svg {
     ${tw`fill-gray-900 dark:fill-gray-50`}
   }
