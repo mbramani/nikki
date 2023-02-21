@@ -48,11 +48,11 @@ export default function Navbar({ simple }) {
 
   if (simple) {
     navLinks = isAuth ? (
-      <NavLink to="/app" aria-label="app">
+      <NavLink to="app" aria-label="app">
         <RocketIcon />
       </NavLink>
     ) : (
-      <NavLink to="/login" aria-label="login">
+      <NavLink to="login" aria-label="login">
         <LoginIcon />
       </NavLink>
     )
@@ -65,7 +65,7 @@ export default function Navbar({ simple }) {
         <NavLink to={yearUrl()} aria-label="calendar">
           <CalendarIcon />
         </NavLink>
-        <NavLink to="/user" aria-label="user">
+        <NavLink to="user" aria-label="user">
           <UserIcon />
         </NavLink>
       </>
@@ -75,7 +75,7 @@ export default function Navbar({ simple }) {
   return (
     <Header>
       <Nav>
-        <AppLink to={simple ? '/' : '/app'} aria-label={simple ? 'home' : 'app'}>
+        <AppLink to={simple ? '/' : 'app'} aria-label={simple ? 'home' : 'app'}>
           <LogoIcon />
           <LogoText>IKKI</LogoText>
         </AppLink>
