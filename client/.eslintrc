@@ -24,6 +24,7 @@
     "no-param-reassign": "off",
     "no-unused-vars": "off",
     "default-param-last": "off",
-    "import/no-cycle": "off"
+    "import/no-cycle": "off",
+    "react/no-array-index-key": "off"
   }
 }

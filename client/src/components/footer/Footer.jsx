@@ -13,8 +13,8 @@ export default function Footer() {
         >
           View on GitHub
         </NavLink>
-        <NavLink to="terms" aria-label="terms of service">
-          Terms of Service
+        <NavLink to="terms" aria-label="terms and conditions">
+          Terms & Conditions
         </NavLink>
         <NavLink to="privacy" aria-label="privacy policy">
           Privacy Policy
