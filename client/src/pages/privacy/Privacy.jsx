@@ -1,3 +1,6 @@
+// react component
+import { Paragraphs } from '../terms/Terms'
+
 // data
 import privacyPolicy from '../../assets/data/privacyPolicy'
 
@@ -9,13 +12,6 @@ import {
   PrimaryHeading,
   SecondaryHeading,
 } from '../../styles/TypographyStyles'
-
-const Paragraphs = ({ paragraphsArr, index }) =>
-  paragraphsArr.map((paragraph, paragraphIndex) => (
-    <Paragraph key={`${paragraph.substring(0, paragraphIndex)}_${index}`}>
-      {paragraph}
-    </Paragraph>
-  ))
 
 export default function Privacy() {
   return (

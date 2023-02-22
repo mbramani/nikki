@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 // data
 import terms from '../../assets/data/terms'
 
@@ -10,12 +12,13 @@ import {
   SecondaryHeading,
 } from '../../styles/TypographyStyles'
 
-const Paragraphs = ({ paragraphsArr, index }) =>
-  paragraphsArr.map((paragraph, paragraphIndex) => (
+export function Paragraphs({ paragraphsArr, index }) {
+  return paragraphsArr.map((paragraph, paragraphIndex) => (
     <Paragraph key={`${paragraph.substring(0, paragraphIndex)}_${index}`}>
       {paragraph}
     </Paragraph>
   ))
+}
 
 export default function Terms() {
   return (
@@ -31,4 +34,9 @@ export default function Terms() {
       </TermsSection>
     </Container>
   )
+}
+
+Paragraphs.prototype = {
+  paragraphsArr: PropTypes.arrayOf(PropTypes.string).isRequired,
+  index: PropTypes.number.isRequired,
 }
