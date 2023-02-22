@@ -6,6 +6,9 @@ export const PrimaryHeading = styled.h1`
 export const SecondaryHeading = styled.h2`
   ${tw`text-xl font-bold`}
 `
+export const TertiaryHeading = styled.h3`
+  ${tw`text-lg`}
+`
 export const Paragraph = styled.p`
   ${tw`text-base font-normal text-justify`}
 `
