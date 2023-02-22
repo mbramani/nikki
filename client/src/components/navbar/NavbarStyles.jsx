@@ -11,8 +11,8 @@ export const Nav = styled.nav`
   ${tw`flex items-center justify-between w-full max-w-2xl px-2 mx-auto gap-x-10`}
 `
 export const AppLink = styled(Link)`
-  ${tw`flex h-10 p-1 rounded-md w-fit hover:ring-2 focus:ring-2 ring-gray-900 dark:ring-gray-50 focus:outline-none`}
-  
+  ${tw`flex h-10 p-1 pr-2 rounded-md w-fit hover:ring-2 focus:ring-2 ring-gray-900 dark:ring-gray-50 focus:outline-none`}
+
   svg {
     ${tw`fill-gray-900 dark:fill-gray-50`}
   }
