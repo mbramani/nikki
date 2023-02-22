@@ -37,18 +37,18 @@ export const FeaturesSections = styled.section`
   }
 `
 export const FeaturesContainer = styled.div`
-  ${tw`grid justify-center grid-cols-1 md:grid-cols-2 gap-4`}
+  ${tw`grid justify-center grid-cols-1 gap-4 md:grid-cols-2`}
   div:nth-child(3) {
     ${tw`md:col-span-2 md:flex-row md:items-center`}
   }
 `
 export const FeatureCard = styled.div`
-  ${tw`flex flex-row md:flex-col h-full p-2 gap-2 border border-gray-200 rounded-lg shadow cursor-pointer shadow-gray-100 dark:shadow-gray-900 bg-gradient-to-t dark:from-gray-800/70 dark:to-slate-800/70 from-gray-200/70 to-slate-200/70 backdrop-filter backdrop-blur dark:border-gray-800 hover:ring ring-gray-800 dark:ring-gray-100 ring-offset-2 dark:ring-offset-gray-900`}
+  ${tw`flex flex-row h-full gap-2 p-2 border border-gray-200 rounded-lg shadow cursor-pointer md:flex-col shadow-gray-100 dark:shadow-gray-900 bg-gradient-to-t dark:from-gray-800/70 dark:to-slate-800/70 from-gray-200/70 to-slate-200/70 backdrop-filter backdrop-blur dark:border-gray-800 hover:ring ring-gray-800 dark:ring-gray-100 ring-offset-2 dark:ring-offset-gray-900`}
 `
 export const FeatureCardHeader = styled.div`
-  ${tw`my-auto h-20 w-20 md:w-28 md:h-24 pr-1 py-2 md:p-0 mx-auto md:my-4`}
+  ${tw`w-20 h-20 py-2 pr-1 mx-auto my-auto md:w-28 md:h-24 md:p-0 md:my-4`}
   svg {
-    ${tw`h-16 md:h-24 w-20 md:w-28 fill-gray-900 dark:fill-gray-50`}
+    ${tw`w-20 h-16 md:h-24 md:w-28 fill-gray-900 dark:fill-gray-50`}
   }
 `
 export const FeatureCardBody = styled.div`
