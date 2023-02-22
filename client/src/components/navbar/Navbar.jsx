@@ -5,18 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useGetUserQuery } from '../../features/user/userSlice'
 import { toggleTheme, selectTheme } from '../../features/theme/themeSlice'
 
+// react component
+import { Icon } from '../index'
+
 // utils-functions
 import { todayUrl, yearUrl } from '../../utils/date'
-
-// svg
-import { ReactComponent as LogoIcon } from '../../assets/icons/logo.svg'
-import { ReactComponent as LoginIcon } from '../../assets/icons/login.svg'
-import { ReactComponent as MoonIcon } from '../../assets/icons/moon.svg'
-import { ReactComponent as SunIcon } from '../../assets/icons/sun.svg'
-import { ReactComponent as RocketIcon } from '../../assets/icons/rocket.svg'
-import { ReactComponent as PenIcon } from '../../assets/icons/pen.svg'
-import { ReactComponent as UserIcon } from '../../assets/icons/user.svg'
-import { ReactComponent as CalendarIcon } from '../../assets/icons/calendar.svg'
 
 // styled-components
 import { NavbarSkeleton } from '../skeletons'
@@ -49,24 +42,24 @@ export default function Navbar({ simple }) {
   if (simple) {
     navLinks = isAuth ? (
       <NavLink to="app" aria-label="app">
-        <RocketIcon />
+        <Icon icon="rocket" />
       </NavLink>
     ) : (
       <NavLink to="login" aria-label="login">
-        <LoginIcon />
+        <Icon icon="login" />
       </NavLink>
     )
   } else {
     navLinks = (
       <>
         <NavLink to={todayUrl()} aria-label="edit">
-          <PenIcon />
+          <Icon icon="pen" />
         </NavLink>
         <NavLink to={yearUrl()} aria-label="calendar">
-          <CalendarIcon />
+          <Icon icon="calendar" />
         </NavLink>
         <NavLink to="user" aria-label="user">
-          <UserIcon />
+          <Icon icon="user" />
         </NavLink>
       </>
     )
@@ -76,12 +69,12 @@ export default function Navbar({ simple }) {
     <Header>
       <Nav>
         <AppLink to={simple ? '/' : 'app'} aria-label={simple ? 'home' : 'app'}>
-          <LogoIcon />
+          <Icon icon="logo" />
           <LogoText>IKKI</LogoText>
         </AppLink>
         <NavLinks>
           <ThemeButton type="button" onClick={handleThemeBtnClick}>
-            {theme === 'dark' ? <MoonIcon /> : <SunIcon />}
+            {theme === 'dark' ? <Icon icon="moon" /> : <Icon icon="sun" />}
           </ThemeButton>
           {navLinks}
         </NavLinks>
