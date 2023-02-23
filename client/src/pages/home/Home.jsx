@@ -59,7 +59,7 @@ export default function Home() {
           journaling today and enjoy the benefits of a more mindful, intentional
           life.
         </Paragraph>
-        <PrimaryButton onClick={() => navigate('/login')}>
+        <PrimaryButton onClick={() => navigate('/login')} type="button">
           Start Writing
         </PrimaryButton>
         <HeroImage>
