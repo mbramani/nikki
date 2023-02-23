@@ -9,7 +9,7 @@ export const HeroSections = styled.section`
     ${tw`my-2 tracking-normal text-justify text-gray-700 dark:text-gray-200 `}
   }
   button {
-    ${tw`px-10 mx-auto my-6 text-xl `}
+    ${tw`px-10 mx-auto my-6 text-xl bg-gradient-to-b dark:from-gray-800/90 dark:to-slate-800/90 from-gray-200/90 to-slate-200/90 backdrop-filter backdrop-blur-lg `}
   }
 `
 export const HeroImage = styled.div`
@@ -53,9 +53,9 @@ export const FeatureCardHeader = styled.div`
 `
 export const FeatureCardBody = styled.div`
   h3 {
-    ${tw`text-center`}
+    ${tw`font-semibold text-center`}
   }
   p {
-    ${tw`my-0 text-base tracking-normal text-justify `}
+    ${tw`my-0 text-base tracking-normal text-justify`}
   }
 `
