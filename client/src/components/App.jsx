@@ -7,7 +7,7 @@ import { selectTheme } from '../features/theme/themeSlice'
 
 // pages
 import { Layout } from './index'
-import { Home, Privacy, Terms } from '../pages/index'
+import { Home, Login, Privacy, Terms } from '../pages/index'
 
 export default function App() {
   const theme = useSelector(selectTheme)
@@ -31,6 +31,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="login" element={<Login />} />
         <Route path="terms" element={<Terms />} />
         <Route path="privacy" element={<Privacy />} />
       </Route>
