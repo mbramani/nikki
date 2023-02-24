@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import Turnstile from 'react-turnstile'
@@ -10,8 +10,8 @@ import 'react-toastify/dist/ReactToastify.css'
 // react-component
 import { Icon } from '../../components'
 
-// redux-action
-import { loginUser } from '../../features/auth/authActions'
+// rtk query mutations hook
+import { useResetUserPasswordMutation } from '../../features/user/userSlice'
 
 // styled-components
 import { PrimaryButton } from '../../styles/ButtonStyles'
@@ -22,49 +22,50 @@ import {
   InputContainer,
   ErrorMessage,
 } from '../../styles/FormStyles'
-import {
-  Container,
-  FormContainer,
-  Link,
-  LinksContainer,
-  LinkText,
-  LoadingWrapper,
-} from './LoginStyles'
+import { FormContainer, LoadingWrapper, Container } from '../login/LoginStyles'
 
 const passwordRegExp = /[0-9a-zA-Z@#$%]{6,18}/
 
 const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email('Please enter a valid email address')
-    .required('Email is a required'),
   password: yup
     .string()
     .matches(passwordRegExp, 'Please enter a strong password')
     .required('Password is a required'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Password does not match')
+    .required('Confirm Password is a required'),
 })
 
-export default function Login() {
+export default function ResetPassword() {
+  const [searchParams] = useSearchParams()
+  const resetToken = searchParams.get('token')
+
+  const [resetUserPassword, { isLoading, isSuccess }] =
+    useResetUserPasswordMutation()
+  const theme = useSelector((state) => state.theme.value)
+
   const [isTurnstileVerified, setIsTurnstileVerified] = useState(false)
 
   const navigate = useNavigate()
-  const location = useLocation()
-  const origin = location.state?.from?.pathname || '/app'
-
-  const dispatch = useDispatch()
-  const theme = useSelector((state) => state.theme.value)
-  const auth = useSelector((state) => state.auth)
-  const { isLoading, isSuccess, tokens } = auth
 
   useEffect(() => {
     let timer
 
-    if (isSuccess || tokens.accessToken) {
-      toast.success('Login successfully !', {
+    if (!resetToken) {
+      toast.error('Token is invalid !', {
         position: toast.POSITION.TOP_RIGHT,
       })
 
-      timer = setTimeout(() => navigate(origin, { replace: true }), 2000)
+      timer = setTimeout(() => navigate('/', { replace: true }), 2000)
+    }
+
+    if (isSuccess) {
+      toast.success('Password updated successfully !', {
+        position: toast.POSITION.TOP_RIGHT,
+      })
+
+      timer = setTimeout(() => navigate('/login', { replace: true }), 2000)
     }
 
     return () => {
@@ -76,44 +77,29 @@ export default function Login() {
 
   async function onSubmit(values) {
     try {
-      await dispatch(loginUser(values)).unwrap()
+      await resetUserPassword({ resetToken, newPassword: values.password }).unwrap()
     } catch (error) {
-      toast.error(`${error?.msg || error}`, {
+      toast.error(`${error.data?.msg || error?.error}`, {
         position: toast.POSITION.TOP_RIGHT,
       })
     }
   }
 
   const formik = useFormik({
-    initialValues: { email: '', password: '' },
+    initialValues: { password: '', confirmPassword: '' },
     validateOnBlur: true,
     onSubmit,
     validationSchema,
   })
 
-  const IsEmailError = formik.touched.email && formik.errors.email
   const IsPasswordError = formik.touched.password && formik.errors.password
+  const isConfirmPasswordError =
+    formik.touched.confirmPassword && formik.errors.confirmPassword
 
   return (
     <Container>
       <FormContainer>
         <Form onSubmit={formik.handleSubmit}>
-          <InputContainer>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Your Email"
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isError={IsEmailError}
-            />
-            {IsEmailError ? (
-              <ErrorMessage>{formik.errors.email}</ErrorMessage>
-            ) : null}
-          </InputContainer>
           <InputContainer>
             <Label htmlFor="password">Password</Label>
             <Input
@@ -130,6 +116,22 @@ export default function Login() {
               <ErrorMessage>{formik.errors.password}</ErrorMessage>
             ) : null}
           </InputContainer>
+          <InputContainer>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Input
+              id="confirmPassword"
+              type="text"
+              placeholder="Repeat Password"
+              name="confirmPassword"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isError={isConfirmPasswordError}
+            />
+            {isConfirmPasswordError ? (
+              <ErrorMessage>{formik.errors.confirmPassword}</ErrorMessage>
+            ) : null}
+          </InputContainer>
           <Turnstile
             className="turnstile"
             sitekey={
@@ -143,21 +145,13 @@ export default function Login() {
           <PrimaryButton type="submit" disabled={isLoading || !isTurnstileVerified}>
             {isLoading ? (
               <LoadingWrapper>
-                <Icon icon="loading" /> Login...
+                <Icon icon="loading" /> Submitting...
               </LoadingWrapper>
             ) : (
-              'Login'
+              'Submit'
             )}
           </PrimaryButton>
         </Form>
-        <LinksContainer>
-          <LinkText>
-            Don&apos;t have an account? <Link to="/register">Register</Link>
-          </LinkText>
-          <LinkText>
-            Forgot password? <Link to="/forgot-password">Forgot Password</Link>
-          </LinkText>
-        </LinksContainer>
       </FormContainer>
       <ToastContainer limit={5} />
     </Container>
