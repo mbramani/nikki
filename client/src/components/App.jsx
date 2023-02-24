@@ -8,7 +8,15 @@ import { setAccessToken } from '../features/auth/authActions'
 
 // pages
 import { Layout } from './index'
-import { Home, Login, Register, ResetPassword, Privacy, Terms } from '../pages/index'
+import {
+  Home,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  Privacy,
+  Terms,
+} from '../pages/index'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -49,6 +57,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="terms" element={<Terms />} />
         <Route path="privacy" element={<Privacy />} />
