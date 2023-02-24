@@ -15,7 +15,7 @@ import { registerUser } from '../../features/auth/authActions'
 
 // styled-components
 import { PrimaryButton } from '../../styles/ButtonStyles'
-import { Container } from './RegisteStyles'
+import { Container, FormContainer } from './RegisteStyles'
 import {
   Form,
   Label,
@@ -23,13 +23,7 @@ import {
   InputContainer,
   ErrorMessage,
 } from '../../styles/FormStyles'
-import {
-  FormContainer,
-  Link,
-  LinksContainer,
-  LinkText,
-  LoadingWrapper,
-} from '../login/LoginStyles'
+import { Link, LinksContainer, LinkText, LoadingWrapper } from '../login/LoginStyles'
 
 const passwordRegExp = /[0-9a-zA-Z@#$%]{6,18}/
 
