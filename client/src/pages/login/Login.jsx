@@ -64,7 +64,7 @@ export default function Login() {
         position: toast.POSITION.TOP_RIGHT,
       })
 
-      timer = setTimeout(() => navigate(origin), 2000)
+      timer = setTimeout(() => navigate(origin, { replace: true }), 2000)
     }
 
     return () => {
@@ -155,7 +155,7 @@ export default function Login() {
             Don&apos;t have an account? <Link to="/register">Register</Link>
           </LinkText>
           <LinkText>
-            Forgot password? <Link to="/reset-password">Reset Password</Link>
+            Forgot password? <Link to="/forgot-password">Forgot Password</Link>
           </LinkText>
         </LinksContainer>
       </FormContainer>

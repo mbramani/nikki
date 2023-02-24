@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import Turnstile from 'react-turnstile'
@@ -56,8 +56,6 @@ export default function Register() {
   const [isTurnstileVerified, setIsTurnstileVerified] = useState(false)
 
   const navigate = useNavigate()
-  const location = useLocation()
-  const origin = location.state?.from?.pathname || '/app'
 
   const dispatch = useDispatch()
   const theme = useSelector((state) => state.theme.value)
@@ -72,7 +70,7 @@ export default function Register() {
         position: toast.POSITION.TOP_RIGHT,
       })
 
-      timer = setTimeout(() => navigate(origin), 2000)
+      timer = setTimeout(() => navigate('/app', { replace: true }), 2000)
     }
 
     return () => {
