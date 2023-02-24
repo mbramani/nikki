@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import Turnstile from 'react-turnstile'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -41,11 +42,14 @@ const validationSchema = yup.object({
 })
 
 export default function Login() {
+  const [isTurnstileVerified, setIsTurnstileVerified] = useState(false)
+
   const navigate = useNavigate()
   const location = useLocation()
   const origin = location.state?.from?.pathname || '/app'
 
   const dispatch = useDispatch()
+  const theme = useSelector((state) => state.theme.value)
   const auth = useSelector((state) => state.auth)
   const { isLoading, isSuccess, tokens } = auth
 
@@ -60,7 +64,7 @@ export default function Login() {
       localStorage.setItem('accessToken', tokens.accessToken)
       localStorage.setItem('refreshToken', tokens.refreshToken)
 
-      timer = setTimeout(() => navigate(origin), 1500)
+      timer = setTimeout(() => navigate(origin), 2000)
     }
     return () => {
       clearTimeout(timer)
@@ -73,7 +77,7 @@ export default function Login() {
     try {
       await dispatch(loginUser(values)).unwrap()
     } catch (error) {
-      toast.error(`${(error.msg && error.msg) || error}`, {
+      toast.error(`${error?.msg || error}`, {
         position: toast.POSITION.TOP_RIGHT,
       })
     }
@@ -123,7 +127,17 @@ export default function Login() {
               <ErrorMessage>{formik.errors.password}</ErrorMessage>
             ) : null}
           </InputContainer>
-          <PrimaryButton type="submit" disabled={isLoading}>
+          <Turnstile
+            className="turnstile"
+            sitekey={
+              import.meta.env.DEV
+                ? '1x00000000000000000000AA'
+                : import.meta.env.VITE_CF_TURNSTILE_KEY
+            }
+            onVerify={() => setIsTurnstileVerified(true)}
+            theme={theme}
+          />
+          <PrimaryButton type="submit" disabled={isLoading || !isTurnstileVerified}>
             {isLoading ? (
               <LoadingWrapper>
                 <Icon icon="loading" /> Login...
