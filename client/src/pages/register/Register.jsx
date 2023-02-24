@@ -11,10 +11,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Icon } from '../../components'
 
 // redux-action
-import { loginUser } from '../../features/auth/authActions'
+import { registerUser } from '../../features/auth/authActions'
 
 // styled-components
 import { PrimaryButton } from '../../styles/ButtonStyles'
+import { Container } from './RegisteStyles'
 import {
   Form,
   Label,
@@ -23,17 +24,20 @@ import {
   ErrorMessage,
 } from '../../styles/FormStyles'
 import {
-  Container,
   FormContainer,
   Link,
   LinksContainer,
   LinkText,
   LoadingWrapper,
-} from './LoginStyles'
+} from '../login/LoginStyles'
 
 const passwordRegExp = /[0-9a-zA-Z@#$%]{6,18}/
 
 const validationSchema = yup.object({
+  name: yup
+    .string()
+    .min(3, 'Should have a minimum 3 characters')
+    .required('Name is a required'),
   email: yup
     .string()
     .email('Please enter a valid email address')
@@ -42,9 +46,13 @@ const validationSchema = yup.object({
     .string()
     .matches(passwordRegExp, 'Please enter a strong password')
     .required('Password is a required'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Password does not match')
+    .required('Confirm Password is a required'),
 })
 
-export default function Login() {
+export default function Register() {
   const [isTurnstileVerified, setIsTurnstileVerified] = useState(false)
 
   const navigate = useNavigate()
@@ -60,7 +68,7 @@ export default function Login() {
     let timer
 
     if (isSuccess || tokens.accessToken) {
-      toast.success('Login successfully !', {
+      toast.success('Register successfully !', {
         position: toast.POSITION.TOP_RIGHT,
       })
 
@@ -69,14 +77,13 @@ export default function Login() {
 
     return () => {
       clearTimeout(timer)
-
       toast.dismiss()
     }
   }, [isSuccess])
 
-  async function onSubmit(values) {
+  async function onSubmit({ confirmPassword, ...data }) {
     try {
-      await dispatch(loginUser(values)).unwrap()
+      await dispatch(registerUser(data)).unwrap()
     } catch (error) {
       toast.error(`${error?.msg || error}`, {
         position: toast.POSITION.TOP_RIGHT,
@@ -85,19 +92,36 @@ export default function Login() {
   }
 
   const formik = useFormik({
-    initialValues: { email: '', password: '' },
+    initialValues: { name: '', email: '', password: '', confirmPassword: '' },
     validateOnBlur: true,
     onSubmit,
     validationSchema,
   })
 
+  const IsNameError = formik.touched.name && formik.errors.name
   const IsEmailError = formik.touched.email && formik.errors.email
   const IsPasswordError = formik.touched.password && formik.errors.password
+  const isConfirmPasswordError =
+    formik.touched.confirmPassword && formik.errors.confirmPassword
 
   return (
     <Container>
       <FormContainer>
         <Form onSubmit={formik.handleSubmit}>
+          <InputContainer>
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="Your Name"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isError={IsNameError}
+            />
+            {IsNameError ? <ErrorMessage>{formik.errors.name}</ErrorMessage> : null}
+          </InputContainer>
           <InputContainer>
             <Label htmlFor="email">Email</Label>
             <Input
@@ -130,6 +154,22 @@ export default function Login() {
               <ErrorMessage>{formik.errors.password}</ErrorMessage>
             ) : null}
           </InputContainer>
+          <InputContainer>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Input
+              id="confirmPassword"
+              type="text"
+              placeholder="Repeat Password"
+              name="confirmPassword"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              isError={isConfirmPasswordError}
+            />
+            {isConfirmPasswordError ? (
+              <ErrorMessage>{formik.errors.confirmPassword}</ErrorMessage>
+            ) : null}
+          </InputContainer>
           <Turnstile
             className="turnstile"
             sitekey={
@@ -143,19 +183,20 @@ export default function Login() {
           <PrimaryButton type="submit" disabled={isLoading || !isTurnstileVerified}>
             {isLoading ? (
               <LoadingWrapper>
-                <Icon icon="loading" /> Login...
+                <Icon icon="loading" /> Registering...
               </LoadingWrapper>
             ) : (
-              'Login'
+              'Register'
             )}
           </PrimaryButton>
         </Form>
         <LinksContainer>
           <LinkText>
-            Don&apos;t have an account? <Link to="/register">Register</Link>
+            By registering htmlFor this site you are agreeing to the{' '}
+            <Link to="/terms">Terms & Conditions</Link>
           </LinkText>
           <LinkText>
-            Forgot password? <Link to="/reset-password">Reset Password</Link>
+            Already have an account? <Link to="/login">Login</Link>
           </LinkText>
         </LinksContainer>
       </FormContainer>
