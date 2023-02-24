@@ -34,11 +34,14 @@ import {
 const passwordRegExp = /[0-9a-zA-Z@#$%]{6,18}/
 
 const validationSchema = yup.object({
-  email: yup.string().email('Please enter a valid email address').required(),
+  email: yup
+    .string()
+    .email('Please enter a valid email address')
+    .required('Email is a required'),
   password: yup
     .string()
     .matches(passwordRegExp, 'Please enter a strong password')
-    .required(),
+    .required('Password is a required'),
 })
 
 export default function Login() {
@@ -56,16 +59,14 @@ export default function Login() {
   useEffect(() => {
     let timer
 
-    if (isSuccess) {
+    if (isSuccess || tokens.accessToken) {
       toast.success('Login successfully !', {
         position: toast.POSITION.TOP_RIGHT,
       })
 
-      localStorage.setItem('accessToken', tokens.accessToken)
-      localStorage.setItem('refreshToken', tokens.refreshToken)
-
       timer = setTimeout(() => navigate(origin), 2000)
     }
+
     return () => {
       clearTimeout(timer)
 
@@ -98,8 +99,9 @@ export default function Login() {
       <FormContainer>
         <Form onSubmit={formik.handleSubmit}>
           <InputContainer>
-            <Label>Email</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
+              id="email"
               type="email"
               placeholder="Your Email"
               name="email"
@@ -113,8 +115,9 @@ export default function Login() {
             ) : null}
           </InputContainer>
           <InputContainer>
-            <Label>Password</Label>
+            <Label htmlFor="password">Password</Label>
             <Input
+              id="password"
               type="password"
               placeholder="Your Password"
               name="password"
