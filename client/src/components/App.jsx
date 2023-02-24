@@ -4,11 +4,11 @@ import { Routes, Route } from 'react-router-dom'
 // redux
 import { useSelector, useDispatch } from 'react-redux'
 import { selectTheme } from '../features/theme/themeSlice'
+import { setAccessToken } from '../features/auth/authActions'
 
 // pages
 import { Layout } from './index'
-import { Home, Login, Register, Privacy, Terms } from '../pages/index'
-import { setAccessToken } from '../features/auth/authActions'
+import { Home, Login, Register, ResetPassword, Privacy, Terms } from '../pages/index'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -49,6 +49,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="reset-password" element={<ResetPassword />} />
         <Route path="terms" element={<Terms />} />
         <Route path="privacy" element={<Privacy />} />
       </Route>
