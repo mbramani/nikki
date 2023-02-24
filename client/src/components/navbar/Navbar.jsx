@@ -73,7 +73,11 @@ export default function Navbar({ simple }) {
           <LogoText>IKKI</LogoText>
         </AppLink>
         <NavLinks>
-          <ThemeButton type="button" onClick={handleThemeBtnClick}>
+          <ThemeButton
+            type="button"
+            onClick={handleThemeBtnClick}
+            aria-label="theme"
+          >
             {theme === 'dark' ? <Icon icon="moon" /> : <Icon icon="sun" />}
           </ThemeButton>
           {navLinks}
