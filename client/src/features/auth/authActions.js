@@ -15,7 +15,11 @@ export const registerUser = createAsyncThunk(
       }
       const response = await fetch(`${baseUrl}/register`, options)
       const data = await response.json()
+
       if (response.status === 201) {
+        localStorage.setItem('accessToken', data.accessToken)
+        localStorage.setItem('refreshToken', data.refreshToken)
+
         return fulfillWithValue(data)
       }
 
@@ -41,6 +45,9 @@ export const loginUser = createAsyncThunk(
       const data = await response.json()
 
       if (response.status === 200) {
+        localStorage.setItem('accessToken', data.accessToken)
+        localStorage.setItem('refreshToken', data.refreshToken)
+
         return fulfillWithValue(data)
       }
 
@@ -66,6 +73,8 @@ export const setAccessToken = createAsyncThunk(
       const data = await response.json()
 
       if (response.status === 200) {
+        localStorage.accessToken = data.accessToken
+
         return fulfillWithValue(data)
       }
 
