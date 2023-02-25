@@ -1,4 +1,6 @@
+import path from 'path'
 import { createLogger, format, transports } from 'winston'
+import { formatDate } from '../functions/index.js'
 
 const { combine, timestamp, colorize, json, printf } = format
 const { Console, File } = transports
@@ -25,23 +27,21 @@ if (process.env.NODE_ENV === 'production') {
     .add(new Console({ level: 'info' }))
     .add(
       new File({
-        level: 'info',
-        filename: './logs/info.log',
-      })
-    )
-    .add(
-      new File({
         level: 'http',
-        filename: './logs/combine.log',
+        filename: path.resolve(process.cwd(), 'logs', `${formatDate()}.log`),
       })
     )
     .add(
       new File({
         level: 'error',
-        filename: './logs/error.log',
+        filename: path.resolve(process.cwd(), 'logs', `${formatDate()}-errors.log`),
       })
     )
-    .exceptions.handle(new transports.File({ filename: './logs/exceptions.log' }))
+    .exceptions.handle(
+      new transports.File({
+        filename: path.resolve(process.cwd(), 'logs', `${formatDate()}-exceptions.log`),
+      })
+    )
 }
 
 export default logger

@@ -4,12 +4,6 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "lint-staged": {
-    "*.{html,json,js}": [
-      "prettier --write .",
-      "eslint --fix ."
-    ]
-  },
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./src/index.js",
     "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
@@ -59,5 +53,11 @@
     "nodemon": "^2.0.20",
     "prettier": "^2.8.1",
     "supertest": "^6.3.3"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "eslint --fix .",
+      "prettier --write -u"
+    ]
   }
 }
