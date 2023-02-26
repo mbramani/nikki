@@ -46,7 +46,7 @@ const privacyPolicy = [
   {
     heading: 'Contact Us',
     paragraphs: [
-      'If you have any questions or concerns about our privacy policy, please contact us at nikki.journal@outlook.com.',
+      'If you have any questions or concerns about our privacy policy, please contact us at nikki.journal.app@gmail.com.',
     ],
   },
 ]

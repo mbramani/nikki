@@ -18,6 +18,7 @@ export default function Privacy() {
     <Container>
       <PrivacySection>
         <PrimaryHeading>Privacy Policy</PrimaryHeading>
+        <Paragraph>Last updated: 2023-02-28</Paragraph>
         <Paragraph>
           This privacy policy outlines how we collect, use, and protect personal
           information that you provide to us through our website NIKKI. We respect
