@@ -34,7 +34,7 @@ export default function App() {
       )
     }
     return () => clearInterval(interval)
-  }, [])
+  }, [tokens.refreshToken])
 
   useEffect(() => {
     if (theme === 'dark') {

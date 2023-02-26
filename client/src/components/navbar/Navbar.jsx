@@ -12,7 +12,6 @@ import { Icon } from '../index'
 import { todayUrl, yearUrl } from '../../utils/date'
 
 // styled-components
-import { NavbarSkeleton } from '../skeletons'
 import {
   Header,
   Nav,
@@ -32,10 +31,6 @@ export default function Navbar({ simple }) {
     { refetchOnMountOrArgChange: true }
   )
   const isAuth = !isError && !isLoading
-
-  if (isLoading) {
-    return <NavbarSkeleton />
-  }
 
   let navLinks
 
