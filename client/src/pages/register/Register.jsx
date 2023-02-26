@@ -185,7 +185,7 @@ export default function Register() {
         <LinksContainer>
           <LinkText>
             By registering htmlFor this site you are agreeing to the{' '}
-            <Link to="/terms">Terms & Conditions</Link>
+            <Link to="/terms-and-conditions">Terms & Conditions</Link>
           </LinkText>
           <LinkText>
             Already have an account? <Link to="/login">Login</Link>

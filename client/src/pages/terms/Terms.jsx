@@ -25,6 +25,7 @@ export default function Terms() {
     <Container>
       <TermsSection>
         <PrimaryHeading>Terms & Conditions</PrimaryHeading>
+        <Paragraph>Last updated: 2023-02-28</Paragraph>
         {terms.map((obj, index) => (
           <TermContainer key={`${obj.heading}_${index}`}>
             <SecondaryHeading>{obj.heading}</SecondaryHeading>
