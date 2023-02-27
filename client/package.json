@@ -51,10 +51,10 @@
     "vite": "^4.0.0"
   },
   "lint-staged": {
-    "*.{css,less,scss,html,json,jsx,js}": [
+    "**/*.{css,less,scss,html,json,jsx,js}": [
       "prettier --write ."
     ],
-    "*.{jsx,js}": "eslint --fix"
+    "**/*.{jsx,js}": "eslint --fix"
   },
   "babelMacros": {
     "twin": {

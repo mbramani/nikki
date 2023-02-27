@@ -54,12 +54,16 @@ export default function Login() {
   const dispatch = useDispatch()
   const theme = useSelector((state) => state.theme.value)
   const auth = useSelector((state) => state.auth)
-  const { isLoading, isSuccess, tokens } = auth
+  const { isLoading, isSuccess, user } = auth
 
   useEffect(() => {
     let timer
 
-    if (isSuccess || tokens.accessToken) {
+    if (user?.email) {
+      navigate(origin, { replace: true })
+    }
+
+    if (isSuccess) {
       toast.success('Login successfully !', {
         position: toast.POSITION.TOP_RIGHT,
       })
@@ -72,7 +76,7 @@ export default function Login() {
 
       toast.dismiss()
     }
-  }, [isSuccess])
+  }, [isSuccess, user?.email])
 
   async function onSubmit(values) {
     try {
