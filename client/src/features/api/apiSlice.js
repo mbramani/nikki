@@ -6,8 +6,8 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl,
-    prepareHeaders: (headers) => {
-      const accessToken = localStorage.getItem('accessToken')
+    prepareHeaders: (headers, { getState }) => {
+      const { accessToken } = getState().auth.tokens
       if (!accessToken) {
         return headers
       }
