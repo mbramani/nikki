@@ -7,7 +7,7 @@ import { selectTheme } from '../features/theme/themeSlice'
 import { setAccessToken } from '../features/auth/authActions'
 
 // pages
-import { Layout } from './index'
+import { Layout, AppLayout } from './index'
 import {
   Home,
   Login,
@@ -17,24 +17,27 @@ import {
   Privacy,
   Terms,
 } from '../pages/index'
+import { selectTokens } from '../features/auth/authSlice'
 
 export default function App() {
   const dispatch = useDispatch()
   const theme = useSelector(selectTheme)
-  const tokens = useSelector((state) => state.auth.tokens)
+  const { refreshToken } = useSelector(selectTokens)
 
   const FIFTEEN_MINUTES = 900000
 
   useEffect(() => {
     let interval
-    if (tokens.refreshToken) {
+    if (refreshToken) {
+      dispatch(setAccessToken({ refreshToken }))
+
       interval = setInterval(
-        () => dispatch(setAccessToken({ refreshToken: tokens.refreshToken })),
+        () => dispatch(setAccessToken({ refreshToken })),
         FIFTEEN_MINUTES
       )
     }
     return () => clearInterval(interval)
-  }, [tokens.refreshToken])
+  }, [refreshToken])
 
   useEffect(() => {
     if (theme === 'dark') {
