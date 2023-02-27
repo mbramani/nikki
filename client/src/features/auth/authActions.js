@@ -78,6 +78,8 @@ export const setAccessToken = createAsyncThunk(
         return fulfillWithValue(data)
       }
 
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
       return rejectWithValue(data)
     } catch (error) {
       return rejectWithValue(error.message)

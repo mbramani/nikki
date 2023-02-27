@@ -25,17 +25,12 @@ import {
 export default function Navbar({ simple }) {
   const dispatch = useDispatch()
   const theme = useSelector(selectTheme)
-
-  const { isLoading, isError } = useGetUserQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  )
-  const isAuth = !isError && !isLoading
+  const { data: user } = useGetUserQuery('user')
 
   let navLinks
 
   if (simple) {
-    navLinks = isAuth ? (
+    navLinks = user?.email ? (
       <NavLink to="app" aria-label="app">
         <Icon icon="rocket" />
       </NavLink>
@@ -63,7 +58,7 @@ export default function Navbar({ simple }) {
   return (
     <Header>
       <Nav>
-        <AppLink to={simple ? '/' : 'app'} aria-label={simple ? 'home' : 'app'}>
+        <AppLink to={simple ? '/' : '/app'} aria-label={simple ? 'home' : 'app'}>
           <Icon icon="logo" />
           <LogoText>IKKI</LogoText>
         </AppLink>
