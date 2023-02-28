@@ -3,11 +3,12 @@ import { Routes, Route } from 'react-router-dom'
 
 // redux
 import { useSelector, useDispatch } from 'react-redux'
-import { selectTheme } from '../features/theme/themeSlice'
-import { setAccessToken } from '../features/auth/authActions'
+import { setAccessToken } from './features/auth/authActions'
+import { selectTheme } from './features/theme/themeSlice'
+import { selectTokens } from './features/auth/authSlice'
 
 // pages
-import { Layout, AppLayout } from './index'
+import { Layout, AppLayout } from './components/index'
 import {
   Home,
   Login,
@@ -16,8 +17,10 @@ import {
   ResetPassword,
   Privacy,
   Terms,
-} from '../pages/index'
-import { selectTokens } from '../features/auth/authSlice'
+} from './pages/index'
+
+// routes
+import { AppRoute } from './routes'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -64,6 +67,9 @@ export default function App() {
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="terms-and-conditions" element={<Terms />} />
         <Route path="privacy-policy" element={<Privacy />} />
+      </Route>
+      <Route path="app" element={<AppLayout />}>
+        <Route index element={<AppRoute />} />
       </Route>
     </Routes>
   )

@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { store } from './features/store'
 
 // App component
-import { App } from './components/index'
+import App from './App'
 
 // styles
 import GlobalStyles from './styles/GlobalStyles'
