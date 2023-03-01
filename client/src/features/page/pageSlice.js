@@ -32,6 +32,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetAllPagesQuery,
+  useLazyGetAllPagesQuery,
   useGetPageQuery,
   useAddPageMutation,
   useUpdatePageMutation,

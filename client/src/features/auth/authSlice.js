@@ -27,6 +27,7 @@ const authSlice = createSlice({
       state.isError = false
       state.error = null
       state.tokens = { accessToken: null, refreshToken: null }
+      state.user = { name: null, email: null }
     },
     setAccessToken: (state, { payload }) => {
       state.tokens.accessToken = payload.accessToken
