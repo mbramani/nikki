@@ -25,7 +25,11 @@ import {
 export default function Navbar({ simple }) {
   const dispatch = useDispatch()
   const theme = useSelector(selectTheme)
-  const { data: user } = useGetUserQuery('user')
+  const { data: user } = useGetUserQuery('user', {
+    skip: false,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+  })
 
   let navLinks
 

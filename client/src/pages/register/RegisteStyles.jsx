@@ -5,8 +5,8 @@ import {
 } from '../login/LoginStyles'
 
 export const Container = styled(MainContainer)`
-  ${tw`min-h-screen h-fit`}
+  ${tw`min-h-screen h-full`}
 `
 export const FormContainer = styled(FC)`
-  ${tw`py-4 h-fit my-4`}
+  ${tw`py-6 h-screen`}
 `

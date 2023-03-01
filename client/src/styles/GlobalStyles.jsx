@@ -3,10 +3,10 @@ import tw, { GlobalStyles as BaseStyles } from 'twin.macro'
 
 const CustomStyles = createGlobalStyle({
   '*': {
-    ...tw`transition-all ease-in-out scroll-smooth`,
+    ...tw`scroll-smooth`,
   },
   body: {
-    ...tw`font-sans text-gray-900 bg-slate-50 dark:bg-slate-900 dark:text-gray-50`,
+    ...tw`font-sans text-gray-900 transition-all ease-in bg-slate-50 dark:bg-slate-900 dark:text-gray-50`,
   },
   '.Toastify__toast': {
     ...tw`text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow dark:text-gray-50 shadow-gray-100 dark:shadow-gray-900 dark:bg-gray-800 backdrop-filter backdrop-blur dark:border-gray-800`,

@@ -7,6 +7,9 @@ import Turnstile from 'react-turnstile'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+// redux-selector
+import { selectTheme } from '../../features/theme/themeSlice'
+
 // react-component
 import { Icon } from '../../components'
 
@@ -52,35 +55,27 @@ export default function Login() {
   const origin = location.state?.from?.pathname || '/app'
 
   const dispatch = useDispatch()
-  const theme = useSelector((state) => state.theme.value)
+  const theme = useSelector(selectTheme)
   const auth = useSelector((state) => state.auth)
   const { isLoading, isSuccess, user } = auth
 
   useEffect(() => {
     let timer
 
-    if (user?.email) {
-      navigate(origin, { replace: true })
+    if (isSuccess || user?.email) {
+      timer = setTimeout(() => navigate(origin, { replace: true }), 1500)
     }
 
-    if (isSuccess) {
-      toast.success('Login successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
-
-      timer = setTimeout(() => navigate(origin, { replace: true }), 2000)
-    }
-
-    return () => {
-      clearTimeout(timer)
-
-      toast.dismiss()
-    }
+    return () => clearTimeout(timer)
   }, [isSuccess, user?.email])
 
   async function onSubmit(values) {
     try {
       await dispatch(loginUser(values)).unwrap()
+
+      toast.success('Login successfully !', {
+        position: toast.POSITION.TOP_RIGHT,
+      })
     } catch (error) {
       toast.error(`${error?.msg || error}`, {
         position: toast.POSITION.TOP_RIGHT,

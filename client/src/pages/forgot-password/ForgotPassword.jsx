@@ -43,23 +43,19 @@ export default function ForgotPassword() {
     let timer
 
     if (isSuccess) {
-      toast.success('Password reset email sent successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
-
       timer = setTimeout(() => navigate('/', { replace: true }), 2000)
     }
 
-    return () => {
-      clearTimeout(timer)
-
-      toast.dismiss()
-    }
+    return () => clearTimeout(timer)
   }, [isSuccess])
 
   async function onSubmit(values) {
     try {
       await forgotPassword(values).unwrap()
+
+      toast.success('Password reset email sent successfully !', {
+        position: toast.POSITION.TOP_RIGHT,
+      })
     } catch (error) {
       toast.error(`${error.data?.msg || error?.error}`, {
         position: toast.POSITION.TOP_RIGHT,

@@ -1,28 +1,27 @@
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import Turnstile from 'react-turnstile'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-// react-component
-import { Icon } from '../../components'
+//  rtk query mutations hook
+import { useUpdateUserPasswordMutation } from '../../features/user/userSlice'
 
-// rtk query mutations hook
-import { useResetUserPasswordMutation } from '../../features/user/userSlice'
+// react component
+import Icon from '../Icon'
 
-// styled-components
+// styled-component
+import { LoadingWrapper } from '../../pages/login/LoginStyles'
 import { PrimaryButton } from '../../styles/ButtonStyles'
+import { ModalBackground, ModalContainer, ModalFooter } from './ModalStyles'
 import {
   Form,
   Label,
-  Input,
   InputContainer,
+  Input,
   ErrorMessage,
 } from '../../styles/FormStyles'
-import { FormContainer, LoadingWrapper, Container } from '../login/LoginStyles'
 
 const passwordRegExp = /[0-9a-zA-Z@#$%]{6,18}/
 
@@ -37,49 +36,29 @@ const validationSchema = yup.object({
     .required('Confirm Password is a required'),
 })
 
-export default function ResetPassword() {
-  const [searchParams] = useSearchParams()
-  const resetToken = searchParams.get('token')
-
-  const [resetUserPassword, { isLoading, isSuccess }] =
-    useResetUserPasswordMutation()
-  const theme = useSelector((state) => state.theme.value)
-
-  const [isTurnstileVerified, setIsTurnstileVerified] = useState(false)
-
-  const navigate = useNavigate()
+export default function UserPasswordModal({ toggleUserPasswordModal }) {
+  const [updateUserPassword, { isLoading, isSuccess }] =
+    useUpdateUserPasswordMutation()
 
   useEffect(() => {
     let timer
 
-    if (!resetToken) {
-      toast.error('Token is invalid !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
-
-      timer = setTimeout(() => navigate('/', { replace: true }), 1500)
-    }
-
     if (isSuccess) {
-      timer = setTimeout(() => navigate('/login', { replace: true }), 1500)
+      timer = setTimeout(() => toggleUserPasswordModal(), 1500)
     }
 
-    return () => {
-      clearTimeout(timer)
-
-      toast.dismiss()
-    }
+    return () => clearTimeout(timer)
   }, [isSuccess])
 
   async function onSubmit(values) {
     try {
-      await resetUserPassword({ resetToken, newPassword: values.password }).unwrap()
+      await updateUserPassword({ newPassword: values.password }).unwrap()
 
       toast.success('Password updated successfully !', {
         position: toast.POSITION.TOP_RIGHT,
       })
     } catch (error) {
-      toast.error(`${error.data?.msg || error?.error}`, {
+      toast.error(`${error?.data?.msg || error.error}`, {
         position: toast.POSITION.TOP_RIGHT,
       })
     }
@@ -97,15 +76,15 @@ export default function ResetPassword() {
     formik.touched.confirmPassword && formik.errors.confirmPassword
 
   return (
-    <Container>
-      <FormContainer>
+    <ModalBackground tabIndex={0} aria-modal="true" aria-hidden="true">
+      <ModalContainer>
         <Form onSubmit={formik.handleSubmit}>
           <InputContainer>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">New Password</Label>
             <Input
               id="password"
               type="password"
-              placeholder="Your Password"
+              placeholder="Your New Password"
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -132,28 +111,30 @@ export default function ResetPassword() {
               <ErrorMessage>{formik.errors.confirmPassword}</ErrorMessage>
             ) : null}
           </InputContainer>
-          <Turnstile
-            className="turnstile"
-            sitekey={
-              import.meta.env.DEV
-                ? '1x00000000000000000000AA'
-                : import.meta.env.VITE_CF_TURNSTILE_KEY
-            }
-            onVerify={() => setIsTurnstileVerified(true)}
-            theme={theme}
-          />
-          <PrimaryButton type="submit" disabled={isLoading || !isTurnstileVerified}>
-            {isLoading ? (
-              <LoadingWrapper>
-                <Icon icon="loading" /> Submitting...
-              </LoadingWrapper>
-            ) : (
-              'Submit'
-            )}
-          </PrimaryButton>
+          <ModalFooter>
+            <PrimaryButton aria-label="submit" type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <LoadingWrapper>
+                  <Icon icon="loading" />
+                </LoadingWrapper>
+              ) : (
+                'Submit'
+              )}
+            </PrimaryButton>
+            <PrimaryButton
+              aria-label="cancel"
+              type="button"
+              onClick={toggleUserPasswordModal}
+            >
+              Cancel
+            </PrimaryButton>
+          </ModalFooter>
         </Form>
-      </FormContainer>
-      <ToastContainer limit={5} />
-    </Container>
+      </ModalContainer>
+    </ModalBackground>
   )
+}
+
+UserPasswordModal.propTypes = {
+  toggleUserPasswordModal: PropTypes.func.isRequired,
 }

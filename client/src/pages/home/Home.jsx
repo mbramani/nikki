@@ -60,7 +60,7 @@ export default function Home() {
           life.
         </Paragraph>
         <PrimaryButton
-          onClick={() => navigate('/register')}
+          onClick={() => navigate('register')}
           type="button"
           aria-label="register"
         >
