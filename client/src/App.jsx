@@ -20,7 +20,7 @@ import {
 } from './pages/index'
 
 // routes
-import { AppRoute } from './routes'
+import { AppRoute, UserRoute } from './routes'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -70,6 +70,7 @@ export default function App() {
       </Route>
       <Route path="app" element={<AppLayout />}>
         <Route index element={<AppRoute />} />
+        <Route path="user" element={<UserRoute />} />
       </Route>
     </Routes>
   )
