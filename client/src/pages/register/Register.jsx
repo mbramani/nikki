@@ -59,27 +59,20 @@ export default function Register() {
   useEffect(() => {
     let timer
 
-    if (user?.email) {
-      navigate(origin, { replace: true })
+    if (isSuccess || user?.email) {
+      timer = setTimeout(() => navigate('/app', { replace: true }), 1500)
     }
 
-    if (isSuccess) {
-      toast.success('Register successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
-
-      timer = setTimeout(() => navigate('/app', { replace: true }), 2000)
-    }
-
-    return () => {
-      clearTimeout(timer)
-      toast.dismiss()
-    }
+    return () => clearTimeout(timer)
   }, [isSuccess, user?.email])
 
   async function onSubmit({ confirmPassword, ...data }) {
     try {
       await dispatch(registerUser(data)).unwrap()
+
+      toast.success('Register successfully !', {
+        position: toast.POSITION.TOP_RIGHT,
+      })
     } catch (error) {
       toast.error(`${error?.msg || error}`, {
         position: toast.POSITION.TOP_RIGHT,

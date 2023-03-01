@@ -57,15 +57,11 @@ export default function ResetPassword() {
         position: toast.POSITION.TOP_RIGHT,
       })
 
-      timer = setTimeout(() => navigate('/', { replace: true }), 2000)
+      timer = setTimeout(() => navigate('/', { replace: true }), 1500)
     }
 
     if (isSuccess) {
-      toast.success('Password updated successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
-
-      timer = setTimeout(() => navigate('/login', { replace: true }), 2000)
+      timer = setTimeout(() => navigate('/login', { replace: true }), 1500)
     }
 
     return () => {
@@ -78,6 +74,10 @@ export default function ResetPassword() {
   async function onSubmit(values) {
     try {
       await resetUserPassword({ resetToken, newPassword: values.password }).unwrap()
+
+      toast.success('Password updated successfully !', {
+        position: toast.POSITION.TOP_RIGHT,
+      })
     } catch (error) {
       toast.error(`${error.data?.msg || error?.error}`, {
         position: toast.POSITION.TOP_RIGHT,
