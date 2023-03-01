@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-const baseUrl = 'http://localhost:5000/api/auth'
+const baseUrl = import.meta.env.VITE_BASE_URL
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
@@ -13,7 +13,7 @@ export const registerUser = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       }
-      const response = await fetch(`${baseUrl}/register`, options)
+      const response = await fetch(`${baseUrl}/auth/register`, options)
       const data = await response.json()
 
       if (response.status === 201) {
@@ -41,7 +41,7 @@ export const loginUser = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       }
-      const response = await fetch(`${baseUrl}/login`, options)
+      const response = await fetch(`${baseUrl}/auth/login`, options)
       const data = await response.json()
 
       if (response.status === 200) {
@@ -69,7 +69,7 @@ export const setAccessToken = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       }
-      const response = await fetch(`${baseUrl}/token`, options)
+      const response = await fetch(`${baseUrl}/auth/token`, options)
       const data = await response.json()
 
       if (response.status === 200) {
