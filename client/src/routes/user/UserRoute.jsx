@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import fileDownload from 'js-file-download'
@@ -70,10 +71,10 @@ export default function UserRoute() {
         <UserCard>
           <UserCardBody>
             <Paragraph>
-              Name : <Span>{userDetails.name}</Span>
+              Name : <Span>{userDetails?.name}</Span>
             </Paragraph>
             <Paragraph>
-              Email : <Span>{userDetails.email}</Span>
+              Email : <Span>{userDetails?.email}</Span>
             </Paragraph>
           </UserCardBody>
           <UserCardFooter>
@@ -113,17 +114,21 @@ export default function UserRoute() {
             </PrimaryButton>
           </UserCardFooter>
         </UserCard>
-        {isModalOpen.user && (
-          <UserModal
-            userDetails={userDetails}
-            toggleUserModal={() => toggleModal('user')}
-          />
-        )}
-        {isModalOpen.userPassword && (
-          <UserPasswordModal
-            toggleUserPasswordModal={() => toggleModal('userPassword')}
-          />
-        )}
+        {isModalOpen.user &&
+          createPortal(
+            <UserModal
+              userDetails={userDetails}
+              toggleUserModal={() => toggleModal('user')}
+            />,
+            document.body
+          )}
+        {isModalOpen.userPassword &&
+          createPortal(
+            <UserPasswordModal
+              toggleUserPasswordModal={() => toggleModal('userPassword')}
+            />,
+            document.body
+          )}
       </SectionContainer>
     </Container>
   )
