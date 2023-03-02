@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { lazy, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 // redux
@@ -7,20 +7,25 @@ import { setAccessToken } from './features/auth/authActions'
 import { selectTheme } from './features/theme/themeSlice'
 import { selectTokens } from './features/auth/authSlice'
 
-// pages
+// layouts
 import { Layout, AppLayout } from './components/index'
-import {
-  Home,
-  Login,
-  Register,
-  ForgotPassword,
-  ResetPassword,
-  Privacy,
-  Terms,
-} from './pages/index'
+
+// page
+import { Home } from './pages/index'
 
 // routes
-import { AppRoute, UserRoute } from './routes'
+import { AppRoute } from './routes'
+
+// lazy pages
+const Login = lazy(() => import('./pages/login/Login'))
+const Register = lazy(() => import('./pages/register/Register'))
+const ForgotPassword = lazy(() => import('./pages/forgot-password/ForgotPassword'))
+const ResetPassword = lazy(() => import('./pages/reset-password/ResetPassword'))
+const Privacy = lazy(() => import('./pages/privacy/Privacy'))
+const Terms = lazy(() => import('./pages/terms/Terms'))
+
+// lazy routes
+const UserRoute = lazy(() => import('./routes/user/UserRoute'))
 
 export default function App() {
   const dispatch = useDispatch()
