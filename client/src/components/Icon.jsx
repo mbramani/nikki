@@ -10,7 +10,9 @@ import { ReactComponent as LogoIcon } from '../assets/icons/logo.svg'
 import { ReactComponent as LogoutIcon } from '../assets/icons/logout.svg'
 import { ReactComponent as MarkdownIcon } from '../assets/icons/markdown.svg'
 import { ReactComponent as MoonIcon } from '../assets/icons/moon.svg'
+import { ReactComponent as NextIcon } from '../assets/icons/next.svg'
 import { ReactComponent as PenIcon } from '../assets/icons/pen.svg'
+import { ReactComponent as PrevIcon } from '../assets/icons/prev.svg'
 import { ReactComponent as RocketIcon } from '../assets/icons/rocket.svg'
 import { ReactComponent as SunIcon } from '../assets/icons/sun.svg'
 import { ReactComponent as UserIcon } from '../assets/icons/user.svg'
@@ -28,7 +30,9 @@ export default function Icon({ icon }) {
       {icon === 'logout' && <LogoutIcon />}
       {icon === 'markdown' && <MarkdownIcon />}
       {icon === 'moon' && <MoonIcon />}
+      {icon === 'next' && <NextIcon />}
       {icon === 'pen' && <PenIcon />}
+      {icon === 'prev' && <PrevIcon />}
       {icon === 'rocket' && <RocketIcon />}
       {icon === 'sun' && <SunIcon />}
       {icon === 'user' && <UserIcon />}
@@ -48,7 +52,9 @@ Icon.propTypes = {
     'logout',
     'markdown',
     'moon',
+    'next',
     'pen',
+    'prev',
     'rocket',
     'sun',
     'user',
