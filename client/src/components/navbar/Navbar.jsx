@@ -27,7 +27,6 @@ export default function Navbar({ simple }) {
   const theme = useSelector(selectTheme)
   const { data: user } = useGetUserQuery('user', {
     skip: false,
-    refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   })
 

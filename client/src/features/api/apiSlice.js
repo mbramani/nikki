@@ -15,6 +15,8 @@ export const apiSlice = createApi({
       return headers
     },
   }),
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   tagTypes: ['User', 'Page'],
   endpoints: (_builder) => ({}),
 })

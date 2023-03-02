@@ -1,9 +1,9 @@
 export const pad = (n) => (n < 10 ? '0' : '') + n
 
 export const todayUrl = (date = new Date()) =>
-  `/${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())}/`
+  `${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())}/`
 
-export const yearUrl = (date = new Date()) => `/${date.getFullYear()}/`
+export const yearUrl = (date = new Date()) => `${date.getFullYear()}/`
 
 export const getDayOfYear = (date = new Date()) => {
   const timestamp1 = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
