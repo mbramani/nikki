@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types'
 import React from 'react'
-import { SecondaryHeading } from '../../styles/TypographyStyles'
+import PropTypes from 'prop-types'
+
+// react component
 import Icon from '../Icon'
+
+// styled components
+import { SecondaryHeading } from '../../styles/TypographyStyles'
 import { DisableLink, SeekContainer, SeekLink, SeekLinks } from './SeekStyles'
 
 export default function Seek({ title, prev, next, disableNext }) {
@@ -9,7 +13,7 @@ export default function Seek({ title, prev, next, disableNext }) {
     <SeekContainer>
       <SecondaryHeading>{title}</SecondaryHeading>
       <SeekLinks>
-        <SeekLink to={prev} aria-label="previous">
+        <SeekLink to={`/app/${prev}`} aria-label="previous">
           <Icon icon="prev" />
         </SeekLink>
         {disableNext ? (
@@ -17,7 +21,7 @@ export default function Seek({ title, prev, next, disableNext }) {
             <Icon icon="next" />
           </DisableLink>
         ) : (
-          <SeekLink to={next} aria-label="next">
+          <SeekLink to={`/app/${next}`} aria-label="next">
             <Icon icon="next" />
           </SeekLink>
         )}
