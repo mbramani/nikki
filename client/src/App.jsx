@@ -14,7 +14,7 @@ import { Layout, AppLayout } from './components/index'
 import { Home } from './pages/index'
 
 // routes
-import { AppRoute } from './routes'
+import { AppRoute, YearRoute } from './routes'
 
 // lazy pages
 const Login = lazy(() => import('./pages/login/Login'))
@@ -76,6 +76,7 @@ export default function App() {
       <Route path="app" element={<AppLayout />}>
         <Route index element={<AppRoute />} />
         <Route path="user" element={<UserRoute />} />
+        <Route path=":year" element={<YearRoute />} />
       </Route>
     </Routes>
   )

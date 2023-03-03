@@ -16,3 +16,9 @@ export const getDayOfYear = (date = new Date()) => {
 
   return differenceInDays
 }
+
+export const months = {
+  long: Array.from({ length: 12 }, (x, index) =>
+    new Date(0, index).toLocaleDateString('en-US', { month: 'long' })
+  ),
+}
