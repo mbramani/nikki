@@ -25,6 +25,7 @@
     "no-unused-vars": "warn",
     "default-param-last": "off",
     "import/no-cycle": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "no-plusplus": "off"
   }
 }

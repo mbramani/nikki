@@ -9,7 +9,7 @@ export const MonthCardsGrid = styled.div`
   }
 `
 export const MonthCard = styled(GradientDiv)`
-  ${tw`p-10 text-center text-gray-900 dark:text-gray-50 hover:ring-2 ring-gray-800 dark:ring-gray-100 focus:outline-none ring-offset-2 dark:ring-offset-gray-900`}
+  ${tw`p-10 font-medium text-center text-gray-900 dark:text-gray-50 hover:ring-2 ring-gray-800 dark:ring-gray-100 focus:outline-none ring-offset-2 dark:ring-offset-gray-900`}
 
   && {
     ${({ disabled }) =>
