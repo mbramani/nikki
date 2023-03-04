@@ -10,7 +10,7 @@ import { DisableLink, SeekContainer, SeekLink, SeekLinks } from './SeekStyles'
 export default function Seek({ title, prev, next, disableNext }) {
   return (
     <SeekContainer>
-      <SecondaryHeading>{title}</SecondaryHeading>
+      <SecondaryHeading aria-label={title}>{title}</SecondaryHeading>
       <SeekLinks>
         <SeekLink to={`/app/${prev}`} aria-label="previous">
           <Icon icon="prev" />

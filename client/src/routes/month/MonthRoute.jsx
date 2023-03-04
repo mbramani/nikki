@@ -36,25 +36,19 @@ export default function MonthRoute() {
   for (let i = 0; i < getDaysInMonth(currentDay); i++) {
     const isDisabled = dayIndexesToInclude <= i && isThisMonth(currentDay)
 
+    const date = new Date(year, month - 1, i + 1)
     if (isDisabled) {
       dayCards.push(
-        <DayCard disabled key={i}>
-          <DayCardBanner disabled>
-            {format(new Date(year, month - 1, i + 1), 'eee')}
-          </DayCardBanner>
+        <DayCard key={i} disabled aria-disabled aria-label={i}>
+          <DayCardBanner disabled>{format(date, 'eee')}</DayCardBanner>
           <DayCardContent>{i + 1}</DayCardContent>
         </DayCard>
       )
     } else {
       dayCards.push(
-        <Link
-          key={i}
-          to={`/app${format(new Date(year, month - 1, i + 1), '/yyyy/MM/dd')}`}
-        >
-          <DayCard key={i}>
-            <DayCardBanner>
-              {format(new Date(year, month - 1, i + 1), 'eee')}
-            </DayCardBanner>
+        <Link key={i} to={`/app${format(date, '/yyyy/MM/dd')}`} aria-label={i}>
+          <DayCard>
+            <DayCardBanner>{format(date, 'eee')}</DayCardBanner>
             <DayCardContent>{i + 1}</DayCardContent>
           </DayCard>
         </Link>
