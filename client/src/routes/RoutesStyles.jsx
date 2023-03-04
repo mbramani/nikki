@@ -8,5 +8,5 @@ export const SectionContainer = styled.section`
   }
 `
 export const GradientDiv = styled.div`
-  ${tw`border rounded shadow-xl dark:border-gray-800 shadow-gray-100 dark:shadow-gray-900 bg-gradient-to-t dark:from-gray-800/60 dark:to-slate-800/60 from-gray-200/60 to-slate-200/60 backdrop-filter backdrop-blur-md`}
+  ${tw`border border-gray-200 rounded shadow-xl dark:border-gray-800 shadow-gray-100 dark:shadow-gray-900 bg-gradient-to-t dark:from-gray-800/60 dark:to-slate-800/60 from-gray-200/60 to-slate-200/60 backdrop-filter backdrop-blur-md`}
 `

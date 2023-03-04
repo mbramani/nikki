@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { addYears, subYears, format, isThisYear, getMonth } from 'date-fns'
 
@@ -8,7 +7,7 @@ import { months } from '../../utils/date'
 // styled components
 import { Seek } from '../../components'
 import { Container } from '../../styles/Container'
-import { MonthCard, MonthCardDisabled, MonthsGrid } from './YearRouteStyles'
+import { MonthCard, MonthCardsGrid } from './YearRouteStyles'
 
 export default function YearRoute() {
   const { year } = useParams()
@@ -27,17 +26,18 @@ export default function YearRoute() {
         next={format(addYears(currentDate, 1), 'yyyy')}
         disableNext={year >= new Date().getFullYear()}
       />
-      <MonthsGrid>
+      <MonthCardsGrid>
         {months.long.map((month, index) => {
           const isDisabled = monthIndexesToInclude < index
           return isDisabled ? (
-            <MonthCardDisabled
+            <MonthCard
               key={`${month}-${index}`}
               aria-label={month}
               aria-disabled
+              disabled
             >
               {month}
-            </MonthCardDisabled>
+            </MonthCard>
           ) : (
             <Link
               key={`${month}-${index}`}
@@ -48,7 +48,7 @@ export default function YearRoute() {
             </Link>
           )
         })}
-      </MonthsGrid>
+      </MonthCardsGrid>
     </Container>
   )
 }
