@@ -32,7 +32,7 @@ export default function AppRoute() {
         <PrimaryButton
           type="button"
           onClick={() => {
-            navigate(`/app${todayUrl()}`)
+            navigate(`/app/${todayUrl()}`)
           }}
         >
           Write about today
