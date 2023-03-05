@@ -16,7 +16,9 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: { data },
       }),
-      invalidatesTags: (_result, _error, arg) => [{ type: 'Page', id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'Page', id: { day: arg.day, month: arg.month, year: arg.year } },
+      ],
     }),
 
     updatePage: builder.mutation({
@@ -25,7 +27,9 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'PATCH',
         body: { data },
       }),
-      invalidatesTags: (_result, _error, arg) => [{ type: 'Page', id: arg.id }],
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'Page', id: { day: arg.day, month: arg.month, year: arg.year } },
+      ],
     }),
   }),
 })

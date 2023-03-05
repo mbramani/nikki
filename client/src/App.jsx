@@ -14,7 +14,7 @@ import { Layout, AppLayout } from './components/index'
 import { Home } from './pages/index'
 
 // routes
-import { AppRoute, MonthRoute, YearRoute } from './routes'
+import { AppRoute, DayRoute, MonthRoute, YearRoute } from './routes'
 
 // lazy pages
 const Login = lazy(() => import('./pages/login/Login'))
@@ -78,6 +78,7 @@ export default function App() {
         <Route path="user" element={<UserRoute />} />
         <Route path=":year" element={<YearRoute />} />
         <Route path=":year/:month" element={<MonthRoute />} />
+        <Route path=":year/:month/:day" element={<DayRoute />} />
       </Route>
     </Routes>
   )
