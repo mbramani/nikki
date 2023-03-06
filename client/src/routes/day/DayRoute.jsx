@@ -105,10 +105,11 @@ export default function DayRoute() {
         disableNext={isAfter(currentDay, startOfYesterday())}
       />
       <PageHeader>
-        {getPageResult.isSuccess && (
+        {!getPageResult.isFetching && getPageResult.isSuccess && (
           <Button
             type="button"
             aria-label="save"
+            disabled={updatePageResult.isLoading}
             onClick={() => {
               updatePage({ day, month, year, data: page })
             }}
