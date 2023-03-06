@@ -38,9 +38,6 @@ export const FeaturesSections = styled.section`
 `
 export const FeaturesContainer = styled.div`
   ${tw`grid justify-center grid-cols-1 gap-4 md:grid-cols-2`}
-  div:nth-child(3) {
-    ${tw`md:col-span-2 md:flex-row md:items-center`}
-  }
 `
 export const FeatureCard = styled.div`
   ${tw`flex flex-row h-full gap-2 p-2 border border-gray-200 rounded-lg shadow cursor-pointer md:flex-col shadow-gray-100 dark:shadow-gray-900 bg-gradient-to-t dark:from-gray-800/70 dark:to-slate-800/70 from-gray-200/70 to-slate-200/70 backdrop-filter backdrop-blur dark:border-gray-800 hover:ring ring-gray-800 dark:ring-gray-100 ring-offset-2 dark:ring-offset-gray-900`}

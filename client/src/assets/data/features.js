@@ -23,12 +23,6 @@ const features = [
     description:
       'All journal entries are encrypted by converting them into a secret code that only the user can read',
   },
-  {
-    icon: 'markdown',
-    feature: 'Markdown Editor',
-    description:
-      'This allows users to write their journal entries in markdown language',
-  },
 ]
 
 export default features
