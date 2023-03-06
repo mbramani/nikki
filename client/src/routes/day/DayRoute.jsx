@@ -110,7 +110,7 @@ export default function DayRoute() {
             type="button"
             aria-label="save"
             onClick={() => {
-              updatePage({ day, month, year, data: debouncedPage })
+              updatePage({ day, month, year, data: page })
             }}
           >
             {updatePageResult.isLoading ? 'saving...' : 'save'}
