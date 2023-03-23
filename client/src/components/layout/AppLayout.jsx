@@ -1,21 +1,29 @@
 import { Suspense } from 'react'
-import { useSelector } from 'react-redux'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
-// redux
-import { selectUser } from '../../features/auth/authSlice'
+// rtk query hook
+import { useGetUserQuery } from '../../features/user/userSlice'
 
 // skeleton
-import { BlockSkeleton } from '../skeletons/index'
+import { BlockSkeleton, NavbarSkeleton } from '../skeletons/index'
 
 // react component
 import { Navbar } from '../index'
 
 export default function AppLayout() {
-  const user = useSelector(selectUser)
+  const { data: user, isLoading } = useGetUserQuery('user')
   const location = useLocation()
 
-  return user.email ? (
+  if (isLoading) {
+    return (
+      <>
+        <NavbarSkeleton />
+        <BlockSkeleton />
+      </>
+    )
+  }
+
+  return user?.email ? (
     <>
       <Navbar />
       <Suspense fallback={<BlockSkeleton />}>

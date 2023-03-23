@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 
 // redux
 import { useDispatch, useSelector } from 'react-redux'
-import { useGetUserQuery } from '../../features/user/userSlice'
 import { toggleTheme, selectTheme } from '../../features/theme/themeSlice'
 
 // react component
@@ -21,14 +20,12 @@ import {
   NavLink,
   ThemeButton,
 } from './NavbarStyles'
+import { selectUser } from '../../features/auth/authSlice'
 
 export default function Navbar({ simple }) {
   const dispatch = useDispatch()
   const theme = useSelector(selectTheme)
-  const { data: user } = useGetUserQuery('user', {
-    skip: false,
-    refetchOnMountOrArgChange: true,
-  })
+  const user = useSelector(selectUser)
 
   let navLinks
 

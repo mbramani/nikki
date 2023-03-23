@@ -1,15 +1,18 @@
 import { Suspense } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 // skeletons
-import { BlockSkeleton, FromSkeleton } from '../skeletons/index'
+import { BlockSkeleton, FromSkeleton, NavbarSkeleton } from '../skeletons/index'
 
 // react components
 import { Navbar, Footer } from '../index'
 
-export default function Layout() {
-  const location = useLocation()
+// rtk query hook
+import { useGetUserQuery } from '../../features/user/userSlice'
 
+export default function Layout() {
+  const { data: user, isLoading } = useGetUserQuery('user')
+  const location = useLocation()
   const pathArray = ['/', '/terms-and-conditions', '/privacy-policy']
 
   const skelton = pathArray.includes(location?.pathname) ? (
@@ -17,6 +20,19 @@ export default function Layout() {
   ) : (
     <FromSkeleton />
   )
+
+  if (isLoading) {
+    return (
+      <>
+        <NavbarSkeleton />
+        {skelton}
+      </>
+    )
+  }
+
+  if (user?.email && location?.pathname !== '/') {
+    return <Navigate to="/app" replace />
+  }
 
   return (
     <>
