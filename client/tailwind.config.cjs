@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const tailwindScrollbar = require('tailwind-scrollbar')({ nocompatible: true })
 
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -11,6 +12,5 @@ module.exports = {
     },
   },
   darkMode: 'class',
-
-  plugins: [],
+  plugins: [tailwindScrollbar],
 }
