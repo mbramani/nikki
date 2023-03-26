@@ -53,14 +53,9 @@ export default function UserPasswordModal({ toggleUserPasswordModal }) {
   async function onSubmit(values) {
     try {
       await updateUserPassword({ newPassword: values.password }).unwrap()
-
-      toast.success('Password updated successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.success('Password updated successfully !')
     } catch (error) {
-      toast.error(`${error?.data?.msg || error.error}`, {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error(`${error?.data?.msg || error.error}`)
     }
   }
 

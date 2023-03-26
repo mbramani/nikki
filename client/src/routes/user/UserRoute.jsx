@@ -46,16 +46,12 @@ export default function UserRoute() {
     try {
       const result = await trigger()
       fileDownload(JSON.stringify(result.data), 'data.json')
-
-      toast.success('Data Exported successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.success('Data Exported successfully !')
     } catch (error) {
-      toast.error(`${error?.data?.msg || error.error}`, {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error(`${error?.data?.msg || error.error}`)
     }
   }
+
   const handleLogout = () => {
     dispatch(logoutUser())
     dispatch(apiSlice.util.resetApiState())

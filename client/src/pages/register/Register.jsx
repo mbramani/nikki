@@ -69,14 +69,9 @@ export default function Register() {
   async function onSubmit({ confirmPassword, ...data }) {
     try {
       await dispatch(registerUser(data)).unwrap()
-
-      toast.success('Register successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.success('Register successfully !')
     } catch (error) {
-      toast.error(`${error?.msg || error}`, {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error(`${error?.msg || error}`)
     }
   }
 

@@ -52,14 +52,9 @@ export default function ForgotPassword() {
   async function onSubmit(values) {
     try {
       await forgotPassword(values).unwrap()
-
-      toast.success('Password reset email sent successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.success('Password reset email sent successfully !')
     } catch (error) {
-      toast.error(`${error.data?.msg || error?.error}`, {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error(`${error.data?.msg || error?.error}`)
     }
   }
 

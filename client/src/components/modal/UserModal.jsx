@@ -57,9 +57,7 @@ export default function UserModal({ userDetails, toggleUserModal }) {
 
       toast.success('User updated successfully !')
     } catch (error) {
-      toast.error(`${error?.data?.msg || error.error}`, {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error(`${error?.data?.msg || error.error}`)
     }
   }
 

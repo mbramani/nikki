@@ -53,9 +53,7 @@ export default function ResetPassword() {
     let timer
 
     if (!resetToken) {
-      toast.error('Token is invalid !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error('Token is invalid !')
 
       timer = setTimeout(() => navigate('/', { replace: true }), 1500)
     }
@@ -74,14 +72,9 @@ export default function ResetPassword() {
   async function onSubmit(values) {
     try {
       await resetUserPassword({ resetToken, newPassword: values.password }).unwrap()
-
-      toast.success('Password updated successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.success('Password updated successfully !')
     } catch (error) {
-      toast.error(`${error.data?.msg || error?.error}`, {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error(`${error.data?.msg || error?.error}`)
     }
   }
 

@@ -61,13 +61,9 @@ export default function DayRoute() {
     try {
       await addPage({ day, month, year }).unwrap()
       setPage(addPageResult?.data?.data)
-      toast.success('Page created successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.success('Page created successfully !')
     } catch (error) {
-      toast.error(`${error?.data?.msg || error.error}`, {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error(`${error?.data?.msg || error.error}`)
     }
   }
 

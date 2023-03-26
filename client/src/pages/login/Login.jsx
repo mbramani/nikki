@@ -72,14 +72,9 @@ export default function Login() {
   async function onSubmit(values) {
     try {
       await dispatch(loginUser(values)).unwrap()
-
-      toast.success('Login successfully !', {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.success('Login successfully !')
     } catch (error) {
-      toast.error(`${error?.msg || error}`, {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      toast.error(`${error?.msg || error}`)
     }
   }
 
