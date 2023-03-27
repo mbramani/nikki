@@ -39,7 +39,7 @@ export default function DayRoute() {
   }
 
   const [page, setPage] = useState('')
-  const debouncedPage = useDebounce(page, 6000)
+  const debouncedPage = useDebounce(page, 3000)
 
   const getPageResult = useGetPageQuery({ day, month, year })
   const [addPage, addPageResult] = useAddPageMutation()
