@@ -1,4 +1,4 @@
-import { lazy, useEffect } from 'react'
+import { lazy, useEffect, useLayoutEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 // redux
@@ -13,9 +13,6 @@ import { Layout, AppLayout } from './components/index'
 // page
 import { Home } from './pages/index'
 
-// routes
-import { AppRoute, DayRoute, MonthRoute, YearRoute } from './routes'
-
 // lazy pages
 const Login = lazy(() => import('./pages/login/Login'))
 const Register = lazy(() => import('./pages/register/Register'))
@@ -25,7 +22,11 @@ const Privacy = lazy(() => import('./pages/privacy/Privacy'))
 const Terms = lazy(() => import('./pages/terms/Terms'))
 
 // lazy routes
+const AppRoute = lazy(() => import('./routes/app/AppRoute'))
 const UserRoute = lazy(() => import('./routes/user/UserRoute'))
+const YearRoute = lazy(() => import('./routes/year/YearRoute'))
+const MonthRoute = lazy(() => import('./routes/month/MonthRoute'))
+const DayRoute = lazy(() => import('./routes/day/DayRoute'))
 
 export default function App() {
   const dispatch = useDispatch()
@@ -34,7 +35,7 @@ export default function App() {
 
   const FIFTEEN_MINUTES = 900000
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let interval
     if (refreshToken) {
       dispatch(setAccessToken({ refreshToken }))
