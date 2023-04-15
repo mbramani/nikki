@@ -4,6 +4,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL
 
 export const apiSlice = createApi({
   reducerPath: 'api',
+  refetchOnMountOrArgChange: true,
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers, { getState }) => {
