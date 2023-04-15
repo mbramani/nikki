@@ -5,20 +5,33 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useGetUserQuery } from '../../features/user/userSlice'
 
 // skeleton
-import { BlockSkeleton, NavbarSkeleton } from '../skeletons/index'
+import { BlockSkeleton, NavbarSkeleton, SeekSkeleton } from '../skeletons/index'
 
 // react component
 import { Navbar } from '../index'
+import { Container } from '../../styles/Container'
 
 export default function AppLayout() {
   const { data: user, isLoading } = useGetUserQuery('user')
   const location = useLocation()
+  const pathArray = ['/app', '/app/user']
+
+  const skelton = pathArray.includes(location?.pathname) ? (
+    <Container>
+      <BlockSkeleton />
+    </Container>
+  ) : (
+    <Container>
+      <SeekSkeleton />
+      <BlockSkeleton />
+    </Container>
+  )
 
   if (isLoading) {
     return (
       <>
         <NavbarSkeleton />
-        <BlockSkeleton />
+        {skelton}
       </>
     )
   }
@@ -26,7 +39,7 @@ export default function AppLayout() {
   return user?.email ? (
     <>
       <Navbar />
-      <Suspense fallback={<BlockSkeleton />}>
+      <Suspense fallback={skelton}>
         <Outlet />
       </Suspense>
     </>

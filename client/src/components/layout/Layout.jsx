@@ -13,7 +13,7 @@ import { useGetUserQuery } from '../../features/user/userSlice'
 export default function Layout() {
   const { data: user, isLoading } = useGetUserQuery('user')
   const location = useLocation()
-  const pathArray = ['/', '/terms-and-conditions', '/privacy-policy']
+  const pathArray = ['/terms-and-conditions', '/privacy-policy']
 
   const skelton = pathArray.includes(location?.pathname) ? (
     <BlockSkeleton />
@@ -21,7 +21,7 @@ export default function Layout() {
     <FromSkeleton />
   )
 
-  if (isLoading) {
+  if (isLoading && location?.pathname !== '/') {
     return (
       <>
         <NavbarSkeleton />
