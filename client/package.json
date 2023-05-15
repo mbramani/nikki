@@ -25,7 +25,7 @@
     "react-router-dom": "^6.10.0",
     "react-toastify": "^9.1.2",
     "react-turnstile": "^1.1.0",
-    "styled-components": "^5.3.9",
+    "styled-components": "^5.3.10",
     "vite-plugin-svgr": "^2.4.0",
     "yup": "^1.0.2"
   },
