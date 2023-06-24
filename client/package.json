@@ -27,7 +27,7 @@
     "react-turnstile": "^1.1.0",
     "styled-components": "^5.3.10",
     "vite-plugin-svgr": "^2.4.0",
-    "yup": "^1.1.0"
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
