@@ -1,20 +1,60 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
+    provider = "mongodb"
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Page {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    v         Int      @map("__v")
+    day       Int
+    month     Int
+    year      Int
+    data      Bytes
+    userId    String   @db.ObjectId
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now()) @db.Date
+    updatedAt DateTime @db.Date
 
-    @@index([name])
+    @@index([userId, year, month, day])
+}
+
+model Token {
+    id        String    @id @default(auto()) @map("_id") @db.ObjectId
+    v         Int       @map("__v")
+    token     String    @unique
+    expiresAt DateTime  @db.Date
+    type      TokenType @default(RefreshToken)
+    userId    String    @unique @db.ObjectId
+    user      User      @relation(fields: [userId], references: [id])
+    createdAt DateTime  @default(now()) @db.Date
+    updatedAt DateTime  @db.Date
+}
+
+model User {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    v         Int      @map("__v")
+    email     String   @unique
+    name      String
+    password  String
+    role      Role     @default(USER)
+    tokenId   String   @db.ObjectId
+    createdAt DateTime @default(now()) @db.Date
+    updatedAt DateTime @db.Date
+    token     Token?
+    pages     Page[]
+    tokensId  String   @db.ObjectId
+}
+
+enum TokenType {
+    RefreshToken
+    ResetPasswordToken
+}
+
+enum Role {
+    USER
+    ADMIN
 }
