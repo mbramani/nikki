@@ -1,6 +1,0 @@
-# Ignore artifacts:
-node_modules
-package-lock.json
-coverage
-logs
-coverage
