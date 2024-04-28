@@ -1,14 +1,12 @@
-
 # Nikki
 
- Whether you want to remember a special moment, reflect on your growth, or simply clear your mind, our website makes it easy to do so. Start journaling today and enjoy the benefits of a more mindful, intentional life.
+Whether you want to remember a special moment, reflect on your growth, or simply clear your mind, our website makes it easy to do so. Start journaling today and enjoy the benefits of a more mindful, intentional life.
 
 ## Tech Stack
 
 **Client:** React, Redux, React_Router, TailwindCSS, Twin.macro, Vite, Styled Components, Formik
 
 **Server:** Node, Express, Jsonwebtoken, Mongoose, Morgan, Nodemailer, Winston, Bcrypt
-
 
 ## Features
 
@@ -40,8 +38,8 @@ Clone the project
 ```
 
 ### For Server Side Code
-Go to the project directory
 
+Go to the project directory
 
 ```bash
   # Go to the project directory
@@ -54,6 +52,7 @@ Go to the project directory
   npm run dev
 
 ```
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file (using the `.env.sample` file as a reference)
@@ -85,6 +84,7 @@ SMTP_PASSWORD=
 TEST_SMTP_USER=<user_name>@ethereal.email
 TEST_SMTP_PASSWORD=<ethereal_email_password>
 ```
+
 ## Screenshots
 
 <!-- ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here) -->
@@ -105,8 +105,6 @@ TEST_SMTP_PASSWORD=<ethereal_email_password>
 
 - [@mbramani](https://github.com/mbramani)
 
-
 ## License
 
 [MIT](https://github.com/mbramani/Nikki/blob/main/LICENSE)
-
